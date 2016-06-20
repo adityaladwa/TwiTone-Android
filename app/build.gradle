@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.ladwa.aditya.twitone"
@@ -14,13 +14,16 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources true // Remove unused resources from project and other libraries. Greatly reduce apk size
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    testCompile "junit:junit:$rootProject.ext.junitVersion"
+    compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
 }

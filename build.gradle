@@ -10,13 +10,27 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+    ext{
+        compileSdkVersion = 23
+        buildToolsVersion  = '23.0.3'
+
+        junitVersion = '4.12'
+        supportLibVersion  = '23.0.0'
+    }
+
+
 }
 
 allprojects {
     repositories {
         jcenter()
     }
+
+
+    group = GROUP
 }
+
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
