@@ -29,7 +29,9 @@ task clean(type: Delete) {
 ext {
     //Android
     compileSdkVersion = 23
+    targetSdkVersion = 23
     minSdkVersion = 15
+    minSdkVersionDev = 21
     buildToolsVersion = '23.0.3'
 
     //Libs
@@ -38,8 +40,8 @@ ext {
 }
 
 ext.deps = [
-        junit: "junit:junit:$ext.junitVersion",
-        appcompactv7 : "com.android.support:appcompat-v7:$ext.supportLibVersion"
+        junit       : "junit:junit:$ext.junitVersion",
+        appcompactv7: "com.android.support:appcompat-v7:$ext.supportLibVersion"
 
 ]
 

@@ -7,26 +7,37 @@ android {
     defaultConfig {
         applicationId "com.ladwa.aditya.twitone"
         minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion 23
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-
     dexOptions {
         maxProcessCount 2
-        javaMaxHeapSize "2g"
+        javaMaxHeapSize "4g"
 
     }
     buildTypes {
         release {
             minifyEnabled true     // Minify enabled to true for shrink resources to work
-            shrinkResources true  // Remove unused resources from project and other libraries. Greatly reduce apk size
+            shrinkResources true
+            // Remove unused resources from project and other libraries. Greatly reduce apk size
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        dev {
+            minSdkVersion rootProject.ext.minSdkVersionDev
+            applicationId 'com.ladwa.aditya.twitone.dev'
+            targetSdkVersion 23
+            versionCode 1
+            versionName '1.0'
+        }
+        production {
+            minSdkVersion rootProject.ext.minSdkVersion
         }
     }
 }
@@ -34,10 +45,9 @@ android {
 /* Dependency version are defined in top level build.gradle file.This helps keeping track of all versions in s single place. This helps
 readability and helps managing project complexity
  */
-dependencies{
+dependencies {
     // Apps dependencies
     compile deps.appcompactv7
-
     //Test dependency
     testCompile deps.junit
 }
