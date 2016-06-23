@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.ladwa.aditya.twitone"
-        minSdkVersion 15
+        minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -35,8 +35,10 @@ android {
 /* Dependency version are defined in top level build.gradle file.This helps keeping track of all versions in s single place. This helps
 redablity and helps managing project complexity
  */
-dependencies {
+dependencies{
     // Apps dependencies
-    testCompile "junit:junit:$rootProject.ext.junitVersion"
-    compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
+    compile deps.appcompactv7
+
+    //Test dependency
+    testCompile deps.junit
 }

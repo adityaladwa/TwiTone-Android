@@ -18,31 +18,40 @@ allprojects {
         jcenter()
     }
 
-    project.ext {
-        compileSdkVersion = 23
-        buildToolsVersion = '23.0.3'
-
-        junitVersion = '4.12'
-        supportLibVersion = '23.0.0'
-    }
-    group = GROUP
+    group = project.GROUP
 }
-
-
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
 
-project.ext {
+ext {
+    //Android
+    compileSdkVersion = 23
+    minSdkVersion = 15
+    buildToolsVersion = '23.0.3'
+
+    //Libs
+    junitVersion = '4.12'
+    supportLibVersion = '23.0.0'
+}
+
+ext.deps = [
+        junit: "junit:junit:$ext.junitVersion",
+        appcompactv7 : "com.android.support:appcompat-v7:$ext.supportLibVersion"
+
+]
+
+ext {
     if (project.hasProperty('preDexEnable')) {
         project.ext.preDexLibs = project.properties['preDexEnable'].equals('true')
     } else {
         project.ext.preDexLibs = true // pre dexing should be true by default
     }
 
-    println('PREDEX ' + (project.ext.preDexLibs ? 'ENABLED' : 'DISABLED')) // goes to build log or console output
+    println('PREDEX ' + (project.ext.preDexLibs ? 'ENABLED' : 'DISABLED'))
+    // goes to build log or console output
 }
 
 subprojects {
