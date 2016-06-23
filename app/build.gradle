@@ -17,7 +17,7 @@ android {
     }
     dexOptions {
         maxProcessCount 2
-        javaMaxHeapSize "4g"
+        javaMaxHeapSize "6g"
 
     }
     buildTypes {
@@ -26,6 +26,9 @@ android {
             shrinkResources true
             // Remove unused resources from project and other libraries. Greatly reduce apk size
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
         }
     }
     productFlavors {
@@ -37,6 +40,7 @@ android {
             versionName '1.0'
         }
         production {
+            applicationId "com.ladwa.aditya.twitone"
             minSdkVersion rootProject.ext.minSdkVersion
         }
     }
@@ -50,4 +54,10 @@ dependencies {
     compile deps.appcompactv7
     //Test dependency
     testCompile deps.junit
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name.equals("lint")) {
+        task.enabled = false
+    }
 }
