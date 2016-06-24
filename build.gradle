@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -37,11 +38,33 @@ ext {
     //Libs
     junitVersion = '4.12'
     supportLibVersion = '23.0.0'
+    retrofitVersion = '2.1.0'
+    okhttpVersion = '3.3.1'
+    okioVersion = '1.8.0'
+    rxjavaVersion = '1.1.6'
+    rxAndroidVersion = '1.2.1'
+    daggerVersion = '2.5'
+    javaxVersion = "1.0"
+    loganSquareVersion = "1.3.7"
+    loganSquareRetrofitVersion = "1.4.1"
 }
 
 ext.deps = [
-        junit       : "junit:junit:$ext.junitVersion",
-        appcompactv7: "com.android.support:appcompat-v7:$ext.supportLibVersion"
+        junit               : "junit:junit:$ext.junitVersion",
+        appcompactV7        : "com.android.support:appcompat-v7:$ext.supportLibVersion",
+        retrofit            : "com.squareup.retrofit2:retrofit:$ext.retrofitVersion",
+        retrofitRxConverter : "com.squareup.retrofit2:adapter-rxjava:$ext.retrofitVersion",
+        okhttp              : "com.squareup.okhttp3:okhttp:$ext.okhttpVersion",
+        okio                : "com.squareup.okio:okio:$ext.okioVersion",
+        rxJava              : "io.reactivex:rxjava:$ext.rxjavaVersion",
+        rxAndroid           : "io.reactivex:rxandroid:$ext.rxAndroidVersion",
+        daggerCompiler      : "com.google.dagger:dagger-compiler:$ext.daggerVersion",
+        dagger              : "com.google.dagger:dagger:$ext.daggerVersion",
+        javax               : "javax.annotation:jsr250-api:$ext.javaxVersion",
+        loganSquare         : "com.bluelinelabs:logansquare:$ext.loganSquareVersion",
+        loganSquareCompiler : "com.bluelinelabs:logansquare-compiler:$ext.loganSquareVersion",
+        loganSquareConverter: "com.github.aurae.retrofit2:converter-logansquare:$ext.loganSquareRetrofitVersion"
+
 
 ]
 
