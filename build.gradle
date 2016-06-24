@@ -47,6 +47,7 @@ ext {
     javaxVersion = "1.0"
     loganSquareVersion = "1.3.7"
     loganSquareRetrofitVersion = "1.4.1"
+    twitter4jVersion = "4.0.4"
 }
 
 ext.deps = [
@@ -63,7 +64,9 @@ ext.deps = [
         javax               : "javax.annotation:jsr250-api:$ext.javaxVersion",
         loganSquare         : "com.bluelinelabs:logansquare:$ext.loganSquareVersion",
         loganSquareCompiler : "com.bluelinelabs:logansquare-compiler:$ext.loganSquareVersion",
-        loganSquareConverter: "com.github.aurae.retrofit2:converter-logansquare:$ext.loganSquareRetrofitVersion"
+        loganSquareConverter: "com.github.aurae.retrofit2:converter-logansquare:$ext.loganSquareRetrofitVersion",
+        twitter4j           : "org.twitter4j:twitter4j-core:$ext.twitter4jVersion",
+        twitter4jStream     : "org.twitter4j:twitter4j-stream:$ext.twitter4jVersion"
 
 
 ]
