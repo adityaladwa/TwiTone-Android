@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.HttpUrl;
+import twitter4j.Twitter;
 
 /**
  * Created by Aditya on 24-Jun-16.
@@ -30,6 +31,5 @@ public class TwitterModule {
     SharedPreferences providesSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
-
 
 }

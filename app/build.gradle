@@ -84,6 +84,10 @@ dependencies {
     compile deps.dagger
     provided deps.javax
 
+    //Twitter4j
+    compile deps.twitter4j
+    compile deps.twitter4jStream
+
 }
 
 tasks.whenTaskAdded { task ->
