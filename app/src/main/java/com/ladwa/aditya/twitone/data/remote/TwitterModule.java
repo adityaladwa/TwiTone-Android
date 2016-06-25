@@ -8,6 +8,7 @@ import com.github.aurae.retrofit2.LoganSquareConverterFactory;
 
 import javax.inject.Singleton;
 
+import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.HttpUrl;
@@ -18,6 +19,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 /**
  * Created by Aditya on 24-Jun-16.
  */
+@Module
 public class TwitterModule {
 
     public static final HttpUrl TWITTER_API_URL = HttpUrl.parse("https://api.github.com/");

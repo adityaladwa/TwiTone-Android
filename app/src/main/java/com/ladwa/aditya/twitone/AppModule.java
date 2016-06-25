@@ -4,11 +4,13 @@ import android.app.Application;
 
 import javax.inject.Singleton;
 
+import dagger.Module;
 import dagger.Provides;
 
 /**
  * Created by Aditya on 24-Jun-16.
  */
+@Module
 public class AppModule {
     Application mApplication;
 
