@@ -10,11 +10,12 @@
     tools:showIn="@layout/activity_login">
 
     <Button
+        android:id="@+id/twitter_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_in_to_twitter"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:text="@string/login_in_to_twitter" />
 
 
 </RelativeLayout>
