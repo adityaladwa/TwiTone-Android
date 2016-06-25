@@ -53,6 +53,8 @@ readability and helps managing project complexity
 dependencies {
     // Apps dependencies
     compile deps.appcompactV7
+    compile deps.design
+
     //Test dependency
     testCompile deps.junit
 
@@ -63,6 +65,10 @@ dependencies {
     //OkHttp
     compile deps.okhttp
     compile deps.okio
+
+    //ButterKnife
+    compile deps.butterKnife
+    apt deps.butterKnifeComipler
 
     //RxJava
     compile deps.rxJava
@@ -77,7 +83,7 @@ dependencies {
     apt deps.daggerCompiler
     compile deps.dagger
     provided deps.javax
-    compile 'com.android.support:design:23.4.0'
+
 }
 
 tasks.whenTaskAdded { task ->
