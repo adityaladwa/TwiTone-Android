@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
+
+repositories {
+    mavenCentral()
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -12,19 +15,22 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        // Enabling multidex support.
+        multiDexEnabled true
+
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
+
+
     dexOptions {
         maxProcessCount 2
         javaMaxHeapSize "6g"
 
     }
-    retrolambda {
-        jvmArgs '-noverify'
-    }
+
     buildTypes {
         release {
             minifyEnabled true     // Minify enabled to true for shrink resources to work
@@ -58,6 +64,9 @@ dependencies {
     // Apps dependencies
     compile deps.appcompactV7
     compile deps.design
+
+
+    compile deps.multidex
 
     //Test dependency
     testCompile deps.junit

@@ -3,25 +3,33 @@
 buildscript {
     repositories {
         jcenter()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+    // Exclude the version that the android plugin depends on.
+    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
+
 
 }
+
+
 
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
     }
 
     group = project.GROUP
 }
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
@@ -50,6 +58,7 @@ ext {
     loganSquareRetrofitVersion = "1.4.1"
     twitter4jVersion = "4.0.4"
     butterKnifeVersion = "8.1.0"
+    multidexVersion = "1.0.0"
 }
 
 ext.deps = [
@@ -71,7 +80,8 @@ ext.deps = [
         twitter4j           : "org.twitter4j:twitter4j-core:$ext.twitter4jVersion",
         twitter4jStream     : "org.twitter4j:twitter4j-stream:$ext.twitter4jVersion",
         butterKnife         : "com.jakewharton:butterknife:$ext.butterKnifeVersion",
-        butterKnifeComipler : "com.jakewharton:butterknife-compiler:$ext.butterKnifeVersion"
+        butterKnifeComipler : "com.jakewharton:butterknife-compiler:$ext.butterKnifeVersion",
+        multidex            : "com.android.support:multidex:$ext.multidexVersion"
 
 
 ]
