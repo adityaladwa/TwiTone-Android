@@ -65,6 +65,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @OnClick(R.id.twitter_login_button)
     void twitterLogin() {
         mPresenter.login();
+        getActivity().setTheme(R.style.AppThemeDark);
         loginButton.setVisibility(View.GONE);
         mWebView.setVisibility(View.VISIBLE);
         mWebView.getSettings().setAppCacheEnabled(false);

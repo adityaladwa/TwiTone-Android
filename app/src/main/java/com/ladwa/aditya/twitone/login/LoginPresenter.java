@@ -122,9 +122,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void unsubscribe() {
         Timber.d("Unsubscribed");
-        if (!requestSubscription.isUnsubscribed())
+        if (requestSubscription != null && !requestSubscription.isUnsubscribed())
             requestSubscription.unsubscribe();
-        if (!accessSubscription.isUnsubscribed())
+        if (accessSubscription != null && !accessSubscription.isUnsubscribed())
             accessSubscription.unsubscribe();
     }
 }
