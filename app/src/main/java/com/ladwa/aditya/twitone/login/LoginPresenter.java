@@ -1,10 +1,9 @@
 package com.ladwa.aditya.twitone.login;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.util.Constants;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -28,13 +27,11 @@ public class LoginPresenter implements LoginContract.Presenter {
     private final AsyncTwitter mTwitter;
     private RequestToken mRequestToken;
     private Subscription requestSubscription, accessSubscription;
-    private Context mContext;
 
 
-    public LoginPresenter(@NonNull LoginContract.View view, @NonNull AsyncTwitter twitter, Context context) {
+    public LoginPresenter(@NonNull LoginContract.View view, @NonNull AsyncTwitter twitter) {
         mView = view;
         mTwitter = twitter;
-        mContext = context;
         mView.setPresenter(this);
 
     }
@@ -45,7 +42,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             @Override
             public void call(Subscriber<? super RequestToken> subscriber) {
                 try {
-                    mRequestToken = mTwitter.getOAuthRequestToken(mContext.getString(R.string.oauth_callback));
+                    mRequestToken = mTwitter.getOAuthRequestToken(Constants.OAUTH_CALLBACK_URL);
                     subscriber.onNext(mRequestToken);
                 } catch (TwitterException e) {
                     e.printStackTrace();
@@ -104,7 +101,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error : + e.toString()");
+                        Timber.e(e, "Error :" + e.toString());
                     }
 
                     @Override
@@ -124,7 +121,10 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        requestSubscription.unsubscribe();
-        accessSubscription.unsubscribe();
+        Timber.d("Unsubscribed");
+        if (!requestSubscription.isUnsubscribed())
+            requestSubscription.unsubscribe();
+        if (!accessSubscription.isUnsubscribed())
+            accessSubscription.unsubscribe();
     }
 }

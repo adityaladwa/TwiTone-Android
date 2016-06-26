@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.ladwa.aditya.twitone.util.Constants;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -31,8 +33,8 @@ public class TwitterModule {
     @Singleton
     Twitter providesTwitter() {
         ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey("s01kRJpmpGr783CSY6pQCs2Nc");
-        builder.setOAuthConsumerSecret("CdxuKvF3QKoT34wWoYkslvlX3B80UU4mpg2btZXG2byWNXd3P6");
+        builder.setOAuthConsumerKey(Constants.OAUTH_COMSUMER_KEY);
+        builder.setOAuthConsumerSecret(Constants.OAUTH_CONSUMER_SECRET);
         Configuration configuration = builder.build();
         return new TwitterFactory(configuration).getInstance();
     }
@@ -41,8 +43,8 @@ public class TwitterModule {
     @Singleton
     AsyncTwitter providesTwitterAsync() {
         ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey("s01kRJpmpGr783CSY6pQCs2Nc");
-        builder.setOAuthConsumerSecret("CdxuKvF3QKoT34wWoYkslvlX3B80UU4mpg2btZXG2byWNXd3P6");
+        builder.setOAuthConsumerKey(Constants.OAUTH_COMSUMER_KEY);
+        builder.setOAuthConsumerSecret(Constants.OAUTH_CONSUMER_SECRET);
         Configuration configuration = builder.build();
         return new AsyncTwitterFactory(configuration).getInstance();
     }
