@@ -1,6 +1,7 @@
 package com.ladwa.aditya.twitone.login;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import timber.log.Timber;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
@@ -39,6 +41,9 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 
     @BindView(R.id.login_webview)
     WebView mWebView;
+
+    @BindView(R.id.progress)
+    SmoothProgressBar smoothProgressBar;
     private LoginContract.Presenter mPresenter;
 
     @Inject
@@ -65,7 +70,6 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @OnClick(R.id.twitter_login_button)
     void twitterLogin() {
         mPresenter.login();
-        getActivity().setTheme(R.style.AppThemeDark);
         loginButton.setVisibility(View.GONE);
         mWebView.setVisibility(View.VISIBLE);
         mWebView.getSettings().setAppCacheEnabled(false);
@@ -85,12 +89,26 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
                     Log.d(TAG, "Verifier is :" + verifier);
                     mPresenter.getAccessToken(verifier);
                     mWebView.setVisibility(View.GONE);
+                    smoothProgressBar.setVisibility(View.GONE);
                 } else {
                     Log.d(TAG, "URI error or URI is null");
                 }
 
                 return true;
 
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                smoothProgressBar.progressiveStart();
+                smoothProgressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                smoothProgressBar.progressiveStop();
             }
         });
 
@@ -103,7 +121,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 
     @Override
     public void onSuccess() {
-        Toast.makeText(getActivity(), "Welcome to " + getString(R.string.app_name), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Welcome to " + getString(R.string.app_name) + " " + preferences.getString(getString(R.string.pref_screen_name), ""), Toast.LENGTH_SHORT).show();
     }
 
     @Override
