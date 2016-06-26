@@ -64,20 +64,10 @@ dependencies {
     // Apps dependencies
     compile deps.appcompactV7
     compile deps.design
-
-
     compile deps.multidex
 
     //Test dependency
     testCompile deps.junit
-
-    //Retrofit
-    compile deps.retrofit
-    compile deps.retrofitRxConverter
-
-    //OkHttp
-    compile deps.okhttp
-    compile deps.okio
 
     //ButterKnife
     compile deps.butterKnife
@@ -87,11 +77,6 @@ dependencies {
     compile deps.rxJava
     compile deps.rxAndroid
 
-    //LoganSquare
-    apt deps.loganSquare
-    compile deps.loganSquareCompiler
-    compile deps.loganSquareConverter
-
     //Dagger
     apt deps.daggerCompiler
     compile deps.dagger
@@ -100,6 +85,15 @@ dependencies {
     //Twitter4j
     compile deps.twitter4j
     compile deps.twitter4jStream
+    compile deps.twitter4jAsync
+
+    //Timber
+    compile deps.timber
+
+    //Leak Canary
+    debugCompile deps.leakCanary
+    releaseCompile deps.leakCanaryTestAndRelease
+    testCompile deps.leakCanaryTestAndRelease
 
 }
 

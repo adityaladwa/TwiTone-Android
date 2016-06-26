@@ -17,5 +17,11 @@
         android:layout_centerVertical="true"
         android:text="@string/login_in_to_twitter" />
 
+    <WebView
+        android:id="@+id/login_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 
 </RelativeLayout>

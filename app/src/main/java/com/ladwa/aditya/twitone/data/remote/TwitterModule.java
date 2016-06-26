@@ -8,8 +8,12 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.HttpUrl;
+import twitter4j.AsyncTwitter;
+import twitter4j.AsyncTwitterFactory;
 import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Created by Aditya on 24-Jun-16.
@@ -17,19 +21,29 @@ import twitter4j.Twitter;
 @Module
 public class TwitterModule {
 
-    public static final HttpUrl TWITTER_API_URL = HttpUrl.parse("https://api.github.com/");
-
-
-    @Provides
-    @Singleton
-    HttpUrl provideBaseUrl() {
-        return TWITTER_API_URL;
-    }
-
     @Provides
     @Singleton
     SharedPreferences providesSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
 
+    @Provides
+    @Singleton
+    Twitter providesTwitter() {
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.setOAuthConsumerKey("s01kRJpmpGr783CSY6pQCs2Nc");
+        builder.setOAuthConsumerSecret("CdxuKvF3QKoT34wWoYkslvlX3B80UU4mpg2btZXG2byWNXd3P6");
+        Configuration configuration = builder.build();
+        return new TwitterFactory(configuration).getInstance();
+    }
+
+    @Provides
+    @Singleton
+    AsyncTwitter providesTwitterAsync() {
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.setOAuthConsumerKey("s01kRJpmpGr783CSY6pQCs2Nc");
+        builder.setOAuthConsumerSecret("CdxuKvF3QKoT34wWoYkslvlX3B80UU4mpg2btZXG2byWNXd3P6");
+        Configuration configuration = builder.build();
+        return new AsyncTwitterFactory(configuration).getInstance();
+    }
 }

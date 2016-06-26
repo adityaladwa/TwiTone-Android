@@ -2,6 +2,7 @@ package com.ladwa.aditya.twitone.data;
 
 import com.ladwa.aditya.twitone.AppModule;
 import com.ladwa.aditya.twitone.data.remote.TwitterModule;
+import com.ladwa.aditya.twitone.login.LoginActivityFragment;
 
 import javax.inject.Singleton;
 
@@ -15,4 +16,5 @@ import dagger.Component;
 public interface TwitterComponent {
 
     //Expose methods from TwitterModulde
+    void inject(LoginActivityFragment fragment);
 }
