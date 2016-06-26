@@ -55,6 +55,7 @@ ext {
     multidexVersion = "1.0.0"
     leakCanaryVersion = "1.4-beta2"
     timberVersion = "4.1.2"
+    smoothVersion = "1.0.0"
 }
 
 ext.deps = [
@@ -74,7 +75,8 @@ ext.deps = [
         multidex                : "com.android.support:multidex:$ext.multidexVersion",
         leakCanary              : "com.squareup.leakcanary:leakcanary-android:$ext.leakCanaryVersion",
         leakCanaryTestAndRelease: "com.squareup.leakcanary:leakcanary-android-no-op:$ext.leakCanaryVersion",
-        timber                  : "com.jakewharton.timber:timber:$ext.timberVersion"
+        timber                  : "com.jakewharton.timber:timber:$ext.timberVersion",
+        smoothProgress          : "com.hannesdorfmann.smoothprogressbar:library:$ext.smoothVersion"
 
 
 ]
