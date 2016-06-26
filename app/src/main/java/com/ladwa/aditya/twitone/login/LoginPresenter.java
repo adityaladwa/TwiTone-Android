@@ -99,11 +99,12 @@ public class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public void onCompleted() {
                         Timber.d("Completed getting access token");
+                        mView.onSuccess();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+                        Timber.e(e, "Error : + e.toString()");
                     }
 
                     @Override
