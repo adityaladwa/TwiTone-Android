@@ -56,7 +56,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
         ((TwitoneApp) getActivity().getApplicationContext()).getTwitterComponent().inject(this);
-        new LoginPresenter(this, twitter);
+        new LoginPresenter(this, twitter, getActivity());
 
 
         return view;
@@ -97,12 +97,12 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 
     @Override
     public void onError() {
-
+        Toast.makeText(getActivity(), "There is some error", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSuccess() {
-        Toast.makeText(getActivity(), "Login Clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Welcome to " + getString(R.string.app_name), Toast.LENGTH_SHORT).show();
     }
 
     @Override
