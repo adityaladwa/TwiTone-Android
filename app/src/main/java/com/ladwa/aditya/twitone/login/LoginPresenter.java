@@ -62,7 +62,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "Error retriveing access token");
-                        mView.onError();
+                        mView.onError("Cant recieve Request token! Try again after 2 minutes");
                     }
 
                     @Override
@@ -96,12 +96,13 @@ public class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public void onCompleted() {
                         Timber.d("Completed getting access token");
-                        mView.onSuccess();
+                        mView.onSuccess("Login Completed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "Error :" + e.toString());
+                        mView.onError("Error recieving Access Token! Try again After sometime");
                     }
 
                     @Override

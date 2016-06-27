@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
@@ -44,6 +46,10 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 
     @BindView(R.id.progress)
     SmoothProgressBar smoothProgressBar;
+
+    @BindView(R.id.login_relative_layout)
+    RelativeLayout relativeLayout;
+
     private LoginContract.Presenter mPresenter;
 
     @Inject
@@ -67,6 +73,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         return view;
     }
 
+
     @OnClick(R.id.twitter_login_button)
     void twitterLogin() {
         mPresenter.login();
@@ -75,53 +82,19 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         mWebView.getSettings().setAppCacheEnabled(false);
         mWebView.getSettings().setSaveFormData(false);
         mWebView.getSettings().setJavaScriptEnabled(true);
-
-
-        // Get the access token
-
-
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-                if (url != null && url.startsWith("oauth://twitoneforandroid")) {
-                    String verifier = Uri.parse(url).getQueryParameter("oauth_verifier");
-                    Log.d(TAG, "Verifier is :" + verifier);
-                    mPresenter.getAccessToken(verifier);
-                    mWebView.setVisibility(View.GONE);
-                    smoothProgressBar.setVisibility(View.GONE);
-                } else {
-                    Log.d(TAG, "URI error or URI is null");
-                }
-
-                return true;
-
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                smoothProgressBar.progressiveStart();
-                smoothProgressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                smoothProgressBar.progressiveStop();
-            }
-        });
-
+        mWebView.setWebViewClient(new MyWebViewClient());
+        smoothProgressBar.progressiveStart();
+        smoothProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onError() {
+    public void onError(String errorMessage) {
         Toast.makeText(getActivity(), "There is some error", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onSuccess() {
-        Toast.makeText(getActivity(), "Welcome to " + getString(R.string.app_name) + " " + preferences.getString(getString(R.string.pref_screen_name), ""), Toast.LENGTH_SHORT).show();
+    public void onSuccess(String message) {
+        Snackbar.make(relativeLayout, "Welcome to " + getString(R.string.app_name) + " " + preferences.getString(getString(R.string.pref_screen_name), ""), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -161,5 +134,36 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @Override
     public void setPresenter(LoginContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    public class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+            if (url != null && url.startsWith("oauth://twitoneforandroid")) {
+                String verifier = Uri.parse(url).getQueryParameter("oauth_verifier");
+                Log.d(TAG, "Verifier is :" + verifier);
+                mPresenter.getAccessToken(verifier);
+                mWebView.setVisibility(View.GONE);
+                smoothProgressBar.setVisibility(View.GONE);
+            } else {
+                Timber.d("URI error or URI is null");
+            }
+
+            return true;
+
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            smoothProgressBar.progressiveStop();
+        }
     }
 }

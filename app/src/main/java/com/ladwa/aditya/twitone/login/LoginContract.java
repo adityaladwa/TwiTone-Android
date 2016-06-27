@@ -11,9 +11,9 @@ import twitter4j.auth.RequestToken;
  */
 public interface LoginContract {
     interface View extends BaseView<Presenter> {
-        void onError();
+        void onError(String errorMessage);
 
-        void onSuccess();
+        void onSuccess(String message);
 
         void startOauthIntent(RequestToken requestToken);
 
