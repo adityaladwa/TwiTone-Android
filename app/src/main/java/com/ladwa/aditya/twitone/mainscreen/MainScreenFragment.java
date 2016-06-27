@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.login.LoginActivity;
+import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
 
@@ -47,7 +48,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
         ButterKnife.bind(this, view);
-        ((TwitoneApp) getActivity().getApplicationContext()).getTwitterComponent().inject(this);
+        TwitoneApp.getTwitterComponent(getActivity()).inject(this);
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         new MainScreenPresenter(this, mLogin);
 
@@ -73,6 +74,12 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         mPresenter.unsubscribe();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = TwitoneApp.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
 
     @Override
     public void logout() {

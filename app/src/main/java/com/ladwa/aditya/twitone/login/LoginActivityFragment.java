@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.mainscreen.MainScreen;
+import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
 
@@ -65,7 +66,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
-        ((TwitoneApp) getActivity().getApplicationContext()).getTwitterComponent().inject(this);
+        TwitoneApp.getTwitterComponent(getActivity()).inject(this);
         new LoginPresenter(this, twitter);
 
 
@@ -132,8 +133,13 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     public void onPause() {
         super.onPause();
         mPresenter.unsubscribe();
+    }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = TwitoneApp.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 
     @Override
