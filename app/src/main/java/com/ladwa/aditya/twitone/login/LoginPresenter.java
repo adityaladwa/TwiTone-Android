@@ -43,6 +43,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             public void call(Subscriber<? super RequestToken> subscriber) {
                 try {
                     mRequestToken = mTwitter.getOAuthRequestToken(Constants.OAUTH_CALLBACK_URL);
+
                     subscriber.onNext(mRequestToken);
                 } catch (TwitterException e) {
                     e.printStackTrace();

@@ -1,23 +1,24 @@
 package com.ladwa.aditya.twitone.login;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
+import com.ladwa.aditya.twitone.mainscreen.MainScreen;
 
 import javax.inject.Inject;
 
@@ -45,10 +46,8 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     WebView mWebView;
 
     @BindView(R.id.progress)
-    SmoothProgressBar smoothProgressBar;
+    SmoothProgressBar mSmoothProgressBar;
 
-    @BindView(R.id.login_relative_layout)
-    RelativeLayout relativeLayout;
 
     private LoginContract.Presenter mPresenter;
 
@@ -80,21 +79,25 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         loginButton.setVisibility(View.GONE);
         mWebView.setVisibility(View.VISIBLE);
         mWebView.getSettings().setAppCacheEnabled(false);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebView.getSettings().setSaveFormData(false);
+        mWebView.clearCache(true);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new MyWebViewClient());
-        smoothProgressBar.progressiveStart();
-        smoothProgressBar.setVisibility(View.VISIBLE);
+        mSmoothProgressBar.progressiveStart();
+        mSmoothProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onError(String errorMessage) {
         Toast.makeText(getActivity(), "There is some error", Toast.LENGTH_SHORT).show();
+        mSmoothProgressBar.progressiveStop();
     }
 
     @Override
     public void onSuccess(String message) {
-        Snackbar.make(relativeLayout, "Welcome to " + getString(R.string.app_name) + " " + preferences.getString(getString(R.string.pref_screen_name), ""), Snackbar.LENGTH_LONG).show();
+        startActivity(new Intent(getActivity(), MainScreen.class));
+        getActivity().finish();
     }
 
     @Override
@@ -129,6 +132,8 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     public void onPause() {
         super.onPause();
         mPresenter.unsubscribe();
+
+
     }
 
     @Override
@@ -145,7 +150,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
                 Log.d(TAG, "Verifier is :" + verifier);
                 mPresenter.getAccessToken(verifier);
                 mWebView.setVisibility(View.GONE);
-                smoothProgressBar.setVisibility(View.GONE);
+                mSmoothProgressBar.setVisibility(View.GONE);
             } else {
                 Timber.d("URI error or URI is null");
             }
@@ -157,13 +162,14 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-
+            mSmoothProgressBar.progressiveStop();
+            mSmoothProgressBar.progressiveStart();
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            smoothProgressBar.progressiveStop();
+            mSmoothProgressBar.progressiveStop();
         }
     }
 }

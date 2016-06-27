@@ -9,5 +9,12 @@
     tools:context="com.ladwa.aditya.twitone.mainscreen.MainScreenFragment"
     tools:showIn="@layout/activity_main_screen">
 
+    <Button
+        android:id="@+id/twitter_logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/log_out"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
