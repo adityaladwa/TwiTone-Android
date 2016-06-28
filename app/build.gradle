@@ -73,7 +73,9 @@ dependencies {
     compile deps.butterKnife
     apt deps.butterKnifeComipler
 
+    //Progress Bars
     compile deps.smoothProgress
+    compile deps.materialProgress
 
     //RxJava
     compile deps.rxJava

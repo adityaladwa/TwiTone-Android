@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -27,7 +28,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import timber.log.Timber;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
@@ -47,8 +48,10 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @BindView(R.id.login_webview)
     WebView mWebView;
 
-    @BindView(R.id.progress)
-    SmoothProgressBar mSmoothProgressBar;
+    //    @BindView(R.id.progress)
+//    SmoothProgressBar mSmoothProgressBar;
+    @BindView(R.id.progressBar)
+    MaterialProgressBar mProgressBar;
     @Inject
     SharedPreferences preferences;
     @Inject
@@ -86,6 +89,8 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
             mWebView.getSettings().setSaveFormData(false);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new MyWebViewClient());
+            mWebView.setWebChromeClient(new MyWebChromeClient());
+            mProgressBar.setVisibility(View.VISIBLE);
         } else {
             Snackbar.make(mWebView, "Please check your internet", Snackbar.LENGTH_LONG)
                     .show();
@@ -95,7 +100,8 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @Override
     public void onError(String errorMessage) {
         Toast.makeText(getActivity(), "There is some error " + errorMessage, Toast.LENGTH_SHORT).show();
-        mSmoothProgressBar.progressiveStop();
+//        mSmoothProgressBar.progressiveStop();
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -166,7 +172,8 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
                 Log.d(TAG, "Verifier is :" + verifier);
                 mPresenter.getAccessToken(verifier);
                 mWebView.setVisibility(View.GONE);
-                mSmoothProgressBar.setVisibility(View.GONE);
+//                mSmoothProgressBar.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.GONE);
             } else {
                 Timber.d("URI error or URI is null");
             }
@@ -178,15 +185,27 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            mSmoothProgressBar.setVisibility(View.VISIBLE);
-            mSmoothProgressBar.progressiveStart();
-
+//            mSmoothProgressBar.setVisibility(View.VISIBLE);
+//            mSmoothProgressBar.progressiveStart();
+            mProgressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setIndeterminate(true);
         }
+
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            mSmoothProgressBar.progressiveStop();
+//            mSmoothProgressBar.progressiveStop();
+            mProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+    public class MyWebChromeClient extends WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+            mProgressBar.setIndeterminate(false);
+            mProgressBar.setProgress(newProgress);
         }
     }
 }
