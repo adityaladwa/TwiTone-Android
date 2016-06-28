@@ -89,7 +89,6 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
             mWebView.getSettings().setSaveFormData(false);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new MyWebViewClient());
-            mWebView.setWebChromeClient(new MyWebChromeClient());
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             Snackbar.make(mWebView, "Please check your internet", Snackbar.LENGTH_LONG)
@@ -188,7 +187,6 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 //            mSmoothProgressBar.setVisibility(View.VISIBLE);
 //            mSmoothProgressBar.progressiveStart();
             mProgressBar.setVisibility(View.VISIBLE);
-            mProgressBar.setIndeterminate(true);
         }
 
 
@@ -200,12 +198,5 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         }
     }
 
-    public class MyWebChromeClient extends WebChromeClient {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            super.onProgressChanged(view, newProgress);
-            mProgressBar.setIndeterminate(false);
-            mProgressBar.setProgress(newProgress);
-        }
-    }
+
 }
