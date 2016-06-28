@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.mainscreen.MainScreen;
+import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
@@ -35,7 +37,7 @@ import twitter4j.auth.RequestToken;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LoginActivityFragment extends Fragment implements LoginContract.View {
+public class LoginActivityFragment extends Fragment implements LoginContract.View, ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = LoginActivityFragment.class.getSimpleName();
 
@@ -47,18 +49,19 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 
     @BindView(R.id.progress)
     SmoothProgressBar mSmoothProgressBar;
-
-
-    private LoginContract.Presenter mPresenter;
-
     @Inject
     SharedPreferences preferences;
-
     @Inject
     AsyncTwitter twitter;
 
+    private LoginContract.Presenter mPresenter;
+
+    private boolean internet;
+
+
     public LoginActivityFragment() {
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +69,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent(getActivity()).inject(this);
+        internet = ConnectionReceiver.isConnected();
         new LoginPresenter(this, twitter);
 
 
@@ -75,12 +79,17 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 
     @OnClick(R.id.twitter_login_button)
     void twitterLogin() {
-        mPresenter.login();
-        loginButton.setVisibility(View.GONE);
-        mWebView.setVisibility(View.VISIBLE);
-        mWebView.getSettings().setSaveFormData(false);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebViewClient(new MyWebViewClient());
+        if (internet) {
+            mPresenter.login();
+            loginButton.setVisibility(View.GONE);
+            mWebView.setVisibility(View.VISIBLE);
+            mWebView.getSettings().setSaveFormData(false);
+            mWebView.getSettings().setJavaScriptEnabled(true);
+            mWebView.setWebViewClient(new MyWebViewClient());
+        } else {
+            Snackbar.make(mWebView, "Please check your internet", Snackbar.LENGTH_LONG)
+                    .show();
+        }
     }
 
     @Override
@@ -121,6 +130,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     public void onResume() {
         super.onResume();
         mPresenter.subscribe();
+        TwitoneApp.setConnectionListener(this);
     }
 
     @Override
@@ -139,6 +149,12 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @Override
     public void setPresenter(LoginContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        Timber.d("Internet changed");
+        internet = isConnected;
     }
 
     public class MyWebViewClient extends WebViewClient {
