@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -79,19 +78,14 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         mPresenter.login();
         loginButton.setVisibility(View.GONE);
         mWebView.setVisibility(View.VISIBLE);
-        mWebView.getSettings().setAppCacheEnabled(false);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebView.getSettings().setSaveFormData(false);
-        mWebView.clearCache(true);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new MyWebViewClient());
-        mSmoothProgressBar.progressiveStart();
-        mSmoothProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onError(String errorMessage) {
-        Toast.makeText(getActivity(), "There is some error", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "There is some error " + errorMessage, Toast.LENGTH_SHORT).show();
         mSmoothProgressBar.progressiveStop();
     }
 
@@ -168,8 +162,9 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            mSmoothProgressBar.progressiveStop();
+            mSmoothProgressBar.setVisibility(View.VISIBLE);
             mSmoothProgressBar.progressiveStart();
+
         }
 
         @Override
