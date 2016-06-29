@@ -6,7 +6,9 @@ import android.support.v7.widget.Toolbar;
 
 import com.ladwa.aditya.twitone.R;
 
-
+/**
+ * This is The Launcher Activity of the App
+ */
 public class MainScreen extends AppCompatActivity {
 
     @Override
