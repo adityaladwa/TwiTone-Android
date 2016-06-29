@@ -25,6 +25,7 @@ import twitter4j.AsyncTwitter;
 
 
 /**
+ * This is the Main Fragment that users will see once they open the app
  * A placeholder fragment containing a simple view.
  */
 public class MainScreenFragment extends Fragment implements MainScreenContract.View {
