@@ -57,6 +57,11 @@ ext {
     timberVersion = "4.1.2"
     smoothVersion = "1.0.0"
     materialProgressBarVersion = "1.1.6"
+    testRunnerVersion = "0.4"
+    testRuleVersion = "0.4"
+    espressoVersion = "2.2.1"
+    uiAutomatorVersion = "2.1.1"
+    annotationsVersion = "23.4.0"
 }
 
 ext.deps = [
@@ -78,7 +83,12 @@ ext.deps = [
         leakCanaryTestAndRelease: "com.squareup.leakcanary:leakcanary-android-no-op:$ext.leakCanaryVersion",
         timber                  : "com.jakewharton.timber:timber:$ext.timberVersion",
         smoothProgress          : "com.hannesdorfmann.smoothprogressbar:library:$ext.smoothVersion",
-        materialProgress        : "me.zhanghai.android.materialprogressbar:library:$ext.materialProgressBarVersion"
+        materialProgress        : "me.zhanghai.android.materialprogressbar:library:$ext.materialProgressBarVersion",
+        testRunner              : "com.android.support.test:runner:$ext.testRunnerVersion",
+        testRule                : "com.android.support.test:rules:$ext.testRuleVersion",
+        espresso                : "com.android.support.test.espresso:espresso-core:$ext.espressoVersion",
+        uiautomator             : "com.android.support.test.uiautomator:uiautomator-v18:$ext.uiAutomatorVersion",
+        annotation              : "com.android.support:support-annotations:$ext.annotationsVersion"
 
 
 ]
