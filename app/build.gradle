@@ -17,6 +17,8 @@ android {
         versionName "1.0"
         // Enabling multidex support.
         multiDexEnabled true
+        //Enable AndroidJUnitRunner as default Instrumentation Runner
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
     compileOptions {
@@ -42,6 +44,11 @@ android {
             applicationIdSuffix ".debug"
         }
     }
+
+    //Resolve Conflicts
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
     productFlavors {
         dev {
             minSdkVersion rootProject.ext.minSdkVersionDev
@@ -66,8 +73,7 @@ dependencies {
     compile deps.design
     compile deps.multidex
 
-    //Test dependency
-    testCompile deps.junit
+
 
     //ButterKnife
     compile deps.butterKnife
@@ -99,6 +105,14 @@ dependencies {
     releaseCompile deps.leakCanaryTestAndRelease
     testCompile deps.leakCanaryTestAndRelease
 
+
+    //Test dependency
+    testCompile deps.junit
+    androidTestCompile deps.testRunner
+    androidTestCompile deps.testRule
+    androidTestCompile deps.espresso
+    androidTestCompile deps.uiautomator
+    androidTestCompile deps.annotation
 }
 
 tasks.whenTaskAdded { task ->
