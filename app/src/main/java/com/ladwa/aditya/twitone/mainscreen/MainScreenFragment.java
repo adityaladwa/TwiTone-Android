@@ -48,7 +48,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
         ButterKnife.bind(this, view);
-        TwitoneApp.getTwitterComponent(getActivity()).inject(this);
+        TwitoneApp.getTwitterComponent().inject(this);
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         new MainScreenPresenter(this, mLogin);
 
@@ -77,7 +77,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = TwitoneApp.getRefWatcher(getActivity());
+        RefWatcher refWatcher = TwitoneApp.getRefWatcher();
         refWatcher.watch(this);
     }
 

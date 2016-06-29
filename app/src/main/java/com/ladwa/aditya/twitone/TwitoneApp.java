@@ -17,7 +17,7 @@ import timber.log.Timber;
  */
 public class TwitoneApp extends MultiDexApplication {
     private static TwitterComponent mTwitterComponent;
-    private RefWatcher refWatcher;
+    private static RefWatcher refWatcher;
     private static TwitoneApp smTwitoneApp;
 
     @Override
@@ -44,13 +44,11 @@ public class TwitoneApp extends MultiDexApplication {
         ConnectionReceiver.connectionReceiverListener = listener;
     }
 
-    public static TwitterComponent getTwitterComponent(Context context) {
-        TwitoneApp application = (TwitoneApp) context.getApplicationContext();
+    public static TwitterComponent getTwitterComponent() {
         return mTwitterComponent;
     }
 
-    public static RefWatcher getRefWatcher(Context context) {
-        TwitoneApp application = (TwitoneApp) context.getApplicationContext();
-        return application.refWatcher;
+    public static RefWatcher getRefWatcher() {
+        return refWatcher;
     }
 }

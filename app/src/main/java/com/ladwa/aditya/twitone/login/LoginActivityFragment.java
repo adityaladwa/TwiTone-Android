@@ -71,7 +71,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
-        TwitoneApp.getTwitterComponent(getActivity()).inject(this);
+        TwitoneApp.getTwitterComponent().inject(this);
         internet = ConnectionReceiver.isConnected();
         new LoginPresenter(this, twitter);
 
@@ -147,7 +147,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = TwitoneApp.getRefWatcher(getActivity());
+        RefWatcher refWatcher = TwitoneApp.getRefWatcher();
         refWatcher.watch(this);
     }
 
