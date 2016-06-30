@@ -21,11 +21,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class LoginTest {
 
     @Rule
-    public ActivityTestRule<LoginActivity> mLoginActivityActivityTestRule = new ActivityTestRule<LoginActivity>(LoginActivity.class);
+    public ActivityTestRule<LoginActivity> mLoginActivityActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
 
     @Test
-    public void clickLogin_LoginsUser() throws Exception {
+    public void clickLoginButton_LoginUser() throws Exception {
 
         onView(withId(R.id.twitter_login_button)).perform(click());
     }
