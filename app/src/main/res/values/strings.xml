@@ -11,5 +11,6 @@
     <string name="pref_screen_name">pref_screen_name</string>
     <string name="title_activity_main_screen">MainScreen</string>
     <string name="log_out">Log Out</string>
+    <string name="login_button">Login Button</string>
 
 </resources>
