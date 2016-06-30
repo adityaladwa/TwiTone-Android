@@ -1,6 +1,5 @@
 package com.ladwa.aditya.twitone;
 
-import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -29,7 +28,6 @@ public class LoginTest {
     public void clickLogin_LoginsUser() throws Exception {
 
         onView(withId(R.id.twitter_login_button)).perform(click());
-
     }
 
 }
