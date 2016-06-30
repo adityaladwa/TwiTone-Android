@@ -113,6 +113,7 @@ dependencies {
     androidTestCompile deps.espresso
     androidTestCompile deps.uiautomator
     androidTestCompile deps.annotation
+    androidTestCompile deps.espressoWeb
 }
 
 tasks.whenTaskAdded { task ->
