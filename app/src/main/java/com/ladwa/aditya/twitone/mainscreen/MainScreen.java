@@ -1,12 +1,9 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
@@ -19,15 +16,17 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
-import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+
+import timber.log.Timber;
 
 /**
  * This is The Launcher Activity of the App
  */
-public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItemClickListener {
+public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, MainScreenFragment.DrawerCallback {
 
     private Toolbar toolbar;
+    private AccountHeader headerResult;
+    private ProfileDrawerItem profileDrawerItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +34,11 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         setContentView(R.layout.activity_main_screen);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setupDrawer();
 
     }
 
-    private void setupDrawer() {
+    private void setupDrawer(String screenName) {
 
-
-        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
-            @Override
-            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
-                super.set(imageView, uri, placeholder);
-
-            }
-        });
         final PrimaryDrawerItem timeline = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_reorder).
                 withIdentifier(1).withName(R.string.drawer_timeline).withBadge("20");
         final PrimaryDrawerItem interaction = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_people).withIdentifier(2).withName(R.string.drawer_interaction);
@@ -56,12 +46,12 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                 .withIcon(GoogleMaterial.Icon.gmd_question_answer).withIdentifier(3).withName(R.string.drawer_message);
         final PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.drawer_setting);
 
-        ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem()
-                .withName("Name")
+        profileDrawerItem = new ProfileDrawerItem()
+                .withName(screenName)
                 .withEmail("Email")
                 .withIcon(getResources().getDrawable(R.drawable.material_drawer_badge));
 
-        AccountHeader headerResult = new AccountHeaderBuilder()
+        headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.leak_canary_icon)
                 .addProfiles(profileDrawerItem).build();
@@ -79,11 +69,20 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                 )
                 .withOnDrawerItemClickListener(this)
                 .build();
+
+
     }
 
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         Toast.makeText(MainScreen.this, "Selected on " + position, Toast.LENGTH_SHORT).show();
         return false;
+    }
+
+
+    @Override
+    public void setProfile(String screenName) {
+        Timber.d("Profile set");
+        setupDrawer(screenName);
     }
 }

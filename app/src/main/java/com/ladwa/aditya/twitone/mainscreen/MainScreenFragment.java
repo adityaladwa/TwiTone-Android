@@ -1,9 +1,11 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,9 +44,11 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     private boolean mLogin;
     private Unbinder unbinder;
     private MainScreenContract.Presenter mPresenter;
+    private DrawerCallback mDrawerCallback;
 
     public MainScreenFragment() {
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,8 +59,22 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         new MainScreenPresenter(this, mLogin);
 
-
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mDrawerCallback = (DrawerCallback) context;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        //SetupDrawer
+        String screenName = preferences.getString(getString(R.string.pref_screen_name), "");
+        mDrawerCallback.setProfile(screenName);
     }
 
     @OnClick(R.id.twitter_logout_button)
@@ -64,6 +82,8 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         logout();
 
     }
+
+
 
     @Override
     public void onResume() {
@@ -76,6 +96,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         super.onPause();
         mPresenter.unsubscribe();
     }
+
 
     @Override
     public void onDestroy() {
@@ -111,5 +132,10 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     @Override
     public void setPresenter(MainScreenContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+
+    public interface DrawerCallback {
+        public void setProfile(String screenName);
     }
 }
