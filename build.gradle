@@ -45,7 +45,7 @@ ext {
 
     //Libs
     junitVersion = '4.12'
-    supportLibVersion = '23.4.0'
+    supportLibVersion = '24.0.0'
     rxjavaVersion = '1.1.6'
     rxAndroidVersion = '1.2.1'
     daggerVersion = '2.5'
@@ -61,7 +61,7 @@ ext {
     testRuleVersion = "0.4"
     espressoVersion = "2.2.1"
     uiAutomatorVersion = "2.1.1"
-    annotationsVersion = "23.4.0"
+    annotationsVersion = "24.0.0"
 }
 
 ext.deps = [

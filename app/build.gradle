@@ -85,6 +85,11 @@ dependencies {
     compile deps.smoothProgress
     compile deps.materialProgress
 
+    //Mikepenz Material Drawer
+    compile('com.mikepenz:materialdrawer:5.3.2@aar') {
+        transitive = true
+    }
+
     //RxJava
     compile deps.rxJava
     compile deps.rxAndroid
@@ -106,6 +111,7 @@ dependencies {
     debugCompile deps.leakCanary
     releaseCompile deps.leakCanaryTestAndRelease
     testCompile deps.leakCanaryTestAndRelease
+
 
 
     //Test dependency
