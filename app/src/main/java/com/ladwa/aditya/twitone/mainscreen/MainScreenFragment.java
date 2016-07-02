@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import twitter4j.AsyncTwitter;
 
 
@@ -39,6 +40,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     AsyncTwitter mTwitter;
 
     private boolean mLogin;
+    private Unbinder unbinder;
     private MainScreenContract.Presenter mPresenter;
 
     public MainScreenFragment() {
@@ -48,7 +50,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         new MainScreenPresenter(this, mLogin);
@@ -80,6 +82,12 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         super.onDestroy();
         RefWatcher refWatcher = TwitoneApp.getRefWatcher();
         refWatcher.watch(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override

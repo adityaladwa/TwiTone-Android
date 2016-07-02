@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -28,6 +27,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import timber.log.Timber;
 import twitter4j.AsyncTwitter;
@@ -48,8 +48,6 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @BindView(R.id.login_webview)
     WebView mWebView;
 
-    //    @BindView(R.id.progress)
-//    SmoothProgressBar mSmoothProgressBar;
     @BindView(R.id.progressBar)
     MaterialProgressBar mProgressBar;
     @Inject
@@ -58,7 +56,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     AsyncTwitter twitter;
 
     private LoginContract.Presenter mPresenter;
-
+    private Unbinder unbinder;
     private boolean internet;
 
 
@@ -70,7 +68,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
         internet = ConnectionReceiver.isConnected();
         new LoginPresenter(this, twitter);
@@ -160,6 +158,12 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     public void onNetworkConnectionChanged(boolean isConnected) {
         Timber.d("Internet changed");
         internet = isConnected;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     public class MyWebViewClient extends WebViewClient {
