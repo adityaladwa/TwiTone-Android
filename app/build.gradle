@@ -75,8 +75,6 @@ dependencies {
     compile deps.design
     compile deps.multidex
 
-
-
     //ButterKnife
     compile deps.butterKnife
     apt deps.butterKnifeComipler
@@ -89,6 +87,8 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.3.2@aar') {
         transitive = true
     }
+
+    compile 'com.mikepenz:google-material-typeface:2.2.0.1.original@aar'
 
     //RxJava
     compile deps.rxJava
@@ -111,8 +111,6 @@ dependencies {
     debugCompile deps.leakCanary
     releaseCompile deps.leakCanaryTestAndRelease
     testCompile deps.leakCanaryTestAndRelease
-
-
 
     //Test dependency
     testCompile deps.junit
