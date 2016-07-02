@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.ladwa.aditya.twitone.R;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -28,6 +30,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private Toolbar toolbar;
     private AccountHeader headerResult;
     private ProfileDrawerItem profileDrawerItem;
+    private Drawer result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                 .withHeaderBackground(R.drawable.leak_canary_icon)
                 .addProfiles(profileDrawerItem).build();
 
-        final Drawer result = new DrawerBuilder()
+        result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
@@ -89,8 +92,10 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
     @Override
     public void updateProfile(User user) {
-        profileDrawerItem.withEmail(user.getScreenName());
-        profileDrawerItem.withName(user.getName());
-        Timber.d(user.getName());
+        Timber.d(user.getName() + user.getScreenName());
+        profileDrawerItem.withName(user.getName()).withEmail(user.getScreenName()).withIcon(user.getOriginalProfileImageURL());
+        ImageView headerBackgroundView = headerResult.getHeaderBackgroundView();
+        Glide.with(this).load(user.getProfileBannerMobileRetinaURL()).into(headerBackgroundView);
+        headerResult.updateProfile(profileDrawerItem);
     }
 }
