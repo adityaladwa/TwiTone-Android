@@ -62,6 +62,7 @@ ext {
     espressoVersion = "2.2.1"
     uiAutomatorVersion = "2.1.1"
     annotationsVersion = "24.0.0"
+    glideVersion = "3.7.0"
 }
 
 ext.deps = [
@@ -89,7 +90,9 @@ ext.deps = [
         espresso                : "com.android.support.test.espresso:espresso-core:$ext.espressoVersion",
         espressoWeb             : "com.android.support.test.espresso:espresso-web:$ext.espressoVersion",
         uiautomator             : "com.android.support.test.uiautomator:uiautomator-v18:$ext.uiAutomatorVersion",
-        annotation              : "com.android.support:support-annotations:$ext.annotationsVersion"
+        annotation              : "com.android.support:support-annotations:$ext.annotationsVersion",
+        glide                   : "com.github.bumptech.glide:glide:$ext.glideVersion",
+        googleMaterial : "com.mikepenz:google-material-typeface:2.2.0.1.original@aar"
 
 
 ]

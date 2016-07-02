@@ -1,12 +1,17 @@
 package com.ladwa.aditya.twitone;
 
-import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.multidex.MultiDexApplication;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.ladwa.aditya.twitone.data.DaggerTwitterComponent;
 import com.ladwa.aditya.twitone.data.TwitterComponent;
 import com.ladwa.aditya.twitone.data.remote.TwitterModule;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -33,6 +38,22 @@ public class TwitoneApp extends MultiDexApplication {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+
+        //D
+        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                super.set(imageView, uri, placeholder);
+                Glide.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                super.cancel(imageView);
+                Glide.clear(imageView);
+            }
+        });
+
     }
 
     public static synchronized TwitoneApp getInstance() {

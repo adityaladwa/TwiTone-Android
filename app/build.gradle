@@ -87,10 +87,10 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.3.2@aar') {
         transitive = true
     }
-    compile 'com.mikepenz:google-material-typeface:2.2.0.1.original@aar'
+    compile deps.googleMaterial
 
     //Glide
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile deps.glide
 
     //RxJava
     compile deps.rxJava

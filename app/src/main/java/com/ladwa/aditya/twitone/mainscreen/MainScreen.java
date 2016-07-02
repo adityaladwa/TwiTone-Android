@@ -49,7 +49,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         profileDrawerItem = new ProfileDrawerItem()
                 .withName(screenName)
                 .withEmail("Email")
-                .withIcon(getResources().getDrawable(R.drawable.material_drawer_badge));
+                .withIcon("http://www.freeiconspng.com/uploads/multimedia-photo-icon-31.png");
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
