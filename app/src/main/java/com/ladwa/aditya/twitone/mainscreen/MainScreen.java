@@ -93,7 +93,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     @Override
     public void updateProfile(User user) {
         Timber.d(user.getName() + user.getScreenName());
-        profileDrawerItem.withName(user.getName()).withEmail(user.getScreenName()).withIcon(user.getOriginalProfileImageURL());
+        profileDrawerItem.withName(user.getName()).withEmail(user.getScreenName()).withIcon(user.getBiggerProfileImageURL());
         ImageView headerBackgroundView = headerResult.getHeaderBackgroundView();
         Glide.with(this).load(user.getProfileBannerMobileRetinaURL()).into(headerBackgroundView);
         headerResult.updateProfile(profileDrawerItem);

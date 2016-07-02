@@ -44,7 +44,10 @@ public class TwitoneApp extends MultiDexApplication {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {
                 super.set(imageView, uri, placeholder);
-                Glide.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+                Glide.with(imageView.getContext()).load(uri)
+                        .fitCenter()
+                        .centerCrop()
+                        .placeholder(placeholder).into(imageView);
             }
 
             @Override
