@@ -1,7 +1,6 @@
 package com.ladwa.aditya.twitone.data.remote;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -49,4 +48,5 @@ public class TwitterModule {
         Configuration configuration = builder.build();
         return new AsyncTwitterFactory(configuration).getInstance();
     }
+
 }

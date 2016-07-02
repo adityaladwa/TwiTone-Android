@@ -24,7 +24,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import twitter4j.AsyncTwitter;
+import twitter4j.Twitter;
+import twitter4j.User;
+import twitter4j.auth.AccessToken;
 
 
 /**
@@ -39,7 +41,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     @BindView(R.id.twitter_logout_button)
     Button logoutbutton;
     @Inject
-    AsyncTwitter mTwitter;
+    Twitter mTwitter;
 
     private boolean mLogin;
     private Unbinder unbinder;
@@ -57,7 +59,13 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
-        new MainScreenPresenter(this, mLogin);
+        long id = preferences.getLong(getString(R.string.pref_userid), 0);
+        String token = preferences.getString(getString(R.string.pref_access_token), "");
+        String secreat = preferences.getString(getString(R.string.pref_access_secret), "");
+        AccessToken accessToken = new AccessToken(token, secreat);
+        mTwitter.setOAuthAccessToken(accessToken);
+
+        new MainScreenPresenter(this, mLogin, id, mTwitter);
 
         return view;
     }
@@ -75,6 +83,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         //SetupDrawer
         String screenName = preferences.getString(getString(R.string.pref_screen_name), "");
         mDrawerCallback.setProfile(screenName);
+
     }
 
     @OnClick(R.id.twitter_logout_button)
@@ -82,7 +91,6 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         logout();
 
     }
-
 
 
     @Override
@@ -124,9 +132,13 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
             CookieManager.getInstance().removeAllCookies(null);
         }
         mTwitter.setOAuthAccessToken(null);
-        mTwitter.shutdown();
         startActivity(new Intent(getActivity(), LoginActivity.class));
         getActivity().finish();
+    }
+
+    @Override
+    public void loadedUser(User user) {
+        mDrawerCallback.updateProfile(user);
     }
 
     @Override
@@ -136,6 +148,8 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
 
 
     public interface DrawerCallback {
-        public void setProfile(String screenName);
+        void setProfile(String screenName);
+
+        void updateProfile(User user);
     }
 }

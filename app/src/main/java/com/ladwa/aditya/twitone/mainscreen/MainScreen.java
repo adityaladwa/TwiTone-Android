@@ -18,6 +18,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import timber.log.Timber;
+import twitter4j.User;
 
 /**
  * This is The Launcher Activity of the App
@@ -84,5 +85,12 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     public void setProfile(String screenName) {
         Timber.d("Profile set");
         setupDrawer(screenName);
+    }
+
+    @Override
+    public void updateProfile(User user) {
+        profileDrawerItem.withEmail(user.getScreenName());
+        profileDrawerItem.withName(user.getName());
+        Timber.d(user.getName());
     }
 }
