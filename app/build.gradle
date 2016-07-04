@@ -95,6 +95,11 @@ dependencies {
     //Stetho
     compile 'com.facebook.stetho:stetho:1.3.1'
 
+    //StorIO
+    compile 'com.pushtorefresh.storio:sqlite:1.9.0'
+    compile 'com.pushtorefresh.storio:sqlite-annotations:1.9.0'
+    apt 'com.pushtorefresh.storio:sqlite-annotations-processor:1.9.0'
+
     //RxJava
     compile deps.rxJava
     compile deps.rxAndroid
