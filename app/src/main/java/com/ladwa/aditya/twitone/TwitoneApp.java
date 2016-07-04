@@ -6,6 +6,7 @@ import android.support.multidex.MultiDexApplication;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.stetho.Stetho;
 import com.ladwa.aditya.twitone.data.DaggerTwitterComponent;
 import com.ladwa.aditya.twitone.data.TwitterComponent;
 import com.ladwa.aditya.twitone.data.remote.TwitterModule;
@@ -39,7 +40,10 @@ public class TwitoneApp extends MultiDexApplication {
             Timber.plant(new Timber.DebugTree());
         }
 
-        //D
+        //Stetho
+        Stetho.initializeWithDefaults(this);
+
+        //Drawer Image loader
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {
