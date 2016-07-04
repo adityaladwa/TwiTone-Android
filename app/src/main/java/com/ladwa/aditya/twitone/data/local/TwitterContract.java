@@ -18,12 +18,12 @@ public final class TwitterContract {
         public static final String COLUMN_BANNER_URL = "banner_url";
 
         public static String getUserCreateQuery() {
-            return "CREATE TABLE " + TABLE_NAME + "(" +
-                    COLUMN_ID + "LONG NOT NULL PRIMARY KEY," +
-                    COLUMN_NAME + "TEXT NOT NULL, " +
-                    COLUMN_SCREEN_NAME + "TEXT NOT NULL, " +
-                    COLUMN_PROFILE_IMAGE_URL + "TEXT NOT NULL, " +
-                    COLUMN_BANNER_URL + "TEXT NOT NULL" + ");";
+            return "CREATE TABLE " + TABLE_NAME + " (" +
+                    COLUMN_ID + " LONG NOT NULL PRIMARY KEY, " +
+                    COLUMN_NAME + " TEXT NOT NULL, " +
+                    COLUMN_SCREEN_NAME + " TEXT NOT NULL, " +
+                    COLUMN_PROFILE_IMAGE_URL + " TEXT NOT NULL, " +
+                    COLUMN_BANNER_URL + " TEXT NOT NULL" + ");";
         }
 
         public static String getUserDeleteQuery() {

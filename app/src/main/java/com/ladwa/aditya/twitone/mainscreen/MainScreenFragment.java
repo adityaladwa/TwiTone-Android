@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
+import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.login.LoginActivity;
 import com.squareup.leakcanary.RefWatcher;
@@ -44,6 +45,9 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     @Inject
     Twitter mTwitter;
 
+    @Inject
+    TwitterRepository repository;
+
     private boolean mLogin;
     private Unbinder unbinder;
     private MainScreenContract.Presenter mPresenter;
@@ -65,7 +69,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         String secreat = preferences.getString(getString(R.string.pref_access_secret), "");
         AccessToken accessToken = new AccessToken(token, secreat);
         mTwitter.setOAuthAccessToken(accessToken);
-        new MainScreenPresenter(this, mLogin, id, mTwitter);
+        new MainScreenPresenter(this, mLogin, id, mTwitter, repository);
 
         TwitterLocalDataStore.getInstance(getActivity());
 

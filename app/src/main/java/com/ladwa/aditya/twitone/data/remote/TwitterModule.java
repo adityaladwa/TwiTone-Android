@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.ladwa.aditya.twitone.data.TwitterRepository;
+import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.util.Constants;
 
 import javax.inject.Singleton;
@@ -47,6 +49,12 @@ public class TwitterModule {
         builder.setOAuthConsumerSecret(Constants.OAUTH_CONSUMER_SECRET);
         Configuration configuration = builder.build();
         return new AsyncTwitterFactory(configuration).getInstance();
+    }
+
+    @Provides
+    @Singleton
+    TwitterRepository providesTwitterRepository(Application context) {
+        return TwitterRepository.getInstance(TwitterLocalDataStore.getInstance(context), TwitterRemoteDataSource.getInstance());
     }
 
 }
