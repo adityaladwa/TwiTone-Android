@@ -61,6 +61,8 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
 
     public static void saveUserInfo(com.ladwa.aditya.twitone.data.local.models.User user) {
+
+        //TODO Change to StorIO
         ContentValues values = new ContentValues();
         values.put(TwitterContract.User.COLUMN_ID, user.getId());
         values.put(TwitterContract.User.COLUMN_NAME, user.getName());
