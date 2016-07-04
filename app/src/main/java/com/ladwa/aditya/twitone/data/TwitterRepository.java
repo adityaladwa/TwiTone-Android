@@ -37,11 +37,11 @@ public class TwitterRepository implements TwitterDataStore {
     }
 
     @Override
-    public Observable<User> getUserInfo(long userID) {
-        Observable<User> userObservable = Observable.concat(mLocalDataStore.getUserInfo(userID), mRemoteDataStore.getUserInfo(userID)
-                .doOnNext(new Action1<User>() {
+    public Observable<com.ladwa.aditya.twitone.data.local.models.User> getUserInfo(long userID) {
+        Observable<com.ladwa.aditya.twitone.data.local.models.User> userObservable = Observable.concat(mLocalDataStore.getUserInfo(userID), mRemoteDataStore.getUserInfo(userID)
+                .doOnNext(new Action1<com.ladwa.aditya.twitone.data.local.models.User>() {
                     @Override
-                    public void call(User user) {
+                    public void call(com.ladwa.aditya.twitone.data.local.models.User user) {
                         TwitterLocalDataStore.saveUserInfo(user);
                     }
                 })).first();

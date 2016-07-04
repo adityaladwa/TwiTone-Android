@@ -29,6 +29,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
     SharedPreferences preferences;
 
     private static TwitterRemoteDataSource INSTANCE = null;
+
     private TwitterRemoteDataSource() {
         TwitoneApp.getTwitterComponent().inject(this);
         long id = preferences.getLong(TwitoneApp.getInstance().getString(R.string.pref_userid), 0);
@@ -50,14 +51,21 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
 
 
     @Override
-    public Observable<User> getUserInfo(final long userID) {
-        return Observable.create(new Observable.OnSubscribe<User>() {
+    public Observable<com.ladwa.aditya.twitone.data.local.models.User> getUserInfo(final long userID) {
+        final com.ladwa.aditya.twitone.data.local.models.User localUser = new com.ladwa.aditya.twitone.data.local.models.User();
+        return Observable.create(new Observable.OnSubscribe<com.ladwa.aditya.twitone.data.local.models.User>() {
             @Override
-            public void call(Subscriber<? super User> subscriber) {
+            public void call(Subscriber<? super com.ladwa.aditya.twitone.data.local.models.User> subscriber) {
                 try {
                     Timber.d(String.valueOf(userID));
                     User user = mTwitter.showUser(userID);
-                    subscriber.onNext(user);
+                    localUser.setId(user.getId());
+                    localUser.setName(user.getName());
+                    localUser.setScreenName(user.getScreenName());
+                    localUser.setProfileUrl(user.getOriginalProfileImageURL());
+                    localUser.setBannerUrl(user.getProfileBannerMobileRetinaURL());
+
+                    subscriber.onNext(localUser);
                 } catch (TwitterException e) {
                     e.printStackTrace();
                     subscriber.onError(e);
@@ -65,6 +73,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     subscriber.onCompleted();
                 }
             }
+
         });
     }
 }

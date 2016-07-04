@@ -13,7 +13,7 @@ public class MainScreenContract {
     interface View extends BaseView<Presenter> {
         void logout();
 
-        void loadedUser(User user);
+        void loadedUser(com.ladwa.aditya.twitone.data.local.models.User user);
     }
 
     interface Presenter extends BasePresenter {

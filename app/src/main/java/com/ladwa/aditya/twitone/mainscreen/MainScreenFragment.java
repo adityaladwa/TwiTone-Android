@@ -143,9 +143,10 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     }
 
     @Override
-    public void loadedUser(User user) {
+    public void loadedUser(com.ladwa.aditya.twitone.data.local.models.User user) {
         mDrawerCallback.updateProfile(user);
     }
+
 
     @Override
     public void setPresenter(MainScreenContract.Presenter presenter) {
@@ -156,6 +157,6 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     public interface DrawerCallback {
         void setProfile(String screenName);
 
-        void updateProfile(User user);
+        void updateProfile(com.ladwa.aditya.twitone.data.local.models.User user);
     }
 }

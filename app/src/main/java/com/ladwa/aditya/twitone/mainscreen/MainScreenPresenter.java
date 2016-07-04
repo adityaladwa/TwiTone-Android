@@ -89,7 +89,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
         mTwitterRepository.getUserInfo(mUserId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new Subscriber<User>() {
+                .subscribe(new Subscriber<com.ladwa.aditya.twitone.data.local.models.User>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("Completed set user");
@@ -101,7 +101,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(User user) {
+                    public void onNext(com.ladwa.aditya.twitone.data.local.models.User user) {
                         mView.loadedUser(user);
                     }
                 });

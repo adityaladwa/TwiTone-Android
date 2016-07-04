@@ -20,7 +20,6 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import timber.log.Timber;
-import twitter4j.User;
 
 /**
  * This is The Launcher Activity of the App
@@ -90,11 +89,12 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     }
 
     @Override
-    public void updateProfile(User user) {
+    public void updateProfile(com.ladwa.aditya.twitone.data.local.models.User user) {
         Timber.d(user.getName() + user.getScreenName());
-        profileDrawerItem.withName(user.getName()).withEmail(user.getScreenName()).withIcon(user.getBiggerProfileImageURL());
+        profileDrawerItem.withName(user.getName()).withEmail(user.getScreenName()).withIcon(user.getProfileUrl());
         ImageView headerBackgroundView = headerResult.getHeaderBackgroundView();
-        Glide.with(this).load(user.getProfileBannerMobileRetinaURL()).into(headerBackgroundView);
+        Glide.with(this).load(user.getBannerUrl()).into(headerBackgroundView);
         headerResult.updateProfile(profileDrawerItem);
     }
+
 }
