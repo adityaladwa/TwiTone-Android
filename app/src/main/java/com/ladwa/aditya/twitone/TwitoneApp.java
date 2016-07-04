@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.ladwa.aditya.twitone.data.DaggerTwitterComponent;
 import com.ladwa.aditya.twitone.data.TwitterComponent;
-import com.ladwa.aditya.twitone.data.local.DbModule;
 import com.ladwa.aditya.twitone.data.remote.TwitterModule;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
@@ -34,7 +33,6 @@ public class TwitoneApp extends MultiDexApplication {
         mTwitterComponent = DaggerTwitterComponent.builder()
                 .appModule(new AppModule(this))
                 .twitterModule(new TwitterModule())
-                .dbModule(new DbModule())
                 .build();
 
         if (BuildConfig.DEBUG) {

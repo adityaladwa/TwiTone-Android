@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import timber.log.Timber;
+
 /**
  * Created by Aditya on 04-Jul-16.
  */
@@ -19,7 +21,7 @@ public class TwitterDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TwitterContract.User.getUserCreateQuery());
-
+        Timber.d("Created database" + DATABASE_NAME);
     }
 
     @Override
