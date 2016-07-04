@@ -3,8 +3,8 @@ package com.ladwa.aditya.twitone.data;
 import com.ladwa.aditya.twitone.AppModule;
 import com.ladwa.aditya.twitone.data.remote.TwitterModule;
 import com.ladwa.aditya.twitone.login.LoginActivityFragment;
+import com.ladwa.aditya.twitone.mainscreen.MainScreen;
 import com.ladwa.aditya.twitone.mainscreen.MainScreenFragment;
-import com.ladwa.aditya.twitone.mainscreen.MainScreenPresenter;
 
 import javax.inject.Singleton;
 
@@ -23,6 +23,5 @@ public interface TwitterComponent {
 
     void inject(MainScreenFragment fragment);
 
-    void inject(MainScreenPresenter presenter);
 
 }

@@ -44,7 +44,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private void setupDrawer(String screenName) {
 
         final PrimaryDrawerItem timeline = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_reorder).
-                withIdentifier(1).withName(R.string.drawer_timeline).withBadge("20");
+                withIdentifier(1).withName(R.string.drawer_timeline);
         final PrimaryDrawerItem interaction = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_people).withIdentifier(2).withName(R.string.drawer_interaction);
         final PrimaryDrawerItem message = new PrimaryDrawerItem()
                 .withIcon(GoogleMaterial.Icon.gmd_question_answer).withIdentifier(3).withName(R.string.drawer_message);
@@ -52,8 +52,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
         profileDrawerItem = new ProfileDrawerItem()
                 .withName(screenName)
-                .withEmail("Email")
-                .withIcon("http://www.freeiconspng.com/uploads/multimedia-photo-icon-31.png");
+                .withEmail("Email");
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)

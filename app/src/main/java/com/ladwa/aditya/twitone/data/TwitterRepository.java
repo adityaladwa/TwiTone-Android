@@ -6,4 +6,8 @@ package com.ladwa.aditya.twitone.data;
 public class TwitterRepository implements TwitterDataStore {
 
 
+    @Override
+    public void getUserInfo(long userID) {
+
+    }
 }

@@ -5,4 +5,5 @@ package com.ladwa.aditya.twitone.data;
  */
 public interface TwitterDataStore {
 
+    void getUserInfo(long userID);
 }
