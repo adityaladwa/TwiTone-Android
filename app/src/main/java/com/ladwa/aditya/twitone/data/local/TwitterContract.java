@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.data.local;
 import android.provider.BaseColumns;
 
 /**
+ * A database contract for the App
  * Created by Aditya on 04-Jul-16.
  */
 public final class TwitterContract {
