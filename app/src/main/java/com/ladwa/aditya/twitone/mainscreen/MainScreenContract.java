@@ -3,9 +3,8 @@ package com.ladwa.aditya.twitone.mainscreen;
 import com.ladwa.aditya.twitone.BasePresenter;
 import com.ladwa.aditya.twitone.BaseView;
 
-import twitter4j.User;
-
 /**
+ * A contract that holds the abstraction of MainScreen
  * Created by Aditya on 27-Jun-16.
  */
 public class MainScreenContract {

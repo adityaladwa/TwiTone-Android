@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.data.local.models.User;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -89,7 +90,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     }
 
     @Override
-    public void updateProfile(com.ladwa.aditya.twitone.data.local.models.User user) {
+    public void updateProfile(User user) {
         Timber.d(user.getName() + user.getScreenName());
         profileDrawerItem.withName(user.getName()).withEmail(user.getScreenName()).withIcon(user.getProfileUrl());
         ImageView headerBackgroundView = headerResult.getHeaderBackgroundView();

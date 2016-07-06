@@ -1,7 +1,8 @@
 package com.ladwa.aditya.twitone.data;
 
+import com.ladwa.aditya.twitone.data.local.models.User;
+
 import rx.Observable;
-import twitter4j.User;
 
 /**
  * An interface that Encapsulates all the Operations which will be implemented by Local Database and Remote Twitter Service
@@ -9,5 +10,5 @@ import twitter4j.User;
  */
 public interface TwitterDataStore {
 
-    Observable<com.ladwa.aditya.twitone.data.local.models.User> getUserInfo(long userID);
+    Observable<User> getUserInfo(long userID);
 }
