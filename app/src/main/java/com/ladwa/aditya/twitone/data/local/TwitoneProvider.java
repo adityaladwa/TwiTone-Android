@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 /**
+ * A Content Provider for the App
  * Created by Aditya on 06-Jul-16.
  */
 public class TwitoneProvider extends ContentProvider {
