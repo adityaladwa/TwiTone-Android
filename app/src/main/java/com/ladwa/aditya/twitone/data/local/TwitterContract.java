@@ -49,6 +49,6 @@ public final class TwitterContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        
+
     }
 }

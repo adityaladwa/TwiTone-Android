@@ -41,6 +41,11 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <!--Content Provider-->
+        <provider
+            android:name=".data.local.TwitoneProvider"
+            android:authorities="com.ladwa.aditya.twitone" />
     </application>
 
 </manifest>

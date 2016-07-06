@@ -18,7 +18,7 @@ import dagger.Component;
 @Component(modules = {AppModule.class, TwitterModule.class})
 public interface TwitterComponent {
 
-    //Expose methods from TwitterModulde
+    //Expose methods from TwitterModule
     void inject(LoginActivityFragment fragment);
 
     void inject(MainScreenFragment fragment);
