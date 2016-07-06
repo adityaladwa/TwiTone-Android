@@ -3,10 +3,10 @@ package com.ladwa.aditya.twitone.data;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.data.local.models.User;
 
 import rx.Observable;
 import rx.functions.Action1;
-import twitter4j.User;
 
 /**
  * A Twitter Repository that provides both local and Remote Data store
@@ -37,11 +37,11 @@ public class TwitterRepository implements TwitterDataStore {
     }
 
     @Override
-    public Observable<com.ladwa.aditya.twitone.data.local.models.User> getUserInfo(long userID) {
-        Observable<com.ladwa.aditya.twitone.data.local.models.User> userObservable = Observable.concat(mLocalDataStore.getUserInfo(userID), mRemoteDataStore.getUserInfo(userID)
-                .doOnNext(new Action1<com.ladwa.aditya.twitone.data.local.models.User>() {
+    public Observable<User> getUserInfo(long userID) {
+        Observable<User> userObservable = Observable.concat(mLocalDataStore.getUserInfo(userID), mRemoteDataStore.getUserInfo(userID)
+                .doOnNext(new Action1<User>() {
                     @Override
-                    public void call(com.ladwa.aditya.twitone.data.local.models.User user) {
+                    public void call(User user) {
                         TwitterLocalDataStore.saveUserInfo(user);
                     }
                 })).first();
