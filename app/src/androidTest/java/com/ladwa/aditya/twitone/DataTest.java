@@ -6,9 +6,15 @@ import android.test.AndroidTestCase;
 import com.ladwa.aditya.twitone.data.local.TwitterContract;
 import com.ladwa.aditya.twitone.data.local.TwitterDbHelper;
 import com.ladwa.aditya.twitone.data.local.models.User;
+import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverDeleteResolver;
+import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverGetResolver;
+import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverPutResolver;
 import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLiteDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLiteGetResolver;
 import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLitePutResolver;
+import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
+import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
+import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
 import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
@@ -27,6 +33,8 @@ public class DataTest extends AndroidTestCase {
     private SQLiteDatabase db;
     private StorIOSQLite mStorIOSQLite;
     private User user;
+    private StorIOContentResolver mStorIOContentResolver;
+
 
     public DataTest() {
 
@@ -52,6 +60,17 @@ public class DataTest extends AndroidTestCase {
                         .deleteResolver(new UserStorIOSQLiteDeleteResolver())
                         .build()
                 )
+                .build();
+    }
+
+    public void initContentResolver() {
+        mStorIOContentResolver = DefaultStorIOContentResolver.builder()
+                .contentResolver(mContext.getContentResolver())
+                .addTypeMapping(User.class, ContentResolverTypeMapping.<User>builder()
+                        .putResolver(new UserStorIOContentResolverPutResolver())
+                        .getResolver(new UserStorIOContentResolverGetResolver())
+                        .deleteResolver(new UserStorIOContentResolverDeleteResolver())
+                        .build())
                 .build();
     }
 
@@ -85,13 +104,24 @@ public class DataTest extends AndroidTestCase {
                 .withQuery(Query.builder()
                         .table(TwitterContract.User.TABLE_NAME)
                         .where(TwitterContract.User.COLUMN_ID + " = ? ")
-                        .whereArgs(user.getName())
+                        .whereArgs(user.getId())
                         .build()
                 )
                 .prepare()
                 .executeAsBlocking();
 
         assertEquals(user.getName(), userResult.getName());
+
+    }
+
+    public void testInsertProvider() throws Throwable {
+        initUser();
+        initContentResolver();
+
+        com.pushtorefresh.storio.contentresolver.operations.put.PutResult result = mStorIOContentResolver.put().object(user).prepare().executeAsBlocking();
+        Timber.d(result.numberOfRowsUpdated().toString());
+
+        assertTrue(result.wasUpdated());
 
     }
 

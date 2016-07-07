@@ -4,7 +4,6 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
-import android.support.design.BuildConfig;
 
 /**
  * A database contract for the App
@@ -12,7 +11,7 @@ import android.support.design.BuildConfig;
  */
 public final class TwitterContract {
 
-    public static final String CONTENT_AUTHORITY = BuildConfig.APPLICATION_ID;
+    public static final String CONTENT_AUTHORITY = "com.ladwa.aditya.twitone";
     private static final String CONTENT_SCHEME = "content://";
     public static final Uri BASE_CONTENT_URI = Uri.parse(CONTENT_SCHEME + CONTENT_AUTHORITY);
     public static final String PATH_USER = "user";

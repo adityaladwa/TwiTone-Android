@@ -6,16 +6,21 @@ import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
 import com.ladwa.aditya.twitone.data.local.models.User;
+import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverDeleteResolver;
+import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverGetResolver;
+import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverPutResolver;
 import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLiteDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLiteGetResolver;
 import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLitePutResolver;
+import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
+import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
+import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
 import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
 import com.pushtorefresh.storio.sqlite.queries.Query;
 
 import rx.Observable;
-import timber.log.Timber;
 
 /**
  * A class that implements TwitterDataStore for Local Database
@@ -26,6 +31,7 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     private static TwitterDbHelper mTwitterDbHelper;
     private static SQLiteDatabase db;
     private static StorIOSQLite mStorIOSQLite;
+    private static StorIOContentResolver mStorIOContentResolver;
 
     private TwitterLocalDataStore(@NonNull Context context) {
         mTwitterDbHelper = new TwitterDbHelper(context);
@@ -37,10 +43,17 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                         .putResolver(new UserStorIOSQLitePutResolver())
                         .getResolver(new UserStorIOSQLiteGetResolver())
                         .deleteResolver(new UserStorIOSQLiteDeleteResolver())
-                        .build()
-                )
+                        .build())
                 .build();
 
+        mStorIOContentResolver = DefaultStorIOContentResolver.builder()
+                .contentResolver(context.getContentResolver())
+                .addTypeMapping(User.class, ContentResolverTypeMapping.<User>builder()
+                        .putResolver(new UserStorIOContentResolverPutResolver())
+                        .getResolver(new UserStorIOContentResolverGetResolver())
+                        .deleteResolver(new UserStorIOContentResolverDeleteResolver())
+                        .build())
+                .build();
     }
 
     public static TwitterLocalDataStore getInstance(@NonNull Context context) {
@@ -66,18 +79,10 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
     public static void saveUserInfo(User user) {
 
-//        //TODO Change to StorIO
-//        ContentValues values = new ContentValues();
-//        values.put(TwitterContract.User.COLUMN_ID, user.getId());
-//        values.put(TwitterContract.User.COLUMN_NAME, user.getName());
-//        values.put(TwitterContract.User.COLUMN_SCREEN_NAME, user.getScreenName());
-//        values.put(TwitterContract.User.COLUMN_PROFILE_IMAGE_URL, user.getProfileUrl());
-//        values.put(TwitterContract.User.COLUMN_BANNER_URL, user.getBannerUrl());
-//        db.insert(TwitterContract.User.TABLE_NAME, null, values);
-        mStorIOSQLite.put().object(user).prepare().executeAsBlocking();
+//        mStorIOSQLite.put().object(user).prepare().executeAsBlocking();
 
+        mStorIOContentResolver.put().object(user).prepare().executeAsBlocking();
 
-        Timber.d("Saved user to database" + user.getName());
     }
 
 }

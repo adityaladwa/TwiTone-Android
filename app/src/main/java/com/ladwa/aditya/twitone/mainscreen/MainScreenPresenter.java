@@ -51,41 +51,6 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
     @Override
     public void loadUserInfo() {
 
-//        loadUserSubscription = Observable.create(new Observable.OnSubscribe<User>() {
-//            @Override
-//            public void call(Subscriber<? super User> subscriber) {
-//                try {
-//                    Timber.d(String.valueOf(mUserId));
-//                    User user = mTwitter.showUser(mUserId);
-//                    subscriber.onNext(user);
-//                } catch (TwitterException e) {
-//                    e.printStackTrace();
-//                    subscriber.onError(e);
-//                } finally {
-//                    subscriber.onCompleted();
-//                }
-//            }
-//        }).observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.newThread())
-//                .subscribe(new Subscriber<User>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        Timber.d("Completed set user");
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Timber.e(e, "Error :" + e.toString());
-//                    }
-//
-//                    @Override
-//                    public void onNext(User user) {
-//                        mView.loadedUser(user);
-//                        Timber.d(user.getName());
-//                    }
-//                }
-
-
         mTwitterRepository.getUserInfo(mUserId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
