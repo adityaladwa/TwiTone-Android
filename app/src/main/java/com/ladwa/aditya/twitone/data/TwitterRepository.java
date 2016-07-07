@@ -4,9 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.User;
+import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import rx.Observable;
-import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * A Twitter Repository that provides both local and Remote Data store
@@ -16,20 +17,19 @@ public class TwitterRepository implements TwitterDataStore {
 
     private static TwitterRepository INSTANCE = null;
     private final TwitterLocalDataStore mLocalDataStore;
-    private final TwitterDataStore mRemoteDataStore;
+    private final TwitterRemoteDataSource mRemoteDataStore;
 
 
-    private TwitterRepository(@NonNull TwitterLocalDataStore local, @NonNull TwitterDataStore remote) {
+    private TwitterRepository(@NonNull TwitterLocalDataStore local, @NonNull TwitterRemoteDataSource remote) {
         this.mLocalDataStore = local;
         this.mRemoteDataStore = remote;
 
     }
 
-    public static TwitterRepository getInstance(TwitterLocalDataStore local, TwitterDataStore remote) {
+    public static TwitterRepository getInstance(TwitterLocalDataStore local, TwitterRemoteDataSource remote) {
         if (INSTANCE == null)
             INSTANCE = new TwitterRepository(local, remote);
         return INSTANCE;
-
     }
 
     public static void destoryInstance() {
@@ -37,14 +37,19 @@ public class TwitterRepository implements TwitterDataStore {
     }
 
     @Override
-    public Observable<User> getUserInfo(long userID) {
-        Observable<User> userObservable = Observable.concat(mLocalDataStore.getUserInfo(userID), mRemoteDataStore.getUserInfo(userID)
-                .doOnNext(new Action1<User>() {
+    public Observable<User> getUserInfo(final long userID) {
+
+        return Observable
+                .concat(mLocalDataStore.getUserInfo(userID), mRemoteDataStore.getUserInfo(userID))
+                .first(new Func1<User, Boolean>() {
                     @Override
-                    public void call(User user) {
-                        TwitterLocalDataStore.saveUserInfo(user);
+                    public Boolean call(User user) {
+                        if (user == null)
+                            return false;
+                        else
+                            return true;
                     }
-                })).first();
-        return userObservable;
+                });
+
     }
 }

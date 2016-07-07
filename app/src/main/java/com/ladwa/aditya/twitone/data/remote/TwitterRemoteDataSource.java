@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
+import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 
 import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action1;
 import timber.log.Timber;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -74,6 +76,11 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                 }
             }
 
+        }).doOnNext(new Action1<com.ladwa.aditya.twitone.data.local.models.User>() {
+            @Override
+            public void call(com.ladwa.aditya.twitone.data.local.models.User user) {
+                TwitterLocalDataStore.saveUserInfo(user);
+            }
         });
     }
 }

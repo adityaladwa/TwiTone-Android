@@ -1,6 +1,5 @@
 package com.ladwa.aditya.twitone.data.local;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -51,25 +50,33 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     }
 
     @Override
-    public Observable<com.ladwa.aditya.twitone.data.local.models.User> getUserInfo(long userID) {
+    public Observable<User> getUserInfo(long userID) {
         return mStorIOSQLite.get()
-                .object(com.ladwa.aditya.twitone.data.local.models.User.class)
-                .withQuery(Query.builder().table(TwitterContract.User.TABLE_NAME).build())
+                .object(User.class)
+                .withQuery(Query.builder()
+                        .table(TwitterContract.User.TABLE_NAME)
+                        .where(TwitterContract.User.COLUMN_ID + " = ? ")
+                        .whereArgs(userID)
+                        .build()
+                )
                 .prepare()
                 .asRxObservable();
     }
 
 
-    public static void saveUserInfo(com.ladwa.aditya.twitone.data.local.models.User user) {
+    public static void saveUserInfo(User user) {
 
-        //TODO Change to StorIO
-        ContentValues values = new ContentValues();
-        values.put(TwitterContract.User.COLUMN_ID, user.getId());
-        values.put(TwitterContract.User.COLUMN_NAME, user.getName());
-        values.put(TwitterContract.User.COLUMN_SCREEN_NAME, user.getScreenName());
-        values.put(TwitterContract.User.COLUMN_PROFILE_IMAGE_URL, user.getProfileUrl());
-        values.put(TwitterContract.User.COLUMN_BANNER_URL, user.getBannerUrl());
-        db.insert(TwitterContract.User.TABLE_NAME, null, values);
+//        //TODO Change to StorIO
+//        ContentValues values = new ContentValues();
+//        values.put(TwitterContract.User.COLUMN_ID, user.getId());
+//        values.put(TwitterContract.User.COLUMN_NAME, user.getName());
+//        values.put(TwitterContract.User.COLUMN_SCREEN_NAME, user.getScreenName());
+//        values.put(TwitterContract.User.COLUMN_PROFILE_IMAGE_URL, user.getProfileUrl());
+//        values.put(TwitterContract.User.COLUMN_BANNER_URL, user.getBannerUrl());
+//        db.insert(TwitterContract.User.TABLE_NAME, null, values);
+        mStorIOSQLite.put().object(user).prepare().executeAsBlocking();
+
+
         Timber.d("Saved user to database" + user.getName());
     }
 

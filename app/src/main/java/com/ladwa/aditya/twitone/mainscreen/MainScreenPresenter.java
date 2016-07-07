@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.mainscreen;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.TwitterRepository;
+import com.ladwa.aditya.twitone.data.local.models.User;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -10,7 +11,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import twitter4j.Twitter;
-import twitter4j.User;
 
 /**
  * A presenter for MainScreen
@@ -89,7 +89,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
         mTwitterRepository.getUserInfo(mUserId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new Subscriber<com.ladwa.aditya.twitone.data.local.models.User>() {
+                .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("Completed set user");
@@ -101,7 +101,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(com.ladwa.aditya.twitone.data.local.models.User user) {
+                    public void onNext(User user) {
                         mView.loadedUser(user);
                     }
                 });
