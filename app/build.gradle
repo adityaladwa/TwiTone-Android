@@ -97,8 +97,11 @@ dependencies {
 
     //StorIO
     compile 'com.pushtorefresh.storio:sqlite:1.9.0'
+    compile 'com.pushtorefresh.storio:content-resolver:1.9.0'
     compile 'com.pushtorefresh.storio:sqlite-annotations:1.9.0'
+    compile 'com.pushtorefresh.storio:content-resolver-annotations:1.9.0'
     apt 'com.pushtorefresh.storio:sqlite-annotations-processor:1.9.0'
+    apt 'com.pushtorefresh.storio:content-resolver-annotations-processor:1.9.0'
 
     //RxJava
     compile deps.rxJava

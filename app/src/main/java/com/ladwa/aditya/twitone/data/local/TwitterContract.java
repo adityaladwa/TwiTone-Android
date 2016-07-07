@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.data.local;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
 import android.support.design.BuildConfig;
 
 /**
@@ -20,7 +21,9 @@ public final class TwitterContract {
     }
 
     public static abstract class User implements BaseColumns {
-        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_USER).build();
+        @NonNull
+        public static final String CONTENT_URI_STRING = "content://" + CONTENT_AUTHORITY + "/" + PATH_USER;
+        public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
 
         public static final String CONTENT_USER_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_USER;
         public static final String CONTENT_USER_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_USER;
