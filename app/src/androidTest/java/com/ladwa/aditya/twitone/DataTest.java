@@ -125,4 +125,20 @@ public class DataTest extends AndroidTestCase {
 
     }
 
+    public void testReadProvider() throws Throwable {
+        initUser();
+        initContentResolver();
+
+        User userResult = mStorIOContentResolver.get()
+                .object(User.class)
+                .withQuery(
+                        com.pushtorefresh.storio.contentresolver.queries.Query.builder()
+                                .uri(TwitterContract.User.CONTENT_URI)
+                                .where(TwitterContract.User.COLUMN_ID + " = ? ")
+                                .whereArgs(this.user.getId()).build()
+                ).prepare().executeAsBlocking();
+
+        assertEquals(user.getName(), userResult.getName());
+    }
+
 }
