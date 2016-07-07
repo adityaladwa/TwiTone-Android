@@ -5,6 +5,7 @@ import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteColumn;
 import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteType;
 
 /**
+ * A model for User profile
  * Created by Aditya on 04-Jul-16.
  */
 @StorIOSQLiteType(table = TwitterContract.User.TABLE_NAME)
