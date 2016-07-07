@@ -18,7 +18,6 @@ import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolve
 import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
-import com.pushtorefresh.storio.sqlite.queries.Query;
 
 import rx.Observable;
 
@@ -64,14 +63,24 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
     @Override
     public Observable<User> getUserInfo(long userID) {
-        return mStorIOSQLite.get()
+//        return mStorIOSQLite.get()
+//                .object(User.class)
+//                .withQuery(Query.builder()
+//                        .table(TwitterContract.User.TABLE_NAME)
+//                        .where(TwitterContract.User.COLUMN_ID + " = ? ")
+//                        .whereArgs(userID)
+//                        .build()
+//                )
+//                .prepare()
+//                .asRxObservable();
+
+        return mStorIOContentResolver.get()
                 .object(User.class)
-                .withQuery(Query.builder()
-                        .table(TwitterContract.User.TABLE_NAME)
-                        .where(TwitterContract.User.COLUMN_ID + " = ? ")
+                .withQuery(com.pushtorefresh.storio.contentresolver.queries.Query.builder()
+                        .uri(TwitterContract.User.CONTENT_URI)
+                        .where(TwitterContract.User.COLUMN_ID + " = ?")
                         .whereArgs(userID)
-                        .build()
-                )
+                        .build())
                 .prepare()
                 .asRxObservable();
     }

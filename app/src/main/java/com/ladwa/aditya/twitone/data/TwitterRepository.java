@@ -8,7 +8,6 @@ import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import rx.Observable;
 import rx.functions.Func1;
-import timber.log.Timber;
 
 /**
  * A Twitter Repository that provides both local and Remote Data store
@@ -45,7 +44,6 @@ public class TwitterRepository implements TwitterDataStore {
                 .first(new Func1<User, Boolean>() {
                     @Override
                     public Boolean call(User user) {
-                        Timber.d("First ");
                         if (user == null)
                             return false;
                         else
