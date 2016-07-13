@@ -15,6 +15,7 @@ import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLitePutResolver;
 import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
 import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
+import com.pushtorefresh.storio.contentresolver.queries.Query;
 import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
@@ -76,7 +77,7 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
         return mStorIOContentResolver.get()
                 .object(User.class)
-                .withQuery(com.pushtorefresh.storio.contentresolver.queries.Query.builder()
+                .withQuery(Query.builder()
                         .uri(TwitterContract.User.CONTENT_URI)
                         .where(TwitterContract.User.COLUMN_ID + " = ?")
                         .whereArgs(userID)

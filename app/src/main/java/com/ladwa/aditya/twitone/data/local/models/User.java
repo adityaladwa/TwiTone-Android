@@ -38,6 +38,18 @@ public class User {
     @StorIOContentResolverColumn(name = TwitterContract.User.COLUMN_BANNER_URL)
     String bannerUrl;
 
+    @StorIOSQLiteColumn(name = TwitterContract.User.COLUMN_LAST_MODIFIED)
+    @StorIOContentResolverColumn(name = TwitterContract.User.COLUMN_LAST_MODIFIED)
+    String lastModified;
+
+    public String getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
+    }
+
     public Long getId() {
         return id;
     }

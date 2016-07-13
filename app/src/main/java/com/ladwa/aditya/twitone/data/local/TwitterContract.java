@@ -33,6 +33,7 @@ public final class TwitterContract {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_PROFILE_IMAGE_URL = "profile_image_url";
         public static final String COLUMN_BANNER_URL = "banner_url";
+        public static final String COLUMN_LAST_MODIFIED = "last_modified";
 
         public static String getUserCreateQuery() {
             return "CREATE TABLE " + TABLE_NAME + " (" +
@@ -40,6 +41,7 @@ public final class TwitterContract {
                     COLUMN_NAME + " TEXT NOT NULL, " +
                     COLUMN_SCREEN_NAME + " TEXT NOT NULL, " +
                     COLUMN_PROFILE_IMAGE_URL + " TEXT NOT NULL, " +
+                    COLUMN_LAST_MODIFIED + " TEXT NOT NULL, " +
                     COLUMN_BANNER_URL + " TEXT NOT NULL" + ");";
         }
 

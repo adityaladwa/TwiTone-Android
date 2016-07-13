@@ -6,6 +6,7 @@ import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.util.Utility;
 
 import javax.inject.Inject;
 
@@ -66,6 +67,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     localUser.setScreenName(user.getScreenName());
                     localUser.setProfileUrl(user.getOriginalProfileImageURL());
                     localUser.setBannerUrl(user.getProfileBannerMobileRetinaURL());
+                    localUser.setLastModified(Utility.getDateTime());
 
                     subscriber.onNext(localUser);
                 } catch (TwitterException e) {
