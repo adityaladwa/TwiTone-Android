@@ -5,20 +5,27 @@
 
     <string name="action_settings">Settings</string>
 
+    //Preference
     <string name="pref_login">pref_login</string>
     <string name="pref_access_token">pref_access_token</string>
     <string name="pref_access_secret">pref_access_secret</string>
     <string name="pref_userid">pref_userid</string>
     <string name="pref_screen_name">pref_screen_name</string>
 
+
     <string name="login_in_to_twitter">Login In to Twitter</string>
     <string name="log_out">Log Out</string>
     <string name="login_button">Login Button</string>
+    <string name="logout_dialog_title">Log Out</string>
+    <string name="logout_dialog_message">Are you sure you want to dialog?</string>
+    <string name="logout_dialog_positive_button">Yes</string>
+    <string name="logout_dialog_negative_button">No</string>
 
     //Drawer Items
     <string name="drawer_timeline">Timeline</string>
     <string name="drawer_interaction">Interection</string>
     <string name="drawer_message">Messages</string>
     <string name="drawer_setting">Settings</string>
+    <string name="drawer_logout">Log Out</string>
 
 </resources>

@@ -1,11 +1,12 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ladwa.aditya.twitone.R;
@@ -45,10 +46,12 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
         final PrimaryDrawerItem timeline = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_reorder).
                 withIdentifier(1).withName(R.string.drawer_timeline);
-        final PrimaryDrawerItem interaction = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_people).withIdentifier(2).withName(R.string.drawer_interaction);
+        final PrimaryDrawerItem interaction = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_people)
+                .withIdentifier(2).withName(R.string.drawer_interaction);
         final PrimaryDrawerItem message = new PrimaryDrawerItem()
                 .withIcon(GoogleMaterial.Icon.gmd_question_answer).withIdentifier(3).withName(R.string.drawer_message);
         final PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.drawer_setting);
+        final PrimaryDrawerItem logOut = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.drawer_logout);
 
         profileDrawerItem = new ProfileDrawerItem()
                 .withName(screenName)
@@ -68,7 +71,8 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                         interaction,
                         message,
                         new DividerDrawerItem(),
-                        settings
+                        settings,
+                        logOut
                 )
                 .withOnDrawerItemClickListener(this)
                 .build();
@@ -78,7 +82,30 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-        Toast.makeText(MainScreen.this, "Selected on " + position, Toast.LENGTH_SHORT).show();
+        switch (position) {
+            case 6:
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
+                builder.setTitle(R.string.logout_dialog_title);
+                builder.setMessage(R.string.logout_dialog_message);
+
+                builder.setPositiveButton(R.string.logout_dialog_positive_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainScreenFragment mainScreenFragment = (MainScreenFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_mainscreen);
+                        mainScreenFragment.logout();
+
+                    }
+                });
+
+                builder.setNegativeButton(R.string.logout_dialog_negative_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+                break;
+        }
         return false;
     }
 
