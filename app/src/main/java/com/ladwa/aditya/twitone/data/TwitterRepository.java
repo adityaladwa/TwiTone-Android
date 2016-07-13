@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
+import com.ladwa.aditya.twitone.util.Utility;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -46,8 +47,9 @@ public class TwitterRepository implements TwitterDataStore {
                     public Boolean call(User user) {
                         if (user == null)
                             return false;
-                        else
+                        else if (Utility.checkProfileDataValidity(user.getLastModified()))
                             return true;
+                        return true;
                     }
                 });
 

@@ -11,7 +11,8 @@ import java.util.Locale;
  */
 public class Utility {
 
-    public static final long TWO_DAY_IN_SECOND = 172800000;
+    public static final long TWO_DAY_IN_SECOND = 172800;
+    public static final long DUMMY_TIME = 25000;
 
     public static String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -35,6 +36,13 @@ public class Utility {
         }
         assert d2 != null;
         assert d1 != null;
-        return d2.getTime() - d1.getTime();
+        return (d2.getTime() - d1.getTime()) / 1000;
+    }
+
+    public static boolean checkProfileDataValidity(String date) {
+        long second = getTimeDifference(date);
+        if (second >= TWO_DAY_IN_SECOND)
+            return false;
+        else return true;
     }
 }
