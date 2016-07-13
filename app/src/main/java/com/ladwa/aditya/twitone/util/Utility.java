@@ -12,7 +12,7 @@ import java.util.Locale;
 public class Utility {
 
     public static final long TWO_DAY_IN_SECOND = 172800;
-    public static final long DUMMY_TIME = 25000;
+    public static final long DUMMY_TIME = 5;
 
     public static String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -41,8 +41,6 @@ public class Utility {
 
     public static boolean checkProfileDataValidity(String date) {
         long second = getTimeDifference(date);
-        if (second >= TWO_DAY_IN_SECOND)
-            return false;
-        else return true;
+        return second < TWO_DAY_IN_SECOND;
     }
 }

@@ -75,9 +75,6 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
 
     public static void saveUserInfo(User user) {
-
-//        mStorIOSQLite.put().object(user).prepare().executeAsBlocking();
-
         mStorIOContentResolver.put().object(user).prepare().executeAsBlocking();
 
     }

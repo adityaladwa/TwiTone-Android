@@ -45,13 +45,8 @@ public class TwitterRepository implements TwitterDataStore {
                 .first(new Func1<User, Boolean>() {
                     @Override
                     public Boolean call(User user) {
-                        if (user == null)
-                            return false;
-                        else if (Utility.checkProfileDataValidity(user.getLastModified()))
-                            return true;
-                        return true;
+                        return user != null && Utility.checkProfileDataValidity(user.getLastModified());
                     }
                 });
-
     }
 }
