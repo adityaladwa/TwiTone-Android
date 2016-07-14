@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.widget.Button;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
@@ -22,12 +21,9 @@ import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import twitter4j.Twitter;
-import twitter4j.User;
 import twitter4j.auth.AccessToken;
 
 
@@ -40,8 +36,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     @Inject
     SharedPreferences preferences;
 
-    @BindView(R.id.twitter_logout_button)
-    Button logoutbutton;
+
     @Inject
     Twitter mTwitter;
 
@@ -91,13 +86,6 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         mDrawerCallback.setProfile(screenName);
 
     }
-
-    @OnClick(R.id.twitter_logout_button)
-    void onClickLogout() {
-        logout();
-
-    }
-
 
     @Override
     public void onResume() {

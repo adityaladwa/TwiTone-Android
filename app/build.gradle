@@ -84,7 +84,7 @@ dependencies {
     compile deps.materialProgress
 
     //Mikepenz Material Drawer
-    compile('com.mikepenz:materialdrawer:5.3.2@aar') {
+    compile(deps.materialDrawer) {
         transitive = true
     }
     compile deps.googleMaterial
@@ -96,12 +96,12 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.3.1'
 
     //StorIO
-    compile 'com.pushtorefresh.storio:sqlite:1.9.0'
-    compile 'com.pushtorefresh.storio:content-resolver:1.9.0'
-    compile 'com.pushtorefresh.storio:sqlite-annotations:1.9.0'
-    compile 'com.pushtorefresh.storio:content-resolver-annotations:1.9.0'
-    apt 'com.pushtorefresh.storio:sqlite-annotations-processor:1.9.0'
-    apt 'com.pushtorefresh.storio:content-resolver-annotations-processor:1.9.0'
+    compile deps.storIOSqlite
+    compile deps.storIOContent
+    compile deps.storIOSqlAnnotation
+    compile deps.storIOContentAnnotation
+    apt deps.storIOSqlProcessor
+    apt deps.storIOContentProcessor
 
     //RxJava
     compile deps.rxJava

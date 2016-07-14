@@ -63,6 +63,8 @@ ext {
     uiAutomatorVersion = "2.1.1"
     annotationsVersion = "24.0.0"
     glideVersion = "3.7.0"
+    storIOVersion = "1.9.0"
+    stethoVersion = "1.3.1"
 }
 
 ext.deps = [
@@ -92,7 +94,15 @@ ext.deps = [
         uiautomator             : "com.android.support.test.uiautomator:uiautomator-v18:$ext.uiAutomatorVersion",
         annotation              : "com.android.support:support-annotations:$ext.annotationsVersion",
         glide                   : "com.github.bumptech.glide:glide:$ext.glideVersion",
-        googleMaterial : "com.mikepenz:google-material-typeface:2.2.0.1.original@aar"
+        materialDrawer          : "com.mikepenz:materialdrawer:5.3.2@aar",
+        googleMaterial          : "com.mikepenz:google-material-typeface:2.2.0.1.original@aar",
+        storIOSqlite            : "com.pushtorefresh.storio:sqlite:$ext.storIOVersion",
+        storIOContent           : "com.pushtorefresh.storio:content-resolver:$ext.storIOVersion",
+        storIOSqlAnnotation     : "com.pushtorefresh.storio:sqlite-annotations:$ext.storIOVersion",
+        storIOContentAnnotation : "com.pushtorefresh.storio:content-resolver-annotations:$ext.storIOVersion",
+        storIOSqlProcessor      : "com.pushtorefresh.storio:sqlite-annotations-processor:$ext.storIOVersion",
+        storIOContentProcessor  : "com.pushtorefresh.storio:content-resolver-annotations-processor:$ext.storIOVersion",
+        stetho                  : "com.facebook.stetho:stetho:$ext.stethoVersion"
 
 
 ]
