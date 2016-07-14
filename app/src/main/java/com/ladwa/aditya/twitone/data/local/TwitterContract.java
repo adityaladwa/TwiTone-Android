@@ -15,6 +15,7 @@ public final class TwitterContract {
     private static final String CONTENT_SCHEME = "content://";
     public static final Uri BASE_CONTENT_URI = Uri.parse(CONTENT_SCHEME + CONTENT_AUTHORITY);
     public static final String PATH_USER = "user";
+    public static final String PATH_TWEET = "tweet";
 
     public TwitterContract() {
     }
@@ -53,6 +54,37 @@ public final class TwitterContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+
+    }
+
+    public static abstract class Tweet implements BaseColumns {
+
+        @NonNull
+        public static final String CONTENT_URI_STRING = "content://" + CONTENT_AUTHORITY + "/" + PATH_TWEET;
+        public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
+
+        public static final String CONTENT_USER_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_TWEET;
+        public static final String CONTENT_USER_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_TWEET;
+
+        public static final String TABLE_NAME = "tweet";
+
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_TWEET = "tweet_text";
+        public static final String COLUMN_LAST_MODIFIED = "last_modified";
+        public static final String COLUMN_DATE_CREATED = "date_created";
+
+        public static String getTweetCreateQuery() {
+            return "CREATE TABLE " + TABLE_NAME + " (" +
+                    COLUMN_ID + " LONG NOT NULL PRIMARY KEY, " +
+                    COLUMN_TWEET + " TEXT NOT NULL, " +
+                    COLUMN_LAST_MODIFIED + " TEXT NOT NULL, " +
+                    COLUMN_DATE_CREATED + " TEXT NOT NULL, ";
+        }
+
+
+        public static String getTweetDeleteQuery() {
+            return "DROP TABLE IF EXISTS " + TABLE_NAME;
+        }
 
     }
 }

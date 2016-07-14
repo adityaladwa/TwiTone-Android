@@ -37,11 +37,8 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
 
     @Inject
     SharedPreferences preferences;
-
-
     @Inject
     Twitter mTwitter;
-
     @Inject
     TwitterRepository repository;
 
