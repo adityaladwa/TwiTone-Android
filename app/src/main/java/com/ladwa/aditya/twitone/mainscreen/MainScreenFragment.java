@@ -7,6 +7,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,14 @@ import android.webkit.CookieManager;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
+import com.ladwa.aditya.twitone.adapter.TimelineAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.login.LoginActivity;
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.squareup.leakcanary.RefWatcher;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -43,12 +49,16 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     TwitterRepository repository;
 
     @BindView(R.id.recyclerview_timeline)
-    UltimateRecyclerView recyclerView;
+    RecyclerView recyclerView;
 
     private boolean mLogin;
     private Unbinder unbinder;
     private MainScreenContract.Presenter mPresenter;
     private DrawerCallback mDrawerCallback;
+    private LinearLayoutManager linearLayoutManager;
+    private TimelineAdapter mTimelineAdapter;
+
+    private List<Tweet> tweets;
 
     public MainScreenFragment() {
     }
@@ -69,6 +79,13 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         new MainScreenPresenter(this, mLogin, id, mTwitter, repository);
 
         TwitterLocalDataStore.getInstance(getActivity());
+
+        //Recycler view
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
 
         return view;
     }
@@ -135,6 +152,14 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     @Override
     public void loadedUser(com.ladwa.aditya.twitone.data.local.models.User user) {
         mDrawerCallback.updateProfile(user);
+    }
+
+    @Override
+    public void loadTimeline(List<Tweet> tweetList) {
+        mTimelineAdapter = new TimelineAdapter(tweetList, getActivity());
+        recyclerView.setAdapter(mTimelineAdapter);
+        mTimelineAdapter.notifyDataSetChanged();
+
     }
 
 

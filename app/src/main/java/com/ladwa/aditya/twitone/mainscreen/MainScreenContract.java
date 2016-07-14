@@ -2,6 +2,9 @@ package com.ladwa.aditya.twitone.mainscreen;
 
 import com.ladwa.aditya.twitone.BasePresenter;
 import com.ladwa.aditya.twitone.BaseView;
+import com.ladwa.aditya.twitone.data.local.models.Tweet;
+
+import java.util.List;
 
 /**
  * A contract that holds the abstraction of MainScreen
@@ -13,6 +16,8 @@ public class MainScreenContract {
         void logout();
 
         void loadedUser(com.ladwa.aditya.twitone.data.local.models.User user);
+
+        void loadTimeline(List<Tweet> tweetList);
     }
 
     interface Presenter extends BasePresenter {

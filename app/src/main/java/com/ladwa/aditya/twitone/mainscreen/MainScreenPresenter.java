@@ -13,10 +13,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
-import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 
 /**
  * A presenter for MainScreen
@@ -103,6 +100,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                         for (Tweet tweet : tweetList) {
                             Timber.d(tweet.getTweet());
                         }
+                        mView.loadTimeline(tweetList);
                     }
                 });
     }
