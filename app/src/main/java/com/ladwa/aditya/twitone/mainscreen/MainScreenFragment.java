@@ -66,8 +66,8 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         long id = preferences.getLong(getString(R.string.pref_userid), 0);
         String token = preferences.getString(getString(R.string.pref_access_token), "");
-        String secreat = preferences.getString(getString(R.string.pref_access_secret), "");
-        AccessToken accessToken = new AccessToken(token, secreat);
+        String secret = preferences.getString(getString(R.string.pref_access_secret), "");
+        AccessToken accessToken = new AccessToken(token, secret);
         mTwitter.setOAuthAccessToken(accessToken);
         new MainScreenPresenter(this, mLogin, id, mTwitter, repository);
 
