@@ -6,6 +6,7 @@ import android.support.multidex.MultiDexApplication;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.stetho.Stetho;
 import com.ladwa.aditya.twitone.data.DaggerTwitterComponent;
 import com.ladwa.aditya.twitone.data.TwitterComponent;
@@ -50,6 +51,7 @@ public class TwitoneApp extends MultiDexApplication {
                 super.set(imageView, uri, placeholder);
                 Glide.with(imageView.getContext()).load(uri)
                         .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .centerCrop()
                         .placeholder(placeholder).into(imageView);
             }

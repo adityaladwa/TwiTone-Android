@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+
     <application
         android:name=".TwitoneApp"
         android:allowBackup="true"
@@ -46,6 +47,11 @@
         <provider
             android:name=".data.local.TwitoneProvider"
             android:authorities="com.ladwa.aditya.twitone" />
+
+        <!--Meta Data-->
+        <meta-data
+            android:name="com.ladwa.aditya.twitone.util.GlideConfiguration"
+            android:value="GlideModule" />
     </application>
 
 </manifest>
