@@ -45,7 +45,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private void setupDrawer(String screenName) {
 
         final PrimaryDrawerItem timeline = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_reorder).
-                withIdentifier(1).withName(R.string.drawer_timeline);
+                withIdentifier(1).withName(R.string.drawer_timeline).withSetSelected(true);
         final PrimaryDrawerItem interaction = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_people)
                 .withIdentifier(2).withName(R.string.drawer_interaction);
         final PrimaryDrawerItem message = new PrimaryDrawerItem()
