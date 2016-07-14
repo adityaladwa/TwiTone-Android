@@ -33,12 +33,12 @@ public class LogoutTest {
 
     }
 
-    @Test
-    public void clickLogoutButton_LogoutUser() throws Exception {
-        onView(withId(R.id.twitter_logout_button))
-                .perform(click());
-
-    }
+//    @Test
+//    public void clickLogoutButton_LogoutUser() throws Exception {
+//        onView(withId(R.id.twitter_logout_button))
+//                .perform(click());
+//
+//    }
 
     @After
     public void removeSharedPreference() {

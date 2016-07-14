@@ -1,6 +1,9 @@
 package com.ladwa.aditya.twitone.data;
 
+import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -11,4 +14,6 @@ import rx.Observable;
 public interface TwitterDataStore {
 
     Observable<User> getUserInfo(long userID);
+
+    Observable<List<Tweet>> getTimeLine();
 }

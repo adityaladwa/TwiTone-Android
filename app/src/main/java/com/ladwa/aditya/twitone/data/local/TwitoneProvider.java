@@ -18,6 +18,9 @@ public class TwitoneProvider extends ContentProvider {
     private static final int USER_ITEM = 100;
     private static final int USER_DIR = 101;
 
+    private static final int TWEET_ITEM = 200;
+    private static final int TWEET_DIR = 201;
+
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
     private static UriMatcher buildUriMatcher() {
@@ -26,6 +29,9 @@ public class TwitoneProvider extends ContentProvider {
 
         matcher.addURI(authority, TwitterContract.PATH_USER + "/#", USER_ITEM);
         matcher.addURI(authority, TwitterContract.PATH_USER, USER_DIR);
+
+        matcher.addURI(authority, TwitterContract.PATH_TWEET + "/#", TWEET_ITEM);
+        matcher.addURI(authority, TwitterContract.PATH_TWEET, TWEET_DIR);
         return matcher;
     }
 
@@ -65,6 +71,30 @@ public class TwitoneProvider extends ContentProvider {
                 );
                 break;
 
+            case TWEET_ITEM:
+                retCursor = mTwitterDbHelper.getReadableDatabase().query(
+                        TwitterContract.Tweet.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+
+            case TWEET_DIR:
+                retCursor = mTwitterDbHelper.getReadableDatabase().query(
+                        TwitterContract.Tweet.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+
             default:
                 throw new UnsupportedOperationException("Unknown Uri " + uri);
         }
@@ -81,6 +111,10 @@ public class TwitoneProvider extends ContentProvider {
                 return TwitterContract.User.CONTENT_USER_ITEM_TYPE;
             case USER_DIR:
                 return TwitterContract.User.CONTENT_USER_TYPE;
+            case TWEET_ITEM:
+                return TwitterContract.Tweet.CONTENT_TWEET_ITEM_TYPE;
+            case TWEET_DIR:
+                return TwitterContract.Tweet.CONTENT_TWEET_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown URI " + uri);
         }
@@ -97,6 +131,14 @@ public class TwitoneProvider extends ContentProvider {
                 long _id = db.insert(TwitterContract.User.TABLE_NAME, null, values);
                 if (_id > 0)
                     returnUri = TwitterContract.User.buildUserUri(_id);
+                else
+                    throw new SQLException("Failed to insert row " + uri);
+                break;
+
+            case TWEET_DIR:
+                _id = db.insert(TwitterContract.Tweet.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = TwitterContract.Tweet.buildTweetUri(_id);
                 else
                     throw new SQLException("Failed to insert row " + uri);
                 break;
@@ -120,6 +162,9 @@ public class TwitoneProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case USER_DIR:
                 update = db.update(TwitterContract.User.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case TWEET_DIR:
+                update = db.update(TwitterContract.Tweet.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown URI " + uri);

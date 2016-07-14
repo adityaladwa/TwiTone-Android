@@ -3,14 +3,20 @@ package com.ladwa.aditya.twitone.mainscreen;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.TwitterRepository;
+import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
+
+import java.util.List;
 
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
+import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 /**
  * A presenter for MainScreen
@@ -40,6 +46,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
         if (!mLogin)
             mView.logout();
         loadUserInfo();
+        loadTimeLine();
     }
 
     @Override
@@ -71,5 +78,32 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                     }
                 });
 
+    }
+
+    @Override
+    public void loadTimeLine() {
+
+
+        mTwitterRepository.getTimeLine()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<Tweet>>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Loaded TimeLine");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "Error :" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<Tweet> tweetList) {
+                        for (Tweet tweet : tweetList) {
+                            Timber.d(tweet.getTweet());
+                        }
+                    }
+                });
     }
 }

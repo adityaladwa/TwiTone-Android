@@ -6,7 +6,11 @@ import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.util.Utility;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -14,6 +18,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
 import timber.log.Timber;
+import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -30,15 +36,17 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
 
     @Inject
     SharedPreferences preferences;
+    long id;
+
 
     private static TwitterRemoteDataSource INSTANCE = null;
 
     private TwitterRemoteDataSource() {
         TwitoneApp.getTwitterComponent().inject(this);
-        long id = preferences.getLong(TwitoneApp.getInstance().getString(R.string.pref_userid), 0);
+        id = preferences.getLong(TwitoneApp.getInstance().getString(R.string.pref_userid), 0);
         String token = preferences.getString(TwitoneApp.getInstance().getString(R.string.pref_access_token), "");
-        String secreat = preferences.getString(TwitoneApp.getInstance().getString(R.string.pref_access_secret), "");
-        AccessToken accessToken = new AccessToken(token, secreat);
+        String secret = preferences.getString(TwitoneApp.getInstance().getString(R.string.pref_access_secret), "");
+        AccessToken accessToken = new AccessToken(token, secret);
         mTwitter.setOAuthAccessToken(accessToken);
     }
 
@@ -82,6 +90,42 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             @Override
             public void call(com.ladwa.aditya.twitone.data.local.models.User user) {
                 TwitterLocalDataStore.saveUserInfo(user);
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<Tweet>> getTimeLine() {
+        final List<Tweet> localTweet = new ArrayList<>();
+        return Observable.create(new Observable.OnSubscribe<List<Tweet>>() {
+            @Override
+            public void call(Subscriber<? super List<Tweet>> subscriber) {
+                try {
+                    ResponseList<Status> homeTimeline = mTwitter.getHomeTimeline();
+
+                    for (Status status : homeTimeline) {
+                        Tweet tweet = new Tweet();
+                        tweet.setTweet(status.getText());
+                        tweet.setId(status.getId());
+                        tweet.setDateCreated(String.valueOf(status.getCreatedAt()));
+                        tweet.setLastModified(Utility.getDateTime());
+                        localTweet.add(tweet);
+
+                    }
+                    subscriber.onNext(localTweet);
+
+
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+            }
+        }).doOnNext(new Action1<List<Tweet>>() {
+            @Override
+            public void call(List<Tweet> tweets) {
+                TwitterLocalDataStore.saveTimeLine(tweets);
             }
         });
     }

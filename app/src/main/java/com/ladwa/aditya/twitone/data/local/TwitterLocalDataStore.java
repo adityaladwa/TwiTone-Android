@@ -5,20 +5,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
+import com.ladwa.aditya.twitone.data.local.models.Tweet;
+import com.ladwa.aditya.twitone.data.local.models.TweetStorIOContentResolverDeleteResolver;
+import com.ladwa.aditya.twitone.data.local.models.TweetStorIOContentResolverGetResolver;
+import com.ladwa.aditya.twitone.data.local.models.TweetStorIOContentResolverPutResolver;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverGetResolver;
 import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverPutResolver;
-import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLiteDeleteResolver;
-import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLiteGetResolver;
-import com.ladwa.aditya.twitone.data.local.models.UserStorIOSQLitePutResolver;
 import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
 import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.queries.Query;
-import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
-import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -37,14 +38,6 @@ public class TwitterLocalDataStore implements TwitterDataStore {
         mTwitterDbHelper = new TwitterDbHelper(context);
         db = mTwitterDbHelper.getWritableDatabase();
 
-        mStorIOSQLite = DefaultStorIOSQLite.builder()
-                .sqliteOpenHelper(mTwitterDbHelper)
-                .addTypeMapping(User.class, SQLiteTypeMapping.<User>builder()
-                        .putResolver(new UserStorIOSQLitePutResolver())
-                        .getResolver(new UserStorIOSQLiteGetResolver())
-                        .deleteResolver(new UserStorIOSQLiteDeleteResolver())
-                        .build())
-                .build();
 
         mStorIOContentResolver = DefaultStorIOContentResolver.builder()
                 .contentResolver(context.getContentResolver())
@@ -52,6 +45,11 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                         .putResolver(new UserStorIOContentResolverPutResolver())
                         .getResolver(new UserStorIOContentResolverGetResolver())
                         .deleteResolver(new UserStorIOContentResolverDeleteResolver())
+                        .build())
+                .addTypeMapping(Tweet.class, ContentResolverTypeMapping.<Tweet>builder()
+                        .putResolver(new TweetStorIOContentResolverPutResolver())
+                        .getResolver(new TweetStorIOContentResolverGetResolver())
+                        .deleteResolver(new TweetStorIOContentResolverDeleteResolver())
                         .build())
                 .build();
     }
@@ -73,10 +71,23 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                 .asRxObservable();
     }
 
+    @Override
+    public Observable<List<Tweet>> getTimeLine() {
+        return mStorIOContentResolver.get()
+                .listOfObjects(Tweet.class)
+                .withQuery(Query.builder().uri(TwitterContract.Tweet.CONTENT_URI).build())
+                .prepare()
+                .asRxObservable();
+    }
+
 
     public static void saveUserInfo(User user) {
         mStorIOContentResolver.put().object(user).prepare().executeAsBlocking();
 
+    }
+
+    public static void saveTimeLine(List<Tweet> tweetList) {
+        mStorIOContentResolver.put().objects(tweetList).prepare().executeAsBlocking();
     }
 
 }

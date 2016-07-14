@@ -18,5 +18,7 @@ public class MainScreenContract {
     interface Presenter extends BasePresenter {
 
         void loadUserInfo();
+
+        void loadTimeLine();
     }
 }

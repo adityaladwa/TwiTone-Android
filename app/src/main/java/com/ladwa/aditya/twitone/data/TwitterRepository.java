@@ -3,9 +3,12 @@ package com.ladwa.aditya.twitone.data;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 import com.ladwa.aditya.twitone.util.Utility;
+
+import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -48,5 +51,19 @@ public class TwitterRepository implements TwitterDataStore {
                         return user != null && Utility.checkProfileDataValidity(user.getLastModified());
                     }
                 });
+    }
+
+    @Override
+    public Observable<List<Tweet>> getTimeLine() {
+//        return Observable
+//                .concat(mLocalDataStore.getTimeLine().first(), mRemoteDataStore.getTimeLine())
+//                .first(new Func1<List<Tweet>, Boolean>() {
+//                    @Override
+//                    public Boolean call(List<Tweet> tweetList) {
+//                        return tweetList != null;
+//                    }
+//                });
+
+        return mRemoteDataStore.getTimeLine();
     }
 }
