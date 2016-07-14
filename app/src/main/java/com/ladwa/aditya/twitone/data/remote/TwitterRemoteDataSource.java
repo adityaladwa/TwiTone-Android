@@ -109,6 +109,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                         tweet.setId(status.getId());
                         tweet.setDateCreated(String.valueOf(status.getCreatedAt()));
                         tweet.setLastModified(Utility.getDateTime());
+                        tweet.setProfileUrl(status.getUser().getOriginalProfileImageURL());
                         localTweet.add(tweet);
 
                     }

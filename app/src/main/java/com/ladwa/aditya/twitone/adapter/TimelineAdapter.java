@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 
@@ -43,6 +45,9 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Tweet tweet = mTweetList.get(position);
         holder.textViewTweet.setText(tweet.getTweet());
+
+        Glide.with(mContext).load(tweet.getProfileUrl()).fitCenter().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.imageViewProfile);
     }
 
     @Override

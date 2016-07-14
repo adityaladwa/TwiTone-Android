@@ -30,6 +30,10 @@ public class Tweet {
     @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_DATE_CREATED)
     String dateCreated;
 
+    @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_PROFILE_URL)
+    @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_PROFILE_URL)
+    String profileUrl;
+
     public Long getId() {
         return id;
     }
@@ -60,5 +64,13 @@ public class Tweet {
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
     }
 }
