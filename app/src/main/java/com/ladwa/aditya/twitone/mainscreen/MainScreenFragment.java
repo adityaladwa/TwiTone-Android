@@ -17,10 +17,12 @@ import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.login.LoginActivity;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import twitter4j.Twitter;
@@ -42,6 +44,9 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
 
     @Inject
     TwitterRepository repository;
+
+    @BindView(R.id.recyclerview_timeline)
+    UltimateRecyclerView recyclerView;
 
     private boolean mLogin;
     private Unbinder unbinder;

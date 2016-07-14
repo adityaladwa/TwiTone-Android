@@ -27,5 +27,9 @@
     <string name="drawer_message">Messages</string>
     <string name="drawer_setting">Settings</string>
     <string name="drawer_logout">Log Out</string>
+    <string name="profile_image">Profile Image</string>
+
+    //Dummy
+    <string name="lorem">At NEDA conclave, I assured all the partners that their participation role in NEDA would be as important as BJP'S.</string>
 
 </resources>

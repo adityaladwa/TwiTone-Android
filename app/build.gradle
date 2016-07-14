@@ -74,6 +74,7 @@ dependencies {
     compile deps.appcompactV7
     compile deps.design
     compile deps.multidex
+    compile deps.cardView
 
     //ButterKnife
     compile deps.butterKnife
@@ -93,7 +94,7 @@ dependencies {
     compile deps.glide
 
     //Ultimate Recycler View
-    compile 'com.hkm.ui:ultimaterecyclerview:0.5.8'
+    compile deps.ultimateRecyclerView
 
     //Stetho
     compile deps.stetho

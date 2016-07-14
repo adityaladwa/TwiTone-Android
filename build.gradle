@@ -67,12 +67,14 @@ ext {
     glideVersion = "3.7.0"
     storIOVersion = "1.9.0"
     stethoVersion = "1.3.1"
+    ultimateRecyclerViewVersion = "0.5.8"
 }
 
 ext.deps = [
         junit                   : "junit:junit:$ext.junitVersion",
         appcompactV7            : "com.android.support:appcompat-v7:$ext.supportLibVersion",
         design                  : "com.android.support:design:$ext.supportLibVersion",
+        cardView                : "com.android.support:cardview-v7:$ext.supportLibVersion",
         rxJava                  : "io.reactivex:rxjava:$ext.rxjavaVersion",
         rxAndroid               : "io.reactivex:rxandroid:$ext.rxAndroidVersion",
         daggerCompiler          : "com.google.dagger:dagger-compiler:$ext.daggerVersion",
@@ -104,7 +106,8 @@ ext.deps = [
         storIOContentAnnotation : "com.pushtorefresh.storio:content-resolver-annotations:$ext.storIOVersion",
         storIOSqlProcessor      : "com.pushtorefresh.storio:sqlite-annotations-processor:$ext.storIOVersion",
         storIOContentProcessor  : "com.pushtorefresh.storio:content-resolver-annotations-processor:$ext.storIOVersion",
-        stetho                  : "com.facebook.stetho:stetho:$ext.stethoVersion"
+        stetho                  : "com.facebook.stetho:stetho:$ext.stethoVersion",
+        ultimateRecyclerView    : "com.hkm.ui:ultimaterecyclerview:$ext.ultimateRecyclerViewVersion"
 
 
 ]

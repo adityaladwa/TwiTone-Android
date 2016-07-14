@@ -9,6 +9,9 @@
     tools:context="com.ladwa.aditya.twitone.mainscreen.MainScreenFragment"
     tools:showIn="@layout/activity_main_screen">
 
-
+    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:id="@+id/recyclerview_timeline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
