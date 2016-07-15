@@ -57,4 +57,16 @@ public class TwitterModule {
         return TwitterRepository.getInstance(TwitterLocalDataStore.getInstance(context), TwitterRemoteDataSource.getInstance());
     }
 
+    @Provides
+    @Singleton
+    TwitterRemoteDataSource providesTwitterRemoteDataSource() {
+        return TwitterRemoteDataSource.getInstance();
+    }
+
+    @Provides
+    @Singleton
+    TwitterLocalDataStore providesTwitterLocalDataStore(Application context) {
+        return TwitterLocalDataStore.getInstance(context);
+    }
+
 }

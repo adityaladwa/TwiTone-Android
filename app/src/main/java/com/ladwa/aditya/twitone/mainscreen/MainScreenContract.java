@@ -25,5 +25,7 @@ public class MainScreenContract {
         void loadUserInfo();
 
         void loadTimeLine();
+
+        void refreshRemoteTimeline();
     }
 }

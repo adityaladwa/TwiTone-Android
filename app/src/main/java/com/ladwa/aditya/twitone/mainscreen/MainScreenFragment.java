@@ -7,7 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.LayoutInflaterCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +23,6 @@ import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.login.LoginActivity;
-import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ import twitter4j.auth.AccessToken;
  * This is the Main Fragment that users will see once they open the app
  * A placeholder fragment containing a simple view.
  */
-public class MainScreenFragment extends Fragment implements MainScreenContract.View {
+public class MainScreenFragment extends Fragment implements MainScreenContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     SharedPreferences preferences;
@@ -54,12 +53,16 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     @BindView(R.id.recyclerview_timeline)
     RecyclerView recyclerView;
 
+    @BindView(R.id.swipeContainer)
+    SwipeRefreshLayout swipeContainer;
+
     private boolean mLogin;
     private Unbinder unbinder;
     private MainScreenContract.Presenter mPresenter;
     private DrawerCallback mDrawerCallback;
     private LinearLayoutManager linearLayoutManager;
     private TimelineAdapter mTimelineAdapter;
+
 
     private List<Tweet> tweets;
 
@@ -96,6 +99,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         tweets = new ArrayList<>();
         mTimelineAdapter = new TimelineAdapter(tweets, getActivity());
         recyclerView.setAdapter(mTimelineAdapter);
+        swipeContainer.setOnRefreshListener(this);
 
 
         return view;
@@ -169,6 +173,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     public void loadTimeline(List<Tweet> tweetList) {
         tweets.addAll(tweetList);
         mTimelineAdapter.notifyDataSetChanged();
+        swipeContainer.setRefreshing(false);
 //        linearLayoutManager.scrollToPosition(50);
 //        linearLayoutManager.smoothScrollToPosition(recyclerView, null, 50);
     }
@@ -177,6 +182,12 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     @Override
     public void setPresenter(MainScreenContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.refreshRemoteTimeline();
+
     }
 
 

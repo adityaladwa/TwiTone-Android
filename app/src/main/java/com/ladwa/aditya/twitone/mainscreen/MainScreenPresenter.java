@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
+import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import java.util.List;
 
@@ -82,6 +83,30 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
 
         mTwitterRepository.getTimeLine()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<Tweet>>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Loaded TimeLine");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "Error :" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<Tweet> tweetList) {
+                        Timber.d(String.valueOf(tweetList.size()));
+                        mView.loadTimeline(tweetList);
+                    }
+                });
+    }
+
+    @Override
+    public void refreshRemoteTimeline() {
+        TwitterRemoteDataSource.getInstance().getTimeLine()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Tweet>>() {
