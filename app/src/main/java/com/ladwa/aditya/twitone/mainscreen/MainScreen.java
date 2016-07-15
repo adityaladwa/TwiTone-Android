@@ -2,6 +2,7 @@ package com.ladwa.aditya.twitone.mainscreen;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -35,6 +37,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

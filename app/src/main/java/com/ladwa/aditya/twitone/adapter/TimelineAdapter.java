@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.List;
 
@@ -27,10 +29,13 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
     private List<Tweet> mTweetList;
     private Context mContext;
+    private IconicsDrawable retweetIcon, favIcon;
 
     public TimelineAdapter(List<Tweet> mTweetList, Context mContext) {
         this.mTweetList = mTweetList;
         this.mContext = mContext;
+        this.retweetIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_retweet);
+        this.favIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_heart);
     }
 
 
@@ -46,9 +51,13 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         Tweet tweet = mTweetList.get(position);
         holder.textViewTweet.setText(tweet.getTweet());
         holder.textViewUserName.setText(tweet.getUserName());
+        holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), tweet.getScreenName()));
 
-        String screenname = String.format(mContext.getString(R.string.user_name), tweet.getScreenName());
-        holder.textViewScreenName.setText(screenname);
+        holder.textViewFavCount.setText(String.valueOf(tweet.getFavCount()));
+        holder.textViewRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
+        holder.imageViewRetweet.setImageDrawable(retweetIcon);
+        holder.imageViewFav.setImageDrawable(favIcon);
+
 
         Glide.with(mContext).load(tweet.getProfileUrl()).fitCenter().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
@@ -77,6 +86,16 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         TextView textViewDate;
         @BindView(R.id.textview_user_name)
         TextView textViewUserName;
+
+        @BindView(R.id.imageview_retweet)
+        ImageView imageViewRetweet;
+
+        @BindView(R.id.imageview_fav)
+        ImageView imageViewFav;
+        @BindView(R.id.textview_retweet_count)
+        TextView textViewRetweetCount;
+        @BindView(R.id.textview_fav_count)
+        TextView textViewFavCount;
 
         public ViewHolder(View itemView) {
             super(itemView);

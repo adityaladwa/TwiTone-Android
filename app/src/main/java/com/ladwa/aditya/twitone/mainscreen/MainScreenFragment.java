@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.login.LoginActivity;
+import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
@@ -71,6 +73,8 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
+
+
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         long id = preferences.getLong(getString(R.string.pref_userid), 0);
         String token = preferences.getString(getString(R.string.pref_access_token), "");
