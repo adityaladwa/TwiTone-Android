@@ -24,6 +24,7 @@ import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.login.LoginActivity;
 import com.squareup.leakcanary.RefWatcher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -85,6 +86,9 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        tweets = new ArrayList<>();
+        mTimelineAdapter = new TimelineAdapter(tweets, getActivity());
+        recyclerView.setAdapter(mTimelineAdapter);
 
 
         return view;
@@ -156,10 +160,10 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
 
     @Override
     public void loadTimeline(List<Tweet> tweetList) {
-        mTimelineAdapter = new TimelineAdapter(tweetList, getActivity());
-        recyclerView.setAdapter(mTimelineAdapter);
+        tweets.addAll(tweetList);
         mTimelineAdapter.notifyDataSetChanged();
-
+        linearLayoutManager.scrollToPosition(50);
+//        linearLayoutManager.smoothScrollToPosition(recyclerView, null, 50);
     }
 
 

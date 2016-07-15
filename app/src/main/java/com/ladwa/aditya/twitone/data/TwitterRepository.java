@@ -55,14 +55,11 @@ public class TwitterRepository implements TwitterDataStore {
 
     @Override
     public Observable<List<Tweet>> getTimeLine() {
-        return Observable
-                .concat(mLocalDataStore.getTimeLine().first(), mRemoteDataStore.getTimeLine())
-                .first(new Func1<List<Tweet>, Boolean>() {
-                    @Override
-                    public Boolean call(List<Tweet> tweetList) {
-                        return tweetList != null;
-                    }
-                });
+//        return Observable
+//                .concat(mLocalDataStore.getTimeLine().first(), mRemoteDataStore.getTimeLine());
+
+        // Send Only the local data
+        return mLocalDataStore.getTimeLine();
 
     }
 }

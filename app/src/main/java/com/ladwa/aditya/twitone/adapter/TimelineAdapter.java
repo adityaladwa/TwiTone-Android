@@ -52,7 +52,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mTweetList.size();
+        if (mTweetList == null)
+            return 0;
+        else return mTweetList.size();
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
