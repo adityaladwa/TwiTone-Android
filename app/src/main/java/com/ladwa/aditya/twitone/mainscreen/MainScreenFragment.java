@@ -173,9 +173,12 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     public void loadTimeline(List<Tweet> tweetList) {
         tweets.addAll(tweetList);
         mTimelineAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void stopRefreshing() {
         swipeContainer.setRefreshing(false);
-//        linearLayoutManager.scrollToPosition(50);
-//        linearLayoutManager.smoothScrollToPosition(recyclerView, null, 50);
     }
 
 

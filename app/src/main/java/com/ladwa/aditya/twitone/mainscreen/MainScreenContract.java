@@ -18,6 +18,8 @@ public class MainScreenContract {
         void loadedUser(com.ladwa.aditya.twitone.data.local.models.User user);
 
         void loadTimeline(List<Tweet> tweetList);
+
+        void stopRefreshing();
     }
 
     interface Presenter extends BasePresenter {

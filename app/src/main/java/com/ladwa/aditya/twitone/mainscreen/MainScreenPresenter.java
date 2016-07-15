@@ -112,12 +112,14 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                 .subscribe(new Subscriber<List<Tweet>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Loaded TimeLine");
+                        Timber.d("Loaded TimeLine from remote");
+                        mView.stopRefreshing();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "Error :" + e.toString());
+                        mView.stopRefreshing();
                     }
 
                     @Override
