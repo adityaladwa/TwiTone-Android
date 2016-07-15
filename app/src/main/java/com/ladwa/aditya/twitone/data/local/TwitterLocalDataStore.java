@@ -75,7 +75,9 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     public Observable<List<Tweet>> getTimeLine() {
         return mStorIOContentResolver.get()
                 .listOfObjects(Tweet.class)
-                .withQuery(Query.builder().uri(TwitterContract.Tweet.CONTENT_URI).build())
+                .withQuery(Query.builder().uri(TwitterContract.Tweet.CONTENT_URI)
+                        .sortOrder(TwitterContract.Tweet.COLUMN_ID + " DESC")
+                        .build())
                 .prepare()
                 .asRxObservable();
     }
