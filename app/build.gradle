@@ -96,6 +96,9 @@ dependencies {
     //Ultimate Recycler View
     compile deps.ultimateRecyclerView
 
+    //Circular Image View
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
+
     //Stetho
     compile deps.stetho
 

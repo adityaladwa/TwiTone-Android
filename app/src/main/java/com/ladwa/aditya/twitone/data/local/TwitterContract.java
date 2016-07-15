@@ -75,6 +75,9 @@ public final class TwitterContract {
         public static final String COLUMN_PROFILE_URL = "profile_url";
         public static final String COLUMN_USER_SCREEN_NAME = "screen_name";
         public static final String COLUMN_USER_NAME = "user_name";
+        public static final String COLUMN_IS_VERIFIED = "verified";
+        public static final String COLUMN_FAV_COUNT = "fav_count";
+        public static final String COLUMN_RETWEET_COUNT = "retweet_count";
 
 
         public static String getTweetCreateQuery() {
@@ -85,6 +88,9 @@ public final class TwitterContract {
                     COLUMN_PROFILE_URL + " TEXT NOT NULL, " +
                     COLUMN_USER_SCREEN_NAME + " TEXT NOT NULL, " +
                     COLUMN_USER_NAME + " TEXT NOT NULL, " +
+                    COLUMN_FAV_COUNT + " INT NOT NULL, " +
+                    COLUMN_RETWEET_COUNT + " INT NOT NULL, " +
+                    COLUMN_IS_VERIFIED + " INT NOT NULL, " +
                     COLUMN_DATE_CREATED + " TEXT NOT NULL);";
         }
 

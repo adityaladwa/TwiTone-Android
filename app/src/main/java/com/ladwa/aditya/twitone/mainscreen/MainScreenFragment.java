@@ -83,7 +83,10 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
 
         //Recycler view
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(linearLayoutManager);
         tweets = new ArrayList<>();

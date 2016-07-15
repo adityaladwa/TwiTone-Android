@@ -53,6 +53,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         Glide.with(mContext).load(tweet.getProfileUrl()).fitCenter().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(holder.imageViewProfile);
+
     }
 
     @Override
@@ -62,6 +63,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         else return mTweetList.size();
 
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

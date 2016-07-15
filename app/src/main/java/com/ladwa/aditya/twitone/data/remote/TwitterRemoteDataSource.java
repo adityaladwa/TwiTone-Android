@@ -113,6 +113,9 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                         tweet.setProfileUrl(status.getUser().getOriginalProfileImageURL());
                         tweet.setScreenName(status.getUser().getScreenName());
                         tweet.setUserName(status.getUser().getName());
+                        tweet.setFavCount(status.getFavoriteCount());
+                        tweet.setRetweetCount(status.getRetweetCount());
+                        tweet.setVerified(status.getUser().isVerified() ? 1 : 0);
 
                         localTweet.add(tweet);
 

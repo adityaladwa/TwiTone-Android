@@ -42,6 +42,18 @@ public class Tweet {
     @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_USER_NAME)
     String userName;
 
+    @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_FAV_COUNT)
+    @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_FAV_COUNT)
+    int favCount;
+
+    @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_IS_VERIFIED)
+    @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_IS_VERIFIED)
+    int verified;
+
+    @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_RETWEET_COUNT)
+    @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_RETWEET_COUNT)
+    int retweetCount;
+
     public Long getId() {
         return id;
     }
@@ -96,5 +108,29 @@ public class Tweet {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public int getFavCount() {
+        return favCount;
+    }
+
+    public void setFavCount(int favCount) {
+        this.favCount = favCount;
+    }
+
+    public int getVerified() {
+        return verified;
+    }
+
+    public void setVerified(int verified) {
+        this.verified = verified;
+    }
+
+    public int getRetweetCount() {
+        return retweetCount;
+    }
+
+    public void setRetweetCount(int retweetCount) {
+        this.retweetCount = retweetCount;
     }
 }
