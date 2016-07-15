@@ -21,19 +21,20 @@
             android:src="@drawable/leak_canary_icon" />
 
         <TextView
+            android:id="@+id/textview_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/imageview_profile_pic"
+            android:text="Name"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/textview_screen_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_toEndOf="@id/imageview_profile_pic"
-            android:text="Name" />
-
-        <TextView
-            android:id="@+id/textView_display_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_toEndOf="@id/textview_screen_name"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/textview_user_name"
             android:text="@string/app_name" />
 
         <TextView
@@ -48,7 +49,7 @@
             android:id="@+id/textview_tweet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textview_screen_name"
+            android:layout_below="@id/textview_user_name"
             android:layout_margin="4dp"
             android:layout_toEndOf="@id/imageview_profile_pic"
             android:text="@string/lorem" />

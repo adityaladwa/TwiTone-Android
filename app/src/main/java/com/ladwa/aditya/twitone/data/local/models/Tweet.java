@@ -34,6 +34,14 @@ public class Tweet {
     @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_PROFILE_URL)
     String profileUrl;
 
+    @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_USER_SCREEN_NAME)
+    @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_USER_SCREEN_NAME)
+    String screenName;
+
+    @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_USER_NAME)
+    @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_USER_NAME)
+    String userName;
+
     public Long getId() {
         return id;
     }
@@ -72,5 +80,21 @@ public class Tweet {
 
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

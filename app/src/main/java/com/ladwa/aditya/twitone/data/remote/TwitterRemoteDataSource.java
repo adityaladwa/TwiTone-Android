@@ -77,6 +77,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     localUser.setBannerUrl(user.getProfileBannerMobileRetinaURL());
                     localUser.setLastModified(Utility.getDateTime());
 
+
                     subscriber.onNext(localUser);
                 } catch (TwitterException e) {
                     e.printStackTrace();
@@ -110,6 +111,9 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                         tweet.setDateCreated(String.valueOf(status.getCreatedAt()));
                         tweet.setLastModified(Utility.getDateTime());
                         tweet.setProfileUrl(status.getUser().getOriginalProfileImageURL());
+                        tweet.setScreenName(status.getUser().getScreenName());
+                        tweet.setUserName(status.getUser().getName());
+
                         localTweet.add(tweet);
 
                     }

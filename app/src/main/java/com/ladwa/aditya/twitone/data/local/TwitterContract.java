@@ -73,6 +73,9 @@ public final class TwitterContract {
         public static final String COLUMN_LAST_MODIFIED = "last_modified";
         public static final String COLUMN_DATE_CREATED = "date_created";
         public static final String COLUMN_PROFILE_URL = "profile_url";
+        public static final String COLUMN_USER_SCREEN_NAME = "screen_name";
+        public static final String COLUMN_USER_NAME = "user_name";
+
 
         public static String getTweetCreateQuery() {
             return "CREATE TABLE " + TABLE_NAME + " (" +
@@ -80,6 +83,8 @@ public final class TwitterContract {
                     COLUMN_TWEET + " TEXT NOT NULL, " +
                     COLUMN_LAST_MODIFIED + " TEXT NOT NULL, " +
                     COLUMN_PROFILE_URL + " TEXT NOT NULL, " +
+                    COLUMN_USER_SCREEN_NAME + " TEXT NOT NULL, " +
+                    COLUMN_USER_NAME + " TEXT NOT NULL, " +
                     COLUMN_DATE_CREATED + " TEXT NOT NULL);";
         }
 

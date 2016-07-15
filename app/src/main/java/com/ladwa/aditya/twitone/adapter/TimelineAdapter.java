@@ -45,15 +45,18 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Tweet tweet = mTweetList.get(position);
         holder.textViewTweet.setText(tweet.getTweet());
+        holder.textViewScreenName.setText(tweet.getScreenName());
+        holder.textViewUserName.setText(tweet.getUserName());
 
         Glide.with(mContext).load(tweet.getProfileUrl()).fitCenter().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
+                .crossFade()
                 .into(holder.imageViewProfile);
     }
 
     @Override
     public int getItemCount() {
-       if(mTweetList == null)
-           return 0;
+        if (mTweetList == null)
+            return 0;
         else return mTweetList.size();
 
     }
@@ -64,6 +67,12 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         ImageView imageViewProfile;
         @BindView(R.id.textview_tweet)
         TextView textViewTweet;
+        @BindView(R.id.textview_screen_name)
+        TextView textViewScreenName;
+        @BindView(R.id.textview_time)
+        TextView textViewDate;
+        @BindView(R.id.textview_user_name)
+        TextView textViewUserName;
 
         public ViewHolder(View itemView) {
             super(itemView);
