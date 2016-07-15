@@ -43,4 +43,5 @@ public class Utility {
         long second = getTimeDifference(date);
         return second < TWO_DAY_IN_SECOND;
     }
+
 }

@@ -99,6 +99,9 @@ dependencies {
     //Circular Image View
     compile 'com.mikhaellopez:circularimageview:3.0.2'
 
+    //Preety Time
+    compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
+
     //Stetho
     compile deps.stetho
 
