@@ -17,7 +17,7 @@
     <string name="log_out">Log Out</string>
     <string name="login_button">Login Button</string>
     <string name="logout_dialog_title">Log Out</string>
-    <string name="logout_dialog_message">Are you sure you want to dialog?</string>
+    <string name="logout_dialog_message">Are you sure you want to Logout?</string>
     <string name="logout_dialog_positive_button">Yes</string>
     <string name="logout_dialog_negative_button">No</string>
 
@@ -28,6 +28,9 @@
     <string name="drawer_setting">Settings</string>
     <string name="drawer_logout">Log Out</string>
     <string name="profile_image">Profile Image</string>
+
+    //Timeline Item
+    <string name="user_name">\@%1$s</string>
 
     //Dummy
     <string name="lorem">At NEDA conclave I assured all the partners that their participation role in NEDA would be as important as BJPS.</string>

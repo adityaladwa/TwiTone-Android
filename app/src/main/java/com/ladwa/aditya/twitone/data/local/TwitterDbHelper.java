@@ -32,4 +32,11 @@ public class TwitterDbHelper extends SQLiteOpenHelper {
         db.execSQL(TwitterContract.Tweet.getTweetDeleteQuery());
         onCreate(db);
     }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(TwitterContract.User.getUserDeleteQuery());
+        db.execSQL(TwitterContract.Tweet.getTweetDeleteQuery());
+        onCreate(db);
+    }
 }

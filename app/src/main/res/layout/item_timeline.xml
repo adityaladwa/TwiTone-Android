@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_toEndOf="@id/textview_user_name"
-            android:text="@string/app_name" />
+            android:text="\@" />
 
         <TextView
             android:id="@+id/textview_time"

@@ -45,8 +45,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Tweet tweet = mTweetList.get(position);
         holder.textViewTweet.setText(tweet.getTweet());
-        holder.textViewScreenName.setText(tweet.getScreenName());
         holder.textViewUserName.setText(tweet.getUserName());
+
+        String screenname = String.format(mContext.getString(R.string.user_name), tweet.getScreenName());
+        holder.textViewScreenName.setText(screenname);
 
         Glide.with(mContext).load(tweet.getProfileUrl()).fitCenter().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
