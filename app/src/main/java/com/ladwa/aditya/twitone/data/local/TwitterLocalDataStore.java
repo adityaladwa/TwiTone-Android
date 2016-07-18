@@ -83,6 +83,11 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     }
 
 
+    public static void createFavourite(Tweet tweet) {
+        mStorIOContentResolver.put().object(tweet).prepare().executeAsBlocking();
+    }
+
+
     public static void saveUserInfo(User user) {
         mStorIOContentResolver.put().object(user).prepare().executeAsBlocking();
 
@@ -91,5 +96,6 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     public static void saveTimeLine(List<Tweet> tweetList) {
         mStorIOContentResolver.put().objects(tweetList).prepare().executeAsBlocking();
     }
+
 
 }

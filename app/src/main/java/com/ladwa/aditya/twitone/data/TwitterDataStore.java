@@ -16,4 +16,5 @@ public interface TwitterDataStore {
     Observable<User> getUserInfo(long userID);
 
     Observable<List<Tweet>> getTimeLine();
+
 }

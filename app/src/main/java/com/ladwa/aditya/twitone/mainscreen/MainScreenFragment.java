@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
@@ -29,8 +27,6 @@ import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.login.LoginActivity;
 import com.ladwa.aditya.twitone.util.Utility;
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
@@ -80,7 +76,7 @@ public class MainScreenFragment extends Fragment
     private boolean tablet;
     private int orientation;
 
-    private List<Tweet> tweets;
+    private List<Tweet> mTweets;
 
     public MainScreenFragment() {
     }
@@ -148,8 +144,8 @@ public class MainScreenFragment extends Fragment
             }
         });
 
-        tweets = new ArrayList<>();
-        mTimelineAdapter = new TimelineAdapter(tweets, getActivity());
+        mTweets = new ArrayList<>();
+        mTimelineAdapter = new TimelineAdapter(mTweets, getActivity());
         mTimelineAdapter.setTimeLineClickListner(this);
         recyclerView.setAdapter(mTimelineAdapter);
         swipeContainer.setOnRefreshListener(this);
@@ -229,7 +225,7 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void loadTimeline(List<Tweet> tweetList) {
-        int oldSize = tweets.size();
+        int oldSize = mTweets.size();
         int newSize = tweetList.size();
         int saveScrollPos = preferences.getInt("Scroll_pos", 0);
 
@@ -241,8 +237,8 @@ public class MainScreenFragment extends Fragment
         }
 
         Timber.d("Final pos = " + String.valueOf(finalPos));
-        tweets.clear();
-        tweets.addAll(tweetList);
+        mTweets.clear();
+        mTweets.addAll(tweetList);
         mTimelineAdapter.notifyDataSetChanged();
         setScrollPos();
     }
@@ -298,6 +294,12 @@ public class MainScreenFragment extends Fragment
         Toast.makeText(getActivity(), "An error occurred", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void createdFavouriteCallback(Tweet tweet) {
+        Toast.makeText(getActivity(), "Favourited", Toast.LENGTH_SHORT).show();
+
+    }
+
 
     @Override
     public void setPresenter(MainScreenContract.Presenter presenter) {
@@ -317,9 +319,9 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void onClickedFavourite(View view, int position) {
-        Toast.makeText(getActivity(), "Clicked fav", Toast.LENGTH_SHORT).show();
-        ((ImageView) view)
-                .setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.YELLOW));
+
+        mPresenter.createFavourite(mTweets.get(position).getId());
+
     }
 
     @Override

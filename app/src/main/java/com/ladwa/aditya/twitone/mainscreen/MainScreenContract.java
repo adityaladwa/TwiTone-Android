@@ -26,6 +26,8 @@ public class MainScreenContract {
         void stopRefreshing();
 
         void showError();
+
+        void createdFavouriteCallback(Tweet tweet);
     }
 
     interface Presenter extends BasePresenter {
@@ -35,6 +37,8 @@ public class MainScreenContract {
         void loadTimeLine();
 
         void refreshRemoteTimeline();
+
+        void createFavourite(long id);
 
 
     }

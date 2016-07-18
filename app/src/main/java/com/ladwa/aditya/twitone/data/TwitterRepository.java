@@ -31,6 +31,10 @@ public class TwitterRepository implements TwitterDataStore {
 
     }
 
+    public TwitterRemoteDataSource getmRemoteDataStore() {
+        return mRemoteDataStore;
+    }
+
     public static TwitterRepository getInstance(TwitterLocalDataStore local, TwitterRemoteDataSource remote) {
         if (INSTANCE == null)
             INSTANCE = new TwitterRepository(local, remote);
