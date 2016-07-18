@@ -176,4 +176,28 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void createRetweet(long id) {
+        mTwitterRepository.getmRemoteDataStore().createRetweet(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<Tweet>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Created Retweet");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showError();
+                        Timber.d(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Tweet tweet) {
+                        mView.createRetweetCallback(tweet);
+                    }
+                });
+    }
 }

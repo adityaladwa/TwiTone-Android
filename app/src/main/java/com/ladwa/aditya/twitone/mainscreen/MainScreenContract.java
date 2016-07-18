@@ -30,6 +30,8 @@ public class MainScreenContract {
         void createdFavouriteCallback(Tweet tweet);
 
         void destroyFavouriteCallback(Tweet tweet);
+
+        void createRetweetCallback(Tweet tweet);
     }
 
     interface Presenter extends BasePresenter {
@@ -44,6 +46,7 @@ public class MainScreenContract {
 
         void unFavourite(long id);
 
+        void createRetweet(long id);
 
     }
 }

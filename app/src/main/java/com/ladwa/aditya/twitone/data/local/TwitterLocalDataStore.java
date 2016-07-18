@@ -87,6 +87,11 @@ public class TwitterLocalDataStore implements TwitterDataStore {
         mStorIOContentResolver.put().object(tweet).prepare().executeAsBlocking();
     }
 
+
+    public static void createRetweet(Tweet tweet) {
+        mStorIOContentResolver.put().object(tweet).prepare().executeAsBlocking();
+    }
+
     public static void destoryFavourite(Tweet tweet) {
         mStorIOContentResolver.put().object(tweet).prepare().executeAsBlocking();
     }

@@ -310,6 +310,12 @@ public class MainScreenFragment extends Fragment
         mPresenter.loadTimeLine();
     }
 
+    @Override
+    public void createRetweetCallback(Tweet tweet) {
+        Toast.makeText(getActivity(), "Retweeted", Toast.LENGTH_SHORT).show();
+        mPresenter.loadTimeLine();
+    }
+
 
     @Override
     public void setPresenter(MainScreenContract.Presenter presenter) {
@@ -343,7 +349,10 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void onClickedRetweet(View view, int position) {
-        Toast.makeText(getActivity(), "Clicked Retweet", Toast.LENGTH_SHORT).show();
+        if (mTweets.get(position).getRetweet() == 0) {
+            mPresenter.createRetweet(mTweets.get(position).getId());
+            ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_retweet).color(Color.BLUE));
+        }
 
     }
 
