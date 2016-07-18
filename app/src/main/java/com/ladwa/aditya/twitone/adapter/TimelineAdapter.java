@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * A Recycler View Adapter for TimeLine of the User
@@ -32,6 +33,12 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     private Context mContext;
     private IconicsDrawable retweetIcon, favIcon;
     private Tweet mTweet;
+    private TimeLineClickListner mTimeLineClickListner;
+
+    public interface TimeLineClickListner {
+        void onItemClick(View view, int position);
+    }
+
 
     public TimelineAdapter(List<Tweet> mTweetList, Context mContext) {
         this.mTweetList = mTweetList;
@@ -68,7 +75,11 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLACK));
 
 
-        Glide.with(mContext).load(mTweet.getProfileUrl()).fitCenter().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(mContext)
+                .load(mTweet.getProfileUrl())
+                .fitCenter()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(holder.imageViewProfile);
 
@@ -83,8 +94,12 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
     }
 
+    public void setTimeLineClickListner(TimeLineClickListner mTimeLineClickListner) {
+        this.mTimeLineClickListner = mTimeLineClickListner;
+        Timber.d("Click listener is set");
+    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.imageview_profile_pic)
         ImageView imageViewProfile;
@@ -107,7 +122,14 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            mTimeLineClickListner.onItemClick(v, getAdapterPosition());
         }
 
 

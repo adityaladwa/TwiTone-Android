@@ -46,7 +46,10 @@ import twitter4j.auth.AccessToken;
  * This is the Main Fragment that users will see once they open the app
  * A placeholder fragment containing a simple view.
  */
-public class MainScreenFragment extends Fragment implements MainScreenContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class MainScreenFragment extends Fragment
+        implements MainScreenContract.View,
+        SwipeRefreshLayout.OnRefreshListener,
+        TimelineAdapter.TimeLineClickListner {
 
     @Inject
     SharedPreferences preferences;
@@ -143,6 +146,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
 
         tweets = new ArrayList<>();
         mTimelineAdapter = new TimelineAdapter(tweets, getActivity());
+        mTimelineAdapter.setTimeLineClickListner(this);
         recyclerView.setAdapter(mTimelineAdapter);
         swipeContainer.setOnRefreshListener(this);
 
@@ -300,6 +304,11 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     public void onRefresh() {
         mPresenter.refreshRemoteTimeline();
 
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(getActivity(), "Clicked at" + position, Toast.LENGTH_SHORT).show();
     }
 
 
