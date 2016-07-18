@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
@@ -27,6 +29,8 @@ import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.login.LoginActivity;
 import com.ladwa.aditya.twitone.util.Utility;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
@@ -308,7 +312,20 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(getActivity(), "Clicked at" + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClickedFavourite(View view, int position) {
+        Toast.makeText(getActivity(), "Clicked fav", Toast.LENGTH_SHORT).show();
+        ((ImageView) view)
+                .setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.YELLOW));
+    }
+
+    @Override
+    public void onClickedRetweet(View view, int position) {
+        Toast.makeText(getActivity(), "Clicked Retweet", Toast.LENGTH_SHORT).show();
+
     }
 
 

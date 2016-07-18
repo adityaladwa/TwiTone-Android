@@ -37,6 +37,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
     public interface TimeLineClickListner {
         void onItemClick(View view, int position);
+
+        void onClickedFavourite(View view, int position);
+
+        void onClickedRetweet(View view, int position);
     }
 
 
@@ -64,15 +68,17 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         holder.textViewFavCount.setText(String.valueOf(mTweet.getFavCount()));
         holder.textViewRetweetCount.setText(String.valueOf(mTweet.getRetweetCount()));
 
-        if (mTweet.getFav() == 1)
+        if (mTweet.getFav() == 1) {
             holder.imageViewFav.setImageDrawable(favIcon.color(Color.YELLOW));
-        else
+        } else {
             holder.imageViewFav.setImageDrawable(favIcon.color(Color.BLACK));
+        }
 
-        if (mTweet.getRetweet() == 1)
+        if (mTweet.getRetweet() == 1) {
             holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLUE));
-        else
+        } else {
             holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLACK));
+        }
 
 
         Glide.with(mContext)
@@ -122,14 +128,28 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+            imageViewFav.setOnClickListener(this);
+            imageViewRetweet.setOnClickListener(this);
         }
 
 
         @Override
         public void onClick(View v) {
-            mTimeLineClickListner.onItemClick(v, getAdapterPosition());
+            switch (v.getId()) {
+                case R.id.imageview_fav:
+                    mTimeLineClickListner.onClickedFavourite(v, getAdapterPosition());
+                    break;
+                case R.id.imageview_retweet:
+                    mTimeLineClickListner.onClickedRetweet(v, getAdapterPosition());
+                    break;
+                default:
+                    mTimeLineClickListner.onItemClick(v, getAdapterPosition());
+
+            }
+
+
         }
 
 
