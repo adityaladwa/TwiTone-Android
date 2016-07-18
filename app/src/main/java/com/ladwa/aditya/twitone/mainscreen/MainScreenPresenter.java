@@ -125,7 +125,6 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                     @Override
                     public void onNext(List<Tweet> tweetList) {
                         Timber.d(String.valueOf(tweetList.size()));
-                        mView.loadTimeline(tweetList);
                     }
                 });
     }

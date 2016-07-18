@@ -12,6 +12,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
+import timber.log.Timber;
 
 /**
  * A Twitter Repository that provides both local and Remote Data store
@@ -57,7 +58,21 @@ public class TwitterRepository implements TwitterDataStore {
     public Observable<List<Tweet>> getTimeLine() {
         return Observable
                 .concat(mLocalDataStore.getTimeLine().first(), mRemoteDataStore.getTimeLine())
-                .first();
+                .first(new Func1<List<Tweet>, Boolean>() {
+                    @Override
+                    public Boolean call(List<Tweet> tweetList) {
+                        if (tweetList == null) {
+                            Timber.d("Null");
+                            return false;
+                        } else {
+                            if (tweetList.size() == 0)
+                                return false;
+                            else {
+                                return true;
+                            }
+                        }
+                    }
+                });
 
         //    Send Only the local data
         //   return mLocalDataStore.getTimeLine();

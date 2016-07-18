@@ -34,6 +34,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import timber.log.Timber;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
 
@@ -64,7 +65,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     private LinearLayoutManager linearLayoutManager;
     private TimelineAdapter mTimelineAdapter;
     private SharedPreferences.Editor editor;
-
+    private int finalPos;
 
     private List<Tweet> tweets;
 
@@ -98,6 +99,19 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    editor = preferences.edit();
+                    editor.putInt("Scroll_pos", linearLayoutManager.findFirstVisibleItemPosition());
+                    editor.apply();
+                }
+            }
+        });
+
         tweets = new ArrayList<>();
         mTimelineAdapter = new TimelineAdapter(tweets, getActivity());
         recyclerView.setAdapter(mTimelineAdapter);
@@ -175,6 +189,19 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
 
     @Override
     public void loadTimeline(List<Tweet> tweetList) {
+        int oldSize = tweets.size();
+        int newSize = tweetList.size();
+        int saveScrollPos = preferences.getInt("Scroll_pos", 0);
+
+
+        if (saveScrollPos > 0) {
+            finalPos = saveScrollPos;
+        } else {
+            finalPos = newSize - oldSize;
+        }
+
+        Timber.d("Final pos = " + String.valueOf(finalPos));
+        tweets.clear();
         tweets.addAll(tweetList);
         mTimelineAdapter.notifyDataSetChanged();
         setScrollPos();
@@ -182,7 +209,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
 
     @Override
     public void setScrollPos() {
-        linearLayoutManager.scrollToPosition(preferences.getInt("Scroll_pos", 0));
+        linearLayoutManager.scrollToPosition(finalPos);
     }
 
     @Override

@@ -88,10 +88,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         TextView textViewDate;
         @BindView(R.id.textview_user_name)
         TextView textViewUserName;
-
         @BindView(R.id.imageview_retweet)
         ImageView imageViewRetweet;
-
         @BindView(R.id.imageview_fav)
         ImageView imageViewFav;
         @BindView(R.id.textview_retweet_count)
