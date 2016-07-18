@@ -59,8 +59,8 @@ public class TwitterRepository implements TwitterDataStore {
                 .concat(mLocalDataStore.getTimeLine().first(), mRemoteDataStore.getTimeLine())
                 .first();
 
-        // Send Only the local data
-//        return mLocalDataStore.getTimeLine();
+        //    Send Only the local data
+        //   return mLocalDataStore.getTimeLine();
 
     }
 }

@@ -80,8 +80,6 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void loadTimeLine() {
-
-
         mTwitterRepository.getTimeLine()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
@@ -114,12 +112,14 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                     public void onCompleted() {
                         Timber.d("Loaded TimeLine from remote");
                         mView.stopRefreshing();
+                        loadTimeLine();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "Error :" + e.toString());
                         mView.stopRefreshing();
+                        mView.showError();
                     }
 
                     @Override

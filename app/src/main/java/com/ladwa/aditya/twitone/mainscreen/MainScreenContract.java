@@ -19,7 +19,11 @@ public class MainScreenContract {
 
         void loadTimeline(List<Tweet> tweetList);
 
+        void setScrollPos();
+
         void stopRefreshing();
+
+        void showError();
     }
 
     interface Presenter extends BasePresenter {
@@ -29,5 +33,7 @@ public class MainScreenContract {
         void loadTimeLine();
 
         void refreshRemoteTimeline();
+
+
     }
 }

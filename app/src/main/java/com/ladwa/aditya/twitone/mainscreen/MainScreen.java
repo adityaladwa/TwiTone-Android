@@ -128,4 +128,5 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         headerResult.updateProfile(profileDrawerItem);
     }
 
+
 }

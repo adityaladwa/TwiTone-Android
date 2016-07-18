@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
@@ -62,6 +63,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     private DrawerCallback mDrawerCallback;
     private LinearLayoutManager linearLayoutManager;
     private TimelineAdapter mTimelineAdapter;
+    private SharedPreferences.Editor editor;
 
 
     private List<Tweet> tweets;
@@ -131,8 +133,10 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     public void onPause() {
         super.onPause();
         mPresenter.unsubscribe();
+        editor = preferences.edit();
+        editor.putInt("Scroll_pos", linearLayoutManager.findFirstVisibleItemPosition());
+        editor.apply();
     }
-
 
     @Override
     public void onDestroy() {
@@ -173,12 +177,22 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     public void loadTimeline(List<Tweet> tweetList) {
         tweets.addAll(tweetList);
         mTimelineAdapter.notifyDataSetChanged();
+        setScrollPos();
+    }
 
+    @Override
+    public void setScrollPos() {
+        linearLayoutManager.scrollToPosition(preferences.getInt("Scroll_pos", 0));
     }
 
     @Override
     public void stopRefreshing() {
         swipeContainer.setRefreshing(false);
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(getActivity(), "An error occurred", Toast.LENGTH_SHORT).show();
     }
 
 
