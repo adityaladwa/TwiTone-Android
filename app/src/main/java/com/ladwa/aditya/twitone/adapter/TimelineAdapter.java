@@ -1,6 +1,7 @@
 package com.ladwa.aditya.twitone.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     private List<Tweet> mTweetList;
     private Context mContext;
     private IconicsDrawable retweetIcon, favIcon;
+    private Tweet mTweet;
 
     public TimelineAdapter(List<Tweet> mTweetList, Context mContext) {
         this.mTweetList = mTweetList;
@@ -48,23 +50,29 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Tweet tweet = mTweetList.get(position);
-        holder.textViewTweet.setText(tweet.getTweet());
-        holder.textViewUserName.setText(tweet.getUserName());
-        holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), tweet.getScreenName()));
+        mTweet = mTweetList.get(position);
+        holder.textViewTweet.setText(mTweet.getTweet());
+        holder.textViewUserName.setText(mTweet.getUserName());
+        holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mTweet.getScreenName()));
+        holder.textViewFavCount.setText(String.valueOf(mTweet.getFavCount()));
+        holder.textViewRetweetCount.setText(String.valueOf(mTweet.getRetweetCount()));
 
-        holder.textViewFavCount.setText(String.valueOf(tweet.getFavCount()));
-        holder.textViewRetweetCount.setText(String.valueOf(tweet.getRetweetCount()));
-        holder.imageViewRetweet.setImageDrawable(retweetIcon);
-        holder.imageViewFav.setImageDrawable(favIcon);
+        if (mTweet.getFav() == 1)
+            holder.imageViewFav.setImageDrawable(favIcon.color(Color.YELLOW));
+        else
+            holder.imageViewFav.setImageDrawable(favIcon.color(Color.BLACK));
+
+        if (mTweet.getRetweet() == 1)
+            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLUE));
+        else
+            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLACK));
 
 
-        Glide.with(mContext).load(tweet.getProfileUrl()).fitCenter().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(mContext).load(mTweet.getProfileUrl()).fitCenter().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(holder.imageViewProfile);
 
     }
-
 
 
     @Override
