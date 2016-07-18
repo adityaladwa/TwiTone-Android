@@ -78,6 +78,8 @@ public final class TwitterContract {
         public static final String COLUMN_IS_VERIFIED = "verified";
         public static final String COLUMN_FAV_COUNT = "fav_count";
         public static final String COLUMN_RETWEET_COUNT = "retweet_count";
+        public static final String COLUMN_FAV = "fav";
+        public static final String COLUMN_RETWEET = "retweet";
 
 
         public static String getTweetCreateQuery() {
@@ -90,6 +92,8 @@ public final class TwitterContract {
                     COLUMN_USER_NAME + " TEXT NOT NULL, " +
                     COLUMN_FAV_COUNT + " INT NOT NULL, " +
                     COLUMN_RETWEET_COUNT + " INT NOT NULL, " +
+                    COLUMN_FAV + " INT NOT NULL, " +
+                    COLUMN_RETWEET + " INT NOT NULL, " +
                     COLUMN_IS_VERIFIED + " INT NOT NULL, " +
                     COLUMN_DATE_CREATED + " TEXT NOT NULL);";
         }

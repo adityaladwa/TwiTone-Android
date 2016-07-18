@@ -54,6 +54,15 @@ public class Tweet {
     @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_RETWEET_COUNT)
     int retweetCount;
 
+
+    @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_FAV)
+    @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_FAV)
+    int fav;
+
+    @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_RETWEET)
+    @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_RETWEET)
+    int retweet;
+
     public Long getId() {
         return id;
     }
@@ -132,5 +141,21 @@ public class Tweet {
 
     public void setRetweetCount(int retweetCount) {
         this.retweetCount = retweetCount;
+    }
+
+    public int getFav() {
+        return fav;
+    }
+
+    public void setFav(int fav) {
+        this.fav = fav;
+    }
+
+    public int getRetweet() {
+        return retweet;
+    }
+
+    public void setRetweet(int retweet) {
+        this.retweet = retweet;
     }
 }
