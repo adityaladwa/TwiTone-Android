@@ -181,5 +181,40 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         });
     }
 
+    public Observable<Tweet> destoryFavourite(final long id) {
+        return Observable.create(new Observable.OnSubscribe<Tweet>() {
+            @Override
+            public void call(Subscriber<? super Tweet> subscriber) {
+                try {
+                    Status status = mTwitter.destroyFavorite(id);
+                    Tweet tweet = new Tweet();
+                    tweet.setTweet(status.getText());
+                    tweet.setId(status.getId());
+                    tweet.setDateCreated(String.valueOf(status.getCreatedAt()));
+                    tweet.setLastModified(Utility.getDateTime());
+                    tweet.setProfileUrl(status.getUser().getOriginalProfileImageURL());
+                    tweet.setScreenName(status.getUser().getScreenName());
+                    tweet.setUserName(status.getUser().getName());
+                    tweet.setFavCount(status.getFavoriteCount());
+                    tweet.setRetweetCount(status.getRetweetCount());
+                    tweet.setVerified(status.getUser().isVerified() ? 1 : 0);
+                    tweet.setFav(status.isFavorited() ? 1 : 0);
+                    tweet.setRetweet(status.isRetweetedByMe() ? 1 : 0);
+
+                    subscriber.onNext(tweet);
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+            }
+        }).doOnNext(new Action1<Tweet>() {
+            @Override
+            public void call(Tweet tweet) {
+                TwitterLocalDataStore.destoryFavourite(tweet);
+            }
+        });
+    }
 
 }

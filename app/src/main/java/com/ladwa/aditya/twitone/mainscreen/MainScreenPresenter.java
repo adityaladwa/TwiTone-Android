@@ -152,4 +152,28 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void unFavourite(long id) {
+        mTwitterRepository.getmRemoteDataStore().destoryFavourite(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<Tweet>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Destoryed Favourite");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showError();
+                        Timber.d(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Tweet tweet) {
+                        mView.destroyFavouriteCallback(tweet);
+                    }
+                });
+    }
 }
