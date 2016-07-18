@@ -21,6 +21,8 @@ public class MainScreenContract {
 
         void setScrollPos();
 
+        void saveScrollPosition();
+
         void stopRefreshing();
 
         void showError();

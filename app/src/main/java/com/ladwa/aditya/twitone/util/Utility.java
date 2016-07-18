@@ -1,5 +1,8 @@
 package com.ladwa.aditya.twitone.util;
 
+import android.content.Context;
+import android.content.res.Configuration;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,4 +47,9 @@ public class Utility {
         return second < TWO_DAY_IN_SECOND;
     }
 
+    public static boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
+    }
 }

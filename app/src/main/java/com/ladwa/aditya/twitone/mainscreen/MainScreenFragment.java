@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.mainscreen;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.login.LoginActivity;
+import com.ladwa.aditya.twitone.util.Utility;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
@@ -63,9 +66,12 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     private MainScreenContract.Presenter mPresenter;
     private DrawerCallback mDrawerCallback;
     private LinearLayoutManager linearLayoutManager;
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
     private TimelineAdapter mTimelineAdapter;
     private SharedPreferences.Editor editor;
     private int finalPos;
+    private boolean tablet;
+    private int orientation;
 
     private List<Tweet> tweets;
 
@@ -80,34 +86,57 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
 
+        //Check if tablet or phone
+        tablet = Utility.isTablet(getActivity());
 
+
+        //Shared Preferences
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         long id = preferences.getLong(getString(R.string.pref_userid), 0);
         String token = preferences.getString(getString(R.string.pref_access_token), "");
         String secret = preferences.getString(getString(R.string.pref_access_secret), "");
+
+        //Create instance of presenter
         AccessToken accessToken = new AccessToken(token, secret);
         mTwitter.setOAuthAccessToken(accessToken);
         new MainScreenPresenter(this, mLogin, id, mTwitter, repository);
 
         TwitterLocalDataStore.getInstance(getActivity());
 
+        Configuration config = getActivity().getResources().getConfiguration();
+        orientation = config.orientation;
+
         //Recycler view
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+        if (tablet && orientation == Configuration.ORIENTATION_PORTRAIT)
+            staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+        else if (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE)
+            staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, 1);
+        else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE)
+            staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+        else
+            linearLayoutManager = new LinearLayoutManager(getActivity());
+
+
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setHasFixedSize(false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+
+        if (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT)
+            recyclerView.setLayoutManager(linearLayoutManager);
+        else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE)
+            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        else if (tablet)
+            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    editor = preferences.edit();
-                    editor.putInt("Scroll_pos", linearLayoutManager.findFirstVisibleItemPosition());
-                    editor.apply();
+                    saveScrollPosition();
                 }
             }
         });
@@ -117,6 +146,11 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
         recyclerView.setAdapter(mTimelineAdapter);
         swipeContainer.setOnRefreshListener(this);
 
+
+        if (tablet)
+            Timber.d("Tablet");
+        else
+            Timber.d("Phone");
 
         return view;
     }
@@ -147,9 +181,7 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
     public void onPause() {
         super.onPause();
         mPresenter.unsubscribe();
-        editor = preferences.edit();
-        editor.putInt("Scroll_pos", linearLayoutManager.findFirstVisibleItemPosition());
-        editor.apply();
+        saveScrollPosition();
     }
 
     @Override
@@ -209,12 +241,48 @@ public class MainScreenFragment extends Fragment implements MainScreenContract.V
 
     @Override
     public void setScrollPos() {
-        linearLayoutManager.scrollToPosition(finalPos);
+
+        if (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT) {
+            linearLayoutManager.scrollToPosition(finalPos + 10);
+            linearLayoutManager.scrollToPosition(finalPos);
+        } else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            staggeredGridLayoutManager.scrollToPosition(finalPos + 10);
+            staggeredGridLayoutManager.scrollToPosition(finalPos);
+        } else if (tablet) {
+            staggeredGridLayoutManager.scrollToPosition(finalPos);
+            staggeredGridLayoutManager.scrollToPosition(finalPos + 10);
+        }
+    }
+
+    @Override
+    public void saveScrollPosition() {
+        int pos = 0;
+        int[] position = new int[2];
+
+        if (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT)
+            pos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+        else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
+            Timber.d("Scroll pos= " + position[0]);
+        } else if (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position = new int[3];
+            pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
+            Timber.d("Scroll pos= " + position[0]);
+        } else if (tablet && orientation == Configuration.ORIENTATION_PORTRAIT) {
+            pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
+            Timber.d("Scroll pos asd= " + position[0]);
+        }
+
+
+        editor = preferences.edit();
+        editor.putInt("Scroll_pos", pos);
+        editor.apply();
     }
 
     @Override
     public void stopRefreshing() {
-        swipeContainer.setRefreshing(false);
+        if (swipeContainer != null)
+            swipeContainer.setRefreshing(false);
     }
 
     @Override
