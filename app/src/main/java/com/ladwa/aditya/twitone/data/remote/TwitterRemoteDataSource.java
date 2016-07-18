@@ -18,6 +18,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
 import timber.log.Timber;
+import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -102,7 +103,10 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             @Override
             public void call(Subscriber<? super List<Tweet>> subscriber) {
                 try {
-                    ResponseList<Status> homeTimeline = mTwitter.getHomeTimeline();
+
+                    Paging p = new Paging();
+                    p.setCount(100);
+                    ResponseList<Status> homeTimeline = mTwitter.getHomeTimeline(p);
 
                     for (Status status : homeTimeline) {
                         Tweet tweet = new Tweet();
