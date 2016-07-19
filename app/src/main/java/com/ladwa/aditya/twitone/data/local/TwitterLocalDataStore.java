@@ -72,7 +72,7 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     }
 
     @Override
-    public Observable<List<Tweet>> getTimeLine() {
+    public Observable<List<Tweet>> getTimeLine(long sinceId) {
         return mStorIOContentResolver.get()
                 .listOfObjects(Tweet.class)
                 .withQuery(Query.builder().uri(TwitterContract.Tweet.CONTENT_URI)
@@ -82,9 +82,23 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                 .asRxObservable();
     }
 
+    public static long getLastTweetId() {
+        Tweet tweet = mStorIOContentResolver.get().object(Tweet.class)
+                .withQuery(Query.builder().uri(TwitterContract.Tweet.CONTENT_URI)
+                        .sortOrder(TwitterContract.Tweet.COLUMN_ID + " DESC LIMIT 1")
+                        .build())
+                .prepare()
+                .executeAsBlocking();
+
+        if (tweet == null)
+            return 1;
+        else
+            return tweet.getId();
+    }
 
     public static void createFavourite(Tweet tweet) {
         mStorIOContentResolver.put().object(tweet).prepare().executeAsBlocking();
+
     }
 
 

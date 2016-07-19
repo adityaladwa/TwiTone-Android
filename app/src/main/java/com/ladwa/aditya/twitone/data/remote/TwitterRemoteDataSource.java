@@ -97,7 +97,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
     }
 
     @Override
-    public Observable<List<Tweet>> getTimeLine() {
+    public Observable<List<Tweet>> getTimeLine(final long sinceId) {
         final List<Tweet> localTweet = new ArrayList<>();
         return Observable.create(new Observable.OnSubscribe<List<Tweet>>() {
             @Override
@@ -106,6 +106,8 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
 
                     Paging p = new Paging();
                     p.setCount(100);
+                    if (sinceId > 1)
+                        p.setSinceId(sinceId);
                     ResponseList<Status> homeTimeline = mTwitter.getHomeTimeline(p);
 
 

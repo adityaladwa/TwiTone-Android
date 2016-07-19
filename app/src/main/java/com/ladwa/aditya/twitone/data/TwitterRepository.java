@@ -59,9 +59,9 @@ public class TwitterRepository implements TwitterDataStore {
     }
 
     @Override
-    public Observable<List<Tweet>> getTimeLine() {
+    public Observable<List<Tweet>> getTimeLine(long sinceId) {
         return Observable
-                .concat(mLocalDataStore.getTimeLine().first(), mRemoteDataStore.getTimeLine())
+                .concat(mLocalDataStore.getTimeLine(sinceId).first(), mRemoteDataStore.getTimeLine(sinceId))
                 .first(new Func1<List<Tweet>, Boolean>() {
                     @Override
                     public Boolean call(List<Tweet> tweetList) {

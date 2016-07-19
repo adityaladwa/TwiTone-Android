@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.mainscreen;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.TwitterRepository;
+import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
@@ -82,7 +83,8 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void loadTimeLine() {
-        mTwitterRepository.getTimeLine()
+
+        mTwitterRepository.getTimeLine(TwitterLocalDataStore.getLastTweetId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Tweet>>() {
@@ -106,13 +108,12 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void refreshRemoteTimeline() {
-        TwitterRemoteDataSource.getInstance().getTimeLine()
+        TwitterRemoteDataSource.getInstance().getTimeLine(TwitterLocalDataStore.getLastTweetId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Tweet>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Loaded TimeLine from remote");
                         mView.stopRefreshing();
                         loadTimeLine();
                     }
@@ -126,7 +127,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
                     @Override
                     public void onNext(List<Tweet> tweetList) {
-                        Timber.d(String.valueOf(tweetList.size()));
+                        Timber.d("Loaded TimeLine from remote =" + String.valueOf(tweetList.size()));
                     }
                 });
     }
