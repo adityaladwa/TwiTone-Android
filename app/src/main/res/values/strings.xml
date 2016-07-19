@@ -34,5 +34,6 @@
 
     //Dummy
     <string name="lorem">At NEDA conclave I assured all the partners that their participation role in NEDA would be as important as BJPS.</string>
+    <string name="title_activity_interactions">Interactions</string>
 
 </resources>
