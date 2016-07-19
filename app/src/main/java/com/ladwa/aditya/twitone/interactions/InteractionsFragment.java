@@ -40,6 +40,7 @@ import twitter4j.auth.AccessToken;
  */
 public class InteractionsFragment extends Fragment implements InteractionsContract.View,
         SwipeRefreshLayout.OnRefreshListener,
+        InteractionAdapter.InteractionClickListener,
         ConnectionReceiver.ConnectionReceiverListener {
 
     @Inject
@@ -266,5 +267,41 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
             if (swipeContainer != null)
                 swipeContainer.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void createdFavouriteCallback(Interaction interaction) {
+
+    }
+
+    @Override
+    public void destroyFavouriteCallback(Interaction interaction) {
+
+    }
+
+    @Override
+    public void createRetweetCallback(Interaction interaction) {
+
+    }
+
+
+    @Override
+    public void onItemClick(View view, int position) {
+
+    }
+
+    @Override
+    public void onClickedFavourite(View view, int position) {
+
+    }
+
+    @Override
+    public void onClickedRetweet(View view, int position) {
+
+    }
+
+    @Override
+    public void onLongClick(View view, int position) {
+
     }
 }

@@ -22,6 +22,12 @@ public class InteractionsContract {
         void showError();
 
         void saveScrollPosition();
+
+        void createdFavouriteCallback(Interaction interaction);
+
+        void destroyFavouriteCallback(Interaction interaction);
+
+        void createRetweetCallback(Interaction interaction);
     }
 
     interface Presenter extends BasePresenter {

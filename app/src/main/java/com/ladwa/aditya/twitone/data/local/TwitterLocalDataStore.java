@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
+import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverDeleteResolver;
+import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverGetResolver;
+import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverPutResolver;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.TweetStorIOContentResolverDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.TweetStorIOContentResolverGetResolver;
@@ -51,6 +54,11 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                         .putResolver(new TweetStorIOContentResolverPutResolver())
                         .getResolver(new TweetStorIOContentResolverGetResolver())
                         .deleteResolver(new TweetStorIOContentResolverDeleteResolver())
+                        .build())
+                .addTypeMapping(Interaction.class, ContentResolverTypeMapping.<Interaction>builder()
+                        .putResolver(new InteractionStorIOContentResolverPutResolver())
+                        .getResolver(new InteractionStorIOContentResolverGetResolver())
+                        .deleteResolver(new InteractionStorIOContentResolverDeleteResolver())
                         .build())
                 .build();
     }
