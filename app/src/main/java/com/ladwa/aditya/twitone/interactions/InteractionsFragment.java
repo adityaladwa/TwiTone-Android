@@ -21,6 +21,7 @@ import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +144,7 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
 
         mInteractions = new ArrayList<>();
         mInteractionAdapter = new InteractionAdapter(mInteractions, getActivity());
-//        mInteractionAdapter.setTimeLineClickListner(this);
+        mInteractionAdapter.setmInteractionClickListener(this);
         recyclerView.setAdapter(mInteractionAdapter);
         swipeContainer.setOnRefreshListener(this);
 
@@ -172,12 +173,15 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
     public void onPause() {
         super.onPause();
         mPresenter.unsubscribe();
+        saveScrollPosition();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        RefWatcher refWatcher = TwitoneApp.getRefWatcher();
+        refWatcher.watch(this);
     }
 
     @Override
@@ -189,7 +193,7 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
     public void loadInteractions(List<Interaction> interactionList) {
         int oldSize = mInteractions.size();
         int newSize = interactionList.size();
-        int saveScrollPos = preferences.getInt("Scroll_pos", 0);
+        int saveScrollPos = preferences.getInt(getString(R.string.pref_scroll_pos_interaction), 0);
 
 
         if (saveScrollPos > 0) {
