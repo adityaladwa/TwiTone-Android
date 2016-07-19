@@ -305,4 +305,115 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             }
         });
     }
+
+
+    //For Interactons
+    public Observable<Interaction> createFavouriteInteraction(final long id) {
+        return Observable.create(new Observable.OnSubscribe<Interaction>() {
+            @Override
+            public void call(Subscriber<? super Interaction> subscriber) {
+                try {
+                    Status status = mTwitter.createFavorite(id);
+                    Interaction interaction = new Interaction();
+                    interaction.setTweet(status.getText());
+                    interaction.setId(status.getId());
+                    interaction.setDateCreated(String.valueOf(status.getCreatedAt()));
+                    interaction.setLastModified(Utility.getDateTime());
+                    interaction.setProfileUrl(status.getUser().getOriginalProfileImageURL());
+                    interaction.setScreenName(status.getUser().getScreenName());
+                    interaction.setUserName(status.getUser().getName());
+                    interaction.setFavCount(status.getFavoriteCount());
+                    interaction.setRetweetCount(status.getRetweetCount());
+                    interaction.setVerified(status.getUser().isVerified() ? 1 : 0);
+                    interaction.setFav(status.isFavorited() ? 1 : 0);
+                    interaction.setRetweet(status.isRetweetedByMe() ? 1 : 0);
+
+                    subscriber.onNext(interaction);
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+            }
+        }).doOnNext(new Action1<Interaction>() {
+            @Override
+            public void call(Interaction interaction) {
+                TwitterLocalDataStore.createFavouriteInteraction(interaction);
+            }
+        });
+    }
+
+    public Observable<Interaction> destoryFavouriteInteraction(final long id) {
+        return Observable.create(new Observable.OnSubscribe<Interaction>() {
+            @Override
+            public void call(Subscriber<? super Interaction> subscriber) {
+                try {
+                    Status status = mTwitter.destroyFavorite(id);
+                    Interaction interaction = new Interaction();
+                    interaction.setTweet(status.getText());
+                    interaction.setId(status.getId());
+                    interaction.setDateCreated(String.valueOf(status.getCreatedAt()));
+                    interaction.setLastModified(Utility.getDateTime());
+                    interaction.setProfileUrl(status.getUser().getOriginalProfileImageURL());
+                    interaction.setScreenName(status.getUser().getScreenName());
+                    interaction.setUserName(status.getUser().getName());
+                    interaction.setFavCount(status.getFavoriteCount());
+                    interaction.setRetweetCount(status.getRetweetCount());
+                    interaction.setVerified(status.getUser().isVerified() ? 1 : 0);
+                    interaction.setFav(status.isFavorited() ? 1 : 0);
+                    interaction.setRetweet(status.isRetweetedByMe() ? 1 : 0);
+
+                    subscriber.onNext(interaction);
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+            }
+        }).doOnNext(new Action1<Interaction>() {
+            @Override
+            public void call(Interaction interaction) {
+                TwitterLocalDataStore.destoryFavouriteInteraction(interaction);
+            }
+        });
+    }
+
+
+    public Observable<Interaction> createRetweetInteraction(final long id) {
+        return Observable.create(new Observable.OnSubscribe<Interaction>() {
+            @Override
+            public void call(Subscriber<? super Interaction> subscriber) {
+                try {
+                    Status status = mTwitter.retweetStatus(id);
+                    Interaction interaction = new Interaction();
+                    interaction.setTweet(status.getText());
+                    interaction.setId(status.getId());
+                    interaction.setDateCreated(String.valueOf(status.getCreatedAt()));
+                    interaction.setLastModified(Utility.getDateTime());
+                    interaction.setProfileUrl(status.getUser().getOriginalProfileImageURL());
+                    interaction.setScreenName(status.getUser().getScreenName());
+                    interaction.setUserName(status.getUser().getName());
+                    interaction.setFavCount(status.getFavoriteCount());
+                    interaction.setRetweetCount(status.getRetweetCount());
+                    interaction.setVerified(status.getUser().isVerified() ? 1 : 0);
+                    interaction.setFav(status.isFavorited() ? 1 : 0);
+                    interaction.setRetweet(status.isRetweetedByMe() ? 1 : 0);
+
+                    subscriber.onNext(interaction);
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+            }
+        }).doOnNext(new Action1<Interaction>() {
+            @Override
+            public void call(Interaction interaction) {
+                TwitterLocalDataStore.createRetweetInteraction(interaction);
+            }
+        });
+    }
 }

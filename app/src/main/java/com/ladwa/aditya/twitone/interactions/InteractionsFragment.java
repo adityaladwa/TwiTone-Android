@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
@@ -25,6 +27,8 @@ import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
@@ -311,7 +315,15 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
 
     @Override
     public void onClickedRetweet(View view, int position) {
-
+        if (internet) {
+            if (mInteractions.get(position).getRetweet() == 0) {
+                mPresenter.createRetweet(mInteractions.get(position).getId());
+                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_retweet).color(Color.BLUE));
+            }
+        } else {
+            Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)
+                    .show();
+        }
     }
 
     @Override

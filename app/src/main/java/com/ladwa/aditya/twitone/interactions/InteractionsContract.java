@@ -35,5 +35,11 @@ public class InteractionsContract {
         void loadInteractions();
 
         void refreshRemoteInteraction();
+
+        void createFavourite(long id);
+
+        void unFavourite(long id);
+
+        void createRetweet(long id);
     }
 }

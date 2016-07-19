@@ -103,4 +103,19 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
                 });
 
     }
+
+    @Override
+    public void createFavourite(long id) {
+
+    }
+
+    @Override
+    public void unFavourite(long id) {
+
+    }
+
+    @Override
+    public void createRetweet(long id) {
+
+    }
 }
