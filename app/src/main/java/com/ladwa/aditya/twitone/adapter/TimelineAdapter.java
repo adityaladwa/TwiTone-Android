@@ -75,7 +75,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         holder.textViewRetweetCount.setText(String.valueOf(mTweet.getRetweetCount()));
 
         if (mTweet.getFav() == 1) {
-            holder.imageViewFav.setImageDrawable(favIcon.color(Color.YELLOW));
+            holder.imageViewFav.setImageDrawable(favIcon.color(Color.RED));
         } else {
             holder.imageViewFav.setImageDrawable(favIcon.color(Color.GRAY));
         }

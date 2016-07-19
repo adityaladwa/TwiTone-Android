@@ -367,7 +367,7 @@ public class MainScreenFragment extends Fragment
         if (internet) {
             if (mTweets.get(position).getFav() == 0) {
                 mPresenter.createFavourite(mTweets.get(position).getId());
-                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.YELLOW));
+                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.RED));
             } else {
                 mPresenter.unFavourite(mTweets.get(position).getId());
                 ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.GRAY));
