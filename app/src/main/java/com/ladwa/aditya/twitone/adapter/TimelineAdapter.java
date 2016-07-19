@@ -77,13 +77,13 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         if (mTweet.getFav() == 1) {
             holder.imageViewFav.setImageDrawable(favIcon.color(Color.YELLOW));
         } else {
-            holder.imageViewFav.setImageDrawable(favIcon.color(Color.BLACK));
+            holder.imageViewFav.setImageDrawable(favIcon.color(Color.GRAY));
         }
 
         if (mTweet.getRetweet() == 1) {
             holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLUE));
         } else {
-            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLACK));
+            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.GRAY));
         }
 
 

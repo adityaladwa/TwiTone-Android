@@ -84,13 +84,12 @@
 
         <TextView
             android:id="@+id/textview_retweet_count"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textview_tweet"
             android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/imageview_retweet"
             android:fontFamily="sans-serif-smallcaps"
             android:text="20"
@@ -98,13 +97,12 @@
 
         <ImageView
             android:id="@+id/imageview_fav"
-
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_below="@+id/textview_tweet"
             android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:layout_toEndOf="@id/textview_retweet_count"
             android:src="@drawable/retweet" />
 
@@ -115,7 +113,7 @@
             android:layout_below="@+id/textview_tweet"
             android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/imageview_fav"
             android:fontFamily="sans-serif-smallcaps"
             android:text="20"

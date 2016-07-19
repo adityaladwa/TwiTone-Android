@@ -370,7 +370,7 @@ public class MainScreenFragment extends Fragment
                 ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.YELLOW));
             } else {
                 mPresenter.unFavourite(mTweets.get(position).getId());
-                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.BLACK));
+                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.GRAY));
 
             }
         } else {
