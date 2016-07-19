@@ -64,6 +64,7 @@ android {
             minSdkVersion rootProject.ext.minSdkVersion
         }
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 /* Dependency version are defined in top level build.gradle file.This helps keeping track of all versions in s single place. This helps

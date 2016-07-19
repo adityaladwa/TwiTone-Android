@@ -57,7 +57,7 @@ import twitter4j.auth.AccessToken;
 public class MainScreenFragment extends Fragment
         implements MainScreenContract.View,
         SwipeRefreshLayout.OnRefreshListener,
-        TimelineAdapter.TimeLineClickListner,
+        TimelineAdapter.TimeLineClickListener,
         ConnectionReceiver.ConnectionReceiverListener {
 
     @Inject

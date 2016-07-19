@@ -5,4 +5,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="profile_pic_size">65dp</dimen>
     <dimen name="margine_profile_pic">4dp</dimen>
+    <dimen name="timeline_top_margin">10dp</dimen>
+    <dimen name="timeline_bottom_margin">10dp</dimen>
+    <dimen name="timeline_tweet_text_start_margin">10dp</dimen>
 </resources>

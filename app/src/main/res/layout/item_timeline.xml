@@ -15,6 +15,7 @@
             android:id="@+id/imageview_profile_pic"
             android:layout_width="@dimen/profile_pic_size"
             android:layout_height="@dimen/profile_pic_size"
+            android:layout_marginTop="@dimen/timeline_top_margin"
             android:contentDescription="@string/profile_image"
             android:src="@drawable/leak_canary_icon"
             app:civ_border_color="@color/colorAccent"
@@ -27,8 +28,10 @@
             android:id="@+id/textview_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/timeline_top_margin"
             android:layout_toEndOf="@id/imageview_profile_pic"
+            android:fontFamily="sans-serif-smallcaps"
             android:text="Name"
             android:textStyle="bold" />
 
@@ -37,7 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="@dimen/timeline_top_margin"
             android:layout_toEndOf="@id/textview_user_name"
+            android:fontFamily="sans-serif-smallcaps"
             android:text="\@" />
 
         <TextView
@@ -46,6 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="4dp"
+            android:layout_marginTop="@dimen/timeline_top_margin"
+            android:fontFamily="sans-serif-smallcaps"
             android:text="15h" />
 
         <TextView
@@ -53,8 +60,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textview_user_name"
-            android:layout_margin="4dp"
+            android:layout_marginStart="@dimen/timeline_tweet_text_start_margin"
+            android:layout_marginTop="@dimen/timeline_top_margin"
             android:layout_toEndOf="@id/imageview_profile_pic"
+            android:fontFamily="sans-serif"
             android:text="@string/lorem" />
 
         <ImageView
@@ -63,6 +72,7 @@
             android:layout_height="25dp"
             android:layout_alignStart="@+id/textview_tweet"
             android:layout_below="@+id/textview_tweet"
+            android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginTop="10dp"
             android:maxHeight="20dp"
             android:maxWidth="20dp"
@@ -71,20 +81,25 @@
 
         <TextView
             android:id="@+id/textview_retweet_count"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textview_tweet"
+            android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@id/imageview_retweet"
+            android:fontFamily="sans-serif-smallcaps"
             android:text="20"
-            android:textSize="25dp" />
+            android:textSize="25sp" />
 
         <ImageView
             android:id="@+id/imageview_fav"
+
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_below="@+id/textview_tweet"
+            android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/textview_retweet_count"
@@ -95,9 +110,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textview_tweet"
+            android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@id/imageview_fav"
+            android:fontFamily="sans-serif-smallcaps"
             android:text="20"
             android:textSize="25dp" />
     </RelativeLayout>

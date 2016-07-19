@@ -2,6 +2,7 @@ package com.ladwa.aditya.twitone.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +34,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     private Context mContext;
     private IconicsDrawable retweetIcon, favIcon;
     private Tweet mTweet;
-    private TimeLineClickListner mTimeLineClickListner;
+    private TimeLineClickListener mTimeLineClickListener;
+    private Typeface mCustomeFont;
 
-    public interface TimeLineClickListner {
+    public interface TimeLineClickListener {
         void onItemClick(View view, int position);
 
         void onClickedFavourite(View view, int position);
@@ -49,6 +51,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         this.mContext = mContext;
         this.retweetIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_retweet);
         this.favIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_heart);
+        mCustomeFont = Typeface.createFromAsset(mContext.getAssets(), "fonts/roboto-mono-regular.ttf");
     }
 
 
@@ -62,7 +65,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         mTweet = mTweetList.get(position);
+
         holder.textViewTweet.setText(mTweet.getTweet());
+//        holder.textViewTweet.setTypeface(mCustomeFont);
+
         holder.textViewUserName.setText(mTweet.getUserName());
         holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mTweet.getScreenName()));
         holder.textViewFavCount.setText(String.valueOf(mTweet.getFavCount()));
@@ -100,8 +106,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
     }
 
-    public void setTimeLineClickListner(TimeLineClickListner mTimeLineClickListner) {
-        this.mTimeLineClickListner = mTimeLineClickListner;
+    public void setTimeLineClickListner(TimeLineClickListener mTimeLineClickListener) {
+        this.mTimeLineClickListener = mTimeLineClickListener;
         Timber.d("Click listener is set");
     }
 
@@ -139,13 +145,13 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.imageview_fav:
-                    mTimeLineClickListner.onClickedFavourite(v, getAdapterPosition());
+                    mTimeLineClickListener.onClickedFavourite(v, getAdapterPosition());
                     break;
                 case R.id.imageview_retweet:
-                    mTimeLineClickListner.onClickedRetweet(v, getAdapterPosition());
+                    mTimeLineClickListener.onClickedRetweet(v, getAdapterPosition());
                     break;
                 default:
-                    mTimeLineClickListner.onItemClick(v, getAdapterPosition());
+                    mTimeLineClickListener.onItemClick(v, getAdapterPosition());
 
             }
 
