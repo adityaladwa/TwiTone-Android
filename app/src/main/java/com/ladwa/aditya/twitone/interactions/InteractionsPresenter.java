@@ -106,16 +106,78 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
 
     @Override
     public void createFavourite(long id) {
+        mTwitterRepository.getmRemoteDataStore().createFavouriteInteraction(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<Interaction>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Created Favourite");
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showError();
+                        Timber.d(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Interaction interaction) {
+                        mView.createdFavouriteCallback(interaction);
+                    }
+                });
     }
 
     @Override
     public void unFavourite(long id) {
+        mTwitterRepository.getmRemoteDataStore().destoryFavouriteInteraction(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<Interaction>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Destoryed Favourite");
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showError();
+                        Timber.d(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Interaction interaction) {
+                        mView.destroyFavouriteCallback(interaction);
+                    }
+                });
     }
 
     @Override
     public void createRetweet(long id) {
+        mTwitterRepository.getmRemoteDataStore().createRetweetInteraction(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<Interaction>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Created Retweet");
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showError();
+                        Timber.d(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Interaction interaction) {
+                        mView.createRetweetCallback(interaction);
+
+                    }
+                });
+
 
     }
 }
