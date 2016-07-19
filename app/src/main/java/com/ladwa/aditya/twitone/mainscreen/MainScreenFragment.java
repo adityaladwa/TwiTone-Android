@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
@@ -32,7 +31,6 @@ import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.login.LoginActivity;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
-import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.leakcanary.RefWatcher;
@@ -359,7 +357,7 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+        //Start detail tweet view activity
     }
 
     @Override
