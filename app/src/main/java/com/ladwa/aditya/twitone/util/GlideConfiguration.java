@@ -1,5 +1,6 @@
 package com.ladwa.aditya.twitone.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
 
 import com.bumptech.glide.Glide;
@@ -16,7 +17,11 @@ public class GlideConfiguration implements GlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
         // Apply options to the builder here.
-        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
+
+        ActivityManager activityManager =
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        builder.setDecodeFormat(activityManager.isLowRamDevice() ?
+                DecodeFormat.PREFER_RGB_565 : DecodeFormat.PREFER_ARGB_8888);
     }
 
     @Override

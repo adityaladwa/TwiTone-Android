@@ -32,6 +32,7 @@ import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.login.LoginActivity;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
+import com.marshalchen.ultimaterecyclerview.ui.DividerItemDecoration;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.leakcanary.RefWatcher;
@@ -137,6 +138,7 @@ public class MainScreenFragment extends Fragment
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setHasFixedSize(false);
 
         if (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT)
