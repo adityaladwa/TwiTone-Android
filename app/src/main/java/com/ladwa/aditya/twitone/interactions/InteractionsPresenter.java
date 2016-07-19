@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.interactions;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
+import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
     @Override
     public void subscribe() {
         if (mLogin)
-            getUserInteractions();
+            loadInteractions();
 
 
     }
@@ -49,7 +50,7 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
     }
 
     @Override
-    public void getUserInteractions() {
+    public void loadInteractions() {
 
         mTwitterRepository.getInteraction(TwitterLocalDataStore.getLastInteractionId())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -72,6 +73,34 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
                     }
                 });
 
+
+    }
+
+    @Override
+    public void refreshRemoteInteraction() {
+        TwitterRemoteDataSource.getInstance().getInteraction(TwitterLocalDataStore.getLastInteractionId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<Interaction>>() {
+                    @Override
+                    public void onCompleted() {
+                        mView.stopRefreshing();
+                        loadInteractions();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "Error :" + e.toString());
+                        mView.stopRefreshing();
+                        mView.showError();
+                    }
+
+                    @Override
+                    public void onNext(List<Interaction> interactionList) {
+                        Timber.d("Loaded TimeLine from remote =" + String.valueOf(interactionList.size()));
+
+                    }
+                });
 
     }
 }

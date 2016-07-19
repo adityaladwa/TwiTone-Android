@@ -14,10 +14,20 @@ public class InteractionsContract {
 
     interface View extends BaseView<Presenter> {
         void loadInteractions(List<Interaction> interactionList);
+
+        void setScrollPos();
+
+        void stopRefreshing();
+
+        void showError();
+
+        void saveScrollPosition();
     }
 
     interface Presenter extends BasePresenter {
 
-        void getUserInteractions();
+        void loadInteractions();
+
+        void refreshRemoteInteraction();
     }
 }

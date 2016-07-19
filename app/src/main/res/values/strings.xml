@@ -46,7 +46,8 @@
 
     //Dummy
     <string name="lorem">At NEDA conclave I assured all the partners that their participation role in NEDA would be as important as BJPS.</string>
-
+    <string name="pref_scroll_pos_interaction">Scroll_pos_interaction</string>
+    <string name="pref_scroll_pos">Scroll_pos</string>
 
 
 </resources>

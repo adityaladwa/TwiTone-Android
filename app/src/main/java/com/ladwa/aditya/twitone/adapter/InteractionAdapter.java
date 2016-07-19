@@ -1,7 +1,6 @@
 package com.ladwa.aditya.twitone.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ladwa.aditya.twitone.R;
-import com.ladwa.aditya.twitone.data.local.models.Tweet;
+import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -23,19 +20,25 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
- * A Recycler View Adapter for TimeLine of the User
- * Created by Aditya on 14-Jul-16.
+ * Created by Aditya on 20-Jul-16.
  */
-public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHolder> {
+public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.ViewHolder> {
 
-
-    private List<Tweet> mTweetList;
+    private List<Interaction> mInteractionsList;
     private Context mContext;
     private IconicsDrawable retweetIcon, favIcon;
-    private Tweet mTweet;
-    private TimeLineClickListener mTimeLineClickListener;
+    private Interaction mInteraction;
+    private InteractionClickListener mInteractionClickListener;
 
-    public interface TimeLineClickListener {
+    public InteractionAdapter(List<Interaction> mInteractions, Context mContext) {
+        this.mInteractionsList = mInteractions;
+        this.mContext = mContext;
+        this.retweetIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_retweet);
+        this.favIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_heart);
+    }
+
+
+    public interface InteractionClickListener {
         void onItemClick(View view, int position);
 
         void onClickedFavourite(View view, int position);
@@ -45,69 +48,29 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         void onLongClick(View view, int position);
     }
 
-
-    public TimelineAdapter(List<Tweet> mTweetList, Context mContext) {
-        this.mTweetList = mTweetList;
-        this.mContext = mContext;
-        this.retweetIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_retweet);
-        this.favIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_heart);
-    }
-
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_timeline, parent, false);
+                .inflate(R.layout.item_interactions, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mTweet = mTweetList.get(position);
-
-        holder.textViewTweet.setText(mTweet.getTweet());
-//        holder.textViewTweet.setTypeface(mCustomeFont);
-
-        holder.textViewUserName.setText(mTweet.getUserName());
-        holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mTweet.getScreenName()));
-        holder.textViewFavCount.setText(String.valueOf(mTweet.getFavCount()));
-        holder.textViewRetweetCount.setText(String.valueOf(mTweet.getRetweetCount()));
-
-        if (mTweet.getFav() == 1) {
-            holder.imageViewFav.setImageDrawable(favIcon.color(Color.RED));
-        } else {
-            holder.imageViewFav.setImageDrawable(favIcon.color(Color.GRAY));
-        }
-
-        if (mTweet.getRetweet() == 1) {
-            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLUE));
-        } else {
-            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.GRAY));
-        }
-
-
-        Glide.with(mContext)
-                .load(mTweet.getProfileUrl())
-                .fitCenter()
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .crossFade()
-                .into(holder.imageViewProfile);
 
     }
-
 
     @Override
     public int getItemCount() {
-        if (mTweetList == null)
+        if (mInteractionsList == null)
             return 0;
-        else return mTweetList.size();
-
+        else return mInteractionsList.size();
     }
 
-    public void setTimeLineClickListner(TimeLineClickListener mTimeLineClickListener) {
-        this.mTimeLineClickListener = mTimeLineClickListener;
+    public void setmInteractionClickListener(InteractionClickListener mInteractionClickListener) {
+        this.mInteractionClickListener = mInteractionClickListener;
         Timber.d("Click listener is set");
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -140,26 +103,24 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             imageViewRetweet.setOnClickListener(this);
         }
 
-
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.imageview_fav:
-                    mTimeLineClickListener.onClickedFavourite(v, getAdapterPosition());
+                    mInteractionClickListener.onClickedFavourite(v, getAdapterPosition());
                     break;
                 case R.id.imageview_retweet:
-                    mTimeLineClickListener.onClickedRetweet(v, getAdapterPosition());
+                    mInteractionClickListener.onClickedRetweet(v, getAdapterPosition());
                     break;
                 default:
-                    mTimeLineClickListener.onItemClick(v, getAdapterPosition());
+                    mInteractionClickListener.onItemClick(v, getAdapterPosition());
 
             }
         }
 
-
         @Override
         public boolean onLongClick(View v) {
-            mTimeLineClickListener.onLongClick(v, getAdapterPosition());
+            mInteractionClickListener.onLongClick(v, getAdapterPosition());
             return true;
         }
     }

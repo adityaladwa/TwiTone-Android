@@ -3,8 +3,10 @@ package com.ladwa.aditya.twitone.interactions;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -14,11 +16,13 @@ import android.view.ViewGroup;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
+import com.ladwa.aditya.twitone.adapter.InteractionAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,6 +30,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import timber.log.Timber;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
 
@@ -34,6 +39,7 @@ import twitter4j.auth.AccessToken;
  * A placeholder fragment containing a simple view.
  */
 public class InteractionsFragment extends Fragment implements InteractionsContract.View,
+        SwipeRefreshLayout.OnRefreshListener,
         ConnectionReceiver.ConnectionReceiverListener {
 
     @Inject
@@ -55,10 +61,17 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
     private LinearLayoutManager linearLayoutManager;
     private StaggeredGridLayoutManager staggeredGridLayoutManager;
 
+    private List<Interaction> mInteractions;
+    private InteractionAdapter mInteractionAdapter;
+
+    private SharedPreferences.Editor editor;
+
+
     private boolean internet;
     private boolean tablet;
     private boolean mLogin;
     private int orientation;
+    private int finalPos;
 
 
     public InteractionsFragment() {
@@ -91,6 +104,53 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
         //Check configuration
         Configuration config = getActivity().getResources().getConfiguration();
         orientation = config.orientation;
+
+        //Recycler view
+        if (tablet && orientation == Configuration.ORIENTATION_PORTRAIT)
+            staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+        else if (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE)
+            staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, 1);
+        else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE)
+            staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+        else
+            linearLayoutManager = new LinearLayoutManager(getActivity());
+
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+//        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.setHasFixedSize(false);
+
+        if (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT)
+            recyclerView.setLayoutManager(linearLayoutManager);
+        else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE)
+            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        else if (tablet)
+            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    saveScrollPosition();
+                }
+            }
+        });
+
+        mInteractions = new ArrayList<>();
+        mInteractionAdapter = new InteractionAdapter(mInteractions, getActivity());
+//        mInteractionAdapter.setTimeLineClickListner(this);
+        recyclerView.setAdapter(mInteractionAdapter);
+        swipeContainer.setOnRefreshListener(this);
+
+
+        if (tablet)
+            Timber.d("Tablet");
+        else
+            Timber.d("Phone");
 
         return view;
     }
@@ -126,6 +186,85 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
 
     @Override
     public void loadInteractions(List<Interaction> interactionList) {
+        int oldSize = mInteractions.size();
+        int newSize = interactionList.size();
+        int saveScrollPos = preferences.getInt("Scroll_pos", 0);
 
+
+        if (saveScrollPos > 0) {
+            finalPos = saveScrollPos;
+        } else {
+            finalPos = newSize - oldSize;
+        }
+
+        Timber.d("Final pos = " + String.valueOf(finalPos));
+        mInteractions.clear();
+        mInteractions.addAll(interactionList);
+        mInteractionAdapter.notifyDataSetChanged();
+        setScrollPos();
+    }
+
+    @Override
+    public void setScrollPos() {
+
+        if (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT) {
+            linearLayoutManager.scrollToPosition(finalPos);
+            linearLayoutManager.scrollToPosition(finalPos);
+        } else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            staggeredGridLayoutManager.scrollToPosition(finalPos);
+            staggeredGridLayoutManager.scrollToPosition(finalPos);
+        } else if (tablet) {
+            staggeredGridLayoutManager.scrollToPosition(finalPos);
+            staggeredGridLayoutManager.scrollToPosition(finalPos);
+        }
+    }
+
+    @Override
+    public void stopRefreshing() {
+        if (swipeContainer != null)
+            swipeContainer.setRefreshing(false);
+    }
+
+    @Override
+    public void showError() {
+        Snackbar.make(recyclerView, R.string.error_occured, Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
+    public void saveScrollPosition() {
+        int pos = 0;
+        int[] position = new int[2];
+
+        if (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT)
+            pos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+        else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
+            Timber.d("Scroll pos= " + position[0]);
+        } else if (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position = new int[3];
+            pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
+            Timber.d("Scroll pos= " + position[0]);
+        } else if (tablet && orientation == Configuration.ORIENTATION_PORTRAIT) {
+            pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
+            Timber.d("Scroll pos asd= " + position[0]);
+        }
+
+
+        editor = preferences.edit();
+        editor.putInt(getActivity().getResources().getString(R.string.pref_scroll_pos_interaction), pos);
+        editor.apply();
+    }
+
+    @Override
+    public void onRefresh() {
+        if (internet) {
+            mPresenter.refreshRemoteInteraction();
+        } else {
+            Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)
+                    .show();
+            if (swipeContainer != null)
+                swipeContainer.setRefreshing(false);
+        }
     }
 }
