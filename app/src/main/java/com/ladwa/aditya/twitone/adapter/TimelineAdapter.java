@@ -43,6 +43,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         void onClickedFavourite(View view, int position);
 
         void onClickedRetweet(View view, int position);
+
+        void onLongClick(View view, int position);
     }
 
 
@@ -111,7 +113,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         Timber.d("Click listener is set");
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         @BindView(R.id.imageview_profile_pic)
         ImageView imageViewProfile;
@@ -136,6 +138,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             imageViewFav.setOnClickListener(this);
             imageViewRetweet.setOnClickListener(this);
         }
@@ -159,5 +162,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         }
 
 
+        @Override
+        public boolean onLongClick(View v) {
+            mTimeLineClickListener.onLongClick(v, getAdapterPosition());
+            return true;
+        }
     }
 }

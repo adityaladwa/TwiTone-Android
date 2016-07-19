@@ -1,5 +1,7 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
@@ -391,6 +394,15 @@ public class MainScreenFragment extends Fragment
                     .show();
         }
 
+    }
+
+    @Override
+    public void onLongClick(View view, int position) {
+        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(mTweets.get(position).getUserName(), mTweets.get(position).getTweet());
+        clipboard.setPrimaryClip(clip);
+
+        Toast.makeText(getActivity(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
     }
 
     @Override
