@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,7 +28,9 @@ import com.ladwa.aditya.twitone.adapter.TimelineAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
+import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.login.LoginActivity;
+import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -53,7 +56,8 @@ import twitter4j.auth.AccessToken;
 public class MainScreenFragment extends Fragment
         implements MainScreenContract.View,
         SwipeRefreshLayout.OnRefreshListener,
-        TimelineAdapter.TimeLineClickListner {
+        TimelineAdapter.TimeLineClickListner,
+        ConnectionReceiver.ConnectionReceiverListener {
 
     @Inject
     SharedPreferences preferences;
@@ -67,6 +71,8 @@ public class MainScreenFragment extends Fragment
 
     @BindView(R.id.swipeContainer)
     SwipeRefreshLayout swipeContainer;
+    private boolean internet;
+
 
     private boolean mLogin;
     private Unbinder unbinder;
@@ -95,6 +101,9 @@ public class MainScreenFragment extends Fragment
 
         //Check if tablet or phone
         tablet = Utility.isTablet(getActivity());
+
+        //Check internet connection
+        internet = ConnectionReceiver.isConnected();
 
 
         //Shared Preferences
@@ -183,6 +192,8 @@ public class MainScreenFragment extends Fragment
     public void onResume() {
         super.onResume();
         mPresenter.subscribe();
+        TwitoneApp.setConnectionListener(this);
+
     }
 
     @Override
@@ -223,7 +234,7 @@ public class MainScreenFragment extends Fragment
     }
 
     @Override
-    public void loadedUser(com.ladwa.aditya.twitone.data.local.models.User user) {
+    public void loadedUser(User user) {
         mDrawerCallback.updateProfile(user);
     }
 
@@ -295,24 +306,33 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void showError() {
-        Toast.makeText(getActivity(), "An error occurred", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "An error occurred", Toast.LENGTH_SHORT).show();
+        Snackbar.make(recyclerView, "An error occurred", Snackbar.LENGTH_LONG)
+                .show();
+
     }
 
     @Override
     public void createdFavouriteCallback(Tweet tweet) {
-        Toast.makeText(getActivity(), "Favourited", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Favourite", Toast.LENGTH_SHORT).show();
+        Snackbar.make(recyclerView, "Favourite", Snackbar.LENGTH_LONG)
+                .show();
         mPresenter.loadTimeLine();
     }
 
     @Override
     public void destroyFavouriteCallback(Tweet tweet) {
-        Toast.makeText(getActivity(), "Unfavourited", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Unfavourite", Toast.LENGTH_SHORT).show();
+        Snackbar.make(recyclerView, "UnFavourite", Snackbar.LENGTH_LONG)
+                .show();
         mPresenter.loadTimeLine();
     }
 
     @Override
     public void createRetweetCallback(Tweet tweet) {
-        Toast.makeText(getActivity(), "Retweeted", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Retweeted", Toast.LENGTH_SHORT).show();
+        Snackbar.make(recyclerView, "Retweeted", Snackbar.LENGTH_LONG)
+                .show();
         mPresenter.loadTimeLine();
     }
 
@@ -335,13 +355,18 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void onClickedFavourite(View view, int position) {
-        if (mTweets.get(position).getFav() == 0) {
-            mPresenter.createFavourite(mTweets.get(position).getId());
-            ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.YELLOW));
-        } else {
-            mPresenter.unFavourite(mTweets.get(position).getId());
-            ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.BLACK));
+        if (internet) {
+            if (mTweets.get(position).getFav() == 0) {
+                mPresenter.createFavourite(mTweets.get(position).getId());
+                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.YELLOW));
+            } else {
+                mPresenter.unFavourite(mTweets.get(position).getId());
+                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.BLACK));
 
+            }
+        } else {
+            Snackbar.make(recyclerView, "Check your Internet", Snackbar.LENGTH_LONG)
+                    .show();
         }
 
 
@@ -349,17 +374,28 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void onClickedRetweet(View view, int position) {
-        if (mTweets.get(position).getRetweet() == 0) {
-            mPresenter.createRetweet(mTweets.get(position).getId());
-            ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_retweet).color(Color.BLUE));
+        if (internet) {
+            if (mTweets.get(position).getRetweet() == 0) {
+                mPresenter.createRetweet(mTweets.get(position).getId());
+                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_retweet).color(Color.BLUE));
+            }
+        } else {
+            Snackbar.make(recyclerView, "Check your Internet", Snackbar.LENGTH_LONG)
+                    .show();
         }
 
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        Timber.d("Internet changed");
+        internet = isConnected;
     }
 
 
     public interface DrawerCallback {
         void setProfile(String screenName);
 
-        void updateProfile(com.ladwa.aditya.twitone.data.local.models.User user);
+        void updateProfile(User user);
     }
 }
