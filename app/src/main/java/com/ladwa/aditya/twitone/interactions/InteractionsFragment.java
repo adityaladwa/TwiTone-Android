@@ -1,5 +1,8 @@
 package com.ladwa.aditya.twitone.interactions;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
@@ -275,17 +279,23 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
 
     @Override
     public void createdFavouriteCallback(Interaction interaction) {
-
+        Snackbar.make(recyclerView, R.string.favourite, Snackbar.LENGTH_LONG)
+                .show();
+        mPresenter.loadInteractions();
     }
 
     @Override
     public void destroyFavouriteCallback(Interaction interaction) {
-
+        Snackbar.make(recyclerView, R.string.unfavourite, Snackbar.LENGTH_LONG)
+                .show();
+        mPresenter.loadInteractions();
     }
 
     @Override
     public void createRetweetCallback(Interaction interaction) {
-
+        Snackbar.make(recyclerView, R.string.retweet, Snackbar.LENGTH_LONG)
+                .show();
+        mPresenter.loadInteractions();
     }
 
 
@@ -307,5 +317,9 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
     @Override
     public void onLongClick(View view, int position) {
 
+        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(mInteractions.get(position).getUserName(), mInteractions.get(position).getTweet());
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(getActivity(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
     }
 }
