@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.data;
 import com.ladwa.aditya.twitone.AppModule;
 import com.ladwa.aditya.twitone.data.remote.TwitterModule;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
+import com.ladwa.aditya.twitone.interactions.InteractionsFragment;
 import com.ladwa.aditya.twitone.login.LoginActivityFragment;
 import com.ladwa.aditya.twitone.mainscreen.MainScreenFragment;
 
@@ -25,5 +26,6 @@ public interface TwitterComponent {
 
     void inject(TwitterRemoteDataSource twitterRemoteDataSource);
 
+    void inject(InteractionsFragment fragment);
 
 }

@@ -30,7 +30,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
     private long mUserId;
     private Subscription loadUserSubscription;
     private Twitter mTwitter;
-    TwitterRepository mTwitterRepository;
+    private TwitterRepository mTwitterRepository;
 
 
     public MainScreenPresenter(@NonNull MainScreenContract.View mView, @NonNull Boolean mLogin, long userId, Twitter twitter, TwitterRepository repository) {

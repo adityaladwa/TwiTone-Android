@@ -188,7 +188,6 @@ public class MainScreenFragment extends Fragment
         //SetupDrawer
         String screenName = preferences.getString(getString(R.string.pref_screen_name), "");
         mDrawerCallback.setProfile(screenName);
-
     }
 
     @Override
@@ -265,14 +264,14 @@ public class MainScreenFragment extends Fragment
     public void setScrollPos() {
 
         if (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT) {
-            linearLayoutManager.scrollToPosition(finalPos + 10);
+            linearLayoutManager.scrollToPosition(finalPos);
             linearLayoutManager.scrollToPosition(finalPos);
         } else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            staggeredGridLayoutManager.scrollToPosition(finalPos + 10);
+            staggeredGridLayoutManager.scrollToPosition(finalPos);
             staggeredGridLayoutManager.scrollToPosition(finalPos);
         } else if (tablet) {
             staggeredGridLayoutManager.scrollToPosition(finalPos);
-            staggeredGridLayoutManager.scrollToPosition(finalPos + 10);
+            staggeredGridLayoutManager.scrollToPosition(finalPos);
         }
     }
 
@@ -401,7 +400,6 @@ public class MainScreenFragment extends Fragment
         ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(mTweets.get(position).getUserName(), mTweets.get(position).getTweet());
         clipboard.setPrimaryClip(clip);
-
         Toast.makeText(getActivity(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
     }
 
