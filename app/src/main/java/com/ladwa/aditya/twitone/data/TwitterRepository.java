@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.data;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
@@ -81,5 +82,10 @@ public class TwitterRepository implements TwitterDataStore {
         //    Send Only the local data
         //   return mLocalDataStore.getTimeLine();
 
+    }
+
+    @Override
+    public Observable<List<Interaction>> getInteraction(long sinceId) {
+        return mRemoteDataStore.getInteraction(sinceId);
     }
 }

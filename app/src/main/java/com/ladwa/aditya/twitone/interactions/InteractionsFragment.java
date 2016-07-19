@@ -15,8 +15,11 @@ import android.view.ViewGroup;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
+import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -119,5 +122,10 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         internet = isConnected;
+    }
+
+    @Override
+    public void loadInteractions(List<Interaction> interactionList) {
+
     }
 }

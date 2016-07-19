@@ -108,6 +108,19 @@ public class TwitterLocalDataStore implements TwitterDataStore {
             return tweet.getId();
     }
 
+    public static long getLastInteractionId() {
+        Interaction interaction = mStorIOContentResolver.get().object(Interaction.class)
+                .withQuery(Query.builder().uri(TwitterContract.Interaction.CONTENT_URI)
+                        .sortOrder(TwitterContract.Interaction.COLUMN_ID + " DESC LIMIT 1")
+                        .build())
+                .prepare()
+                .executeAsBlocking();
+        if (interaction == null)
+            return 1;
+        else
+            return interaction.getId();
+    }
+
     public static void createFavourite(Tweet tweet) {
         mStorIOContentResolver.put().object(tweet).prepare().executeAsBlocking();
 
