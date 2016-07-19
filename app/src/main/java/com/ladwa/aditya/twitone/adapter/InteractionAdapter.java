@@ -1,6 +1,7 @@
 package com.ladwa.aditya.twitone.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
@@ -57,7 +60,36 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        mInteraction = mInteractionsList.get(position);
 
+        holder.textViewTweet.setText(mInteraction.getTweet());
+//        holder.textViewTweet.setTypeface(mCustomeFont);
+
+        holder.textViewUserName.setText(mInteraction.getUserName());
+        holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mInteraction.getScreenName()));
+        holder.textViewFavCount.setText(String.valueOf(mInteraction.getFavCount()));
+        holder.textViewRetweetCount.setText(String.valueOf(mInteraction.getRetweetCount()));
+
+        if (mInteraction.getFav() == 1) {
+            holder.imageViewFav.setImageDrawable(favIcon.color(Color.RED));
+        } else {
+            holder.imageViewFav.setImageDrawable(favIcon.color(Color.GRAY));
+        }
+
+        if (mInteraction.getRetweet() == 1) {
+            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLUE));
+        } else {
+            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.GRAY));
+        }
+
+
+        Glide.with(mContext)
+                .load(mInteraction.getProfileUrl())
+                .fitCenter()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .crossFade()
+                .into(holder.imageViewProfile);
     }
 
     @Override
