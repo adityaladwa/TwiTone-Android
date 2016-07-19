@@ -85,7 +85,13 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
     @Override
     public Observable<List<Interaction>> getInteraction(long sinceId) {
-        return null;
+        return mStorIOContentResolver.get()
+                .listOfObjects(Interaction.class)
+                .withQuery(Query.builder().uri(TwitterContract.Interaction.CONTENT_URI)
+                        .sortOrder(TwitterContract.Interaction.COLUMN_ID + " DESC")
+                        .build())
+                .prepare()
+                .asRxObservable();
     }
 
     public static long getLastTweetId() {
@@ -124,6 +130,10 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
     public static void saveTimeLine(List<Tweet> tweetList) {
         mStorIOContentResolver.put().objects(tweetList).prepare().executeAsBlocking();
+    }
+
+    public static void saveInteraction(List<Interaction> interactionList) {
+        mStorIOContentResolver.put().objects(interactionList).prepare().executeAsBlocking();
     }
 
 

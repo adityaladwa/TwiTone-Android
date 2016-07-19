@@ -147,10 +147,53 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
     }
 
     @Override
-    public Observable<List<Interaction>> getInteraction(long sinceId) {
+    public Observable<List<Interaction>> getInteraction(final long sinceId) {
         final List<Interaction> localInteraction = new ArrayList<>();
+        return Observable.create(new Observable.OnSubscribe<List<Interaction>>() {
+            @Override
+            public void call(Subscriber<? super List<Interaction>> subscriber) {
 
-        return null;
+                try {
+                    Paging p = new Paging();
+                    p.setCount(50);
+                    if (sinceId > 1)
+                        p.setSinceId(sinceId);
+                    ResponseList<Status> mentionsTimeline = mTwitter.getMentionsTimeline(p);
+                    for (Status status : mentionsTimeline) {
+                        Interaction interaction = new Interaction();
+                        interaction.setTweet(status.getText());
+                        interaction.setId(status.getId());
+                        interaction.setDateCreated(String.valueOf(status.getCreatedAt()));
+                        interaction.setLastModified(Utility.getDateTime());
+                        interaction.setProfileUrl(status.getUser().getOriginalProfileImageURL());
+                        interaction.setScreenName(status.getUser().getScreenName());
+                        interaction.setUserName(status.getUser().getName());
+                        interaction.setFavCount(status.getFavoriteCount());
+                        interaction.setRetweetCount(status.getRetweetCount());
+                        interaction.setVerified(status.getUser().isVerified() ? 1 : 0);
+                        interaction.setFav(status.isFavorited() ? 1 : 0);
+                        interaction.setRetweet(status.isRetweetedByMe() ? 1 : 0);
+
+                        localInteraction.add(interaction);
+
+                    }
+                    subscriber.onNext(localInteraction);
+
+
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+
+            }
+        }).doOnNext(new Action1<List<Interaction>>() {
+            @Override
+            public void call(List<Interaction> interactions) {
+                TwitterLocalDataStore.saveInteraction(interactions);
+            }
+        });
     }
 
 
