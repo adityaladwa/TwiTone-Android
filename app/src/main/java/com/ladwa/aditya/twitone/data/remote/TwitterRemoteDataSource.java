@@ -6,6 +6,7 @@ import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.util.Utility;
 
@@ -109,8 +110,6 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     if (sinceId > 1)
                         p.setSinceId(sinceId);
                     ResponseList<Status> homeTimeline = mTwitter.getHomeTimeline(p);
-
-
                     for (Status status : homeTimeline) {
                         Tweet tweet = new Tweet();
                         tweet.setTweet(status.getText());
@@ -145,6 +144,13 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                 TwitterLocalDataStore.saveTimeLine(tweets);
             }
         });
+    }
+
+    @Override
+    public Observable<List<Interaction>> getInteraction(long sinceId) {
+        final List<Interaction> localInteraction = new ArrayList<>();
+
+        return null;
     }
 
 

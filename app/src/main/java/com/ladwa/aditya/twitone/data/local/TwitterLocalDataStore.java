@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
+import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.TweetStorIOContentResolverDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.TweetStorIOContentResolverGetResolver;
@@ -80,6 +81,11 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                         .build())
                 .prepare()
                 .asRxObservable();
+    }
+
+    @Override
+    public Observable<List<Interaction>> getInteraction(long sinceId) {
+        return null;
     }
 
     public static long getLastTweetId() {

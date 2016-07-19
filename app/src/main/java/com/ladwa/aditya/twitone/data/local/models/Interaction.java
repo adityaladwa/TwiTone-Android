@@ -1,0 +1,7 @@
+package com.ladwa.aditya.twitone.data.local.models;
+
+/**
+ * Created by Aditya on 19-Jul-16.
+ */
+public class Interaction {
+}

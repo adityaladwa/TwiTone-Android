@@ -15,5 +15,6 @@ public class InteractionsContract {
 
     interface Presenter extends BasePresenter {
 
+        void getUserInteractions();
     }
 }

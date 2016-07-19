@@ -29,11 +29,19 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
 
     @Override
     public void subscribe() {
+        if (mLogin)
+            getUserInteractions();
+
 
     }
 
     @Override
     public void unsubscribe() {
+
+    }
+
+    @Override
+    public void getUserInteractions() {
 
     }
 }

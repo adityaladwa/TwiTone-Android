@@ -1,5 +1,6 @@
 package com.ladwa.aditya.twitone.data;
 
+import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
 
@@ -16,5 +17,7 @@ public interface TwitterDataStore {
     Observable<User> getUserInfo(long userID);
 
     Observable<List<Tweet>> getTimeLine(long sinceId);
+
+    Observable<List<Interaction>> getInteraction(long sinceId);
 
 }
