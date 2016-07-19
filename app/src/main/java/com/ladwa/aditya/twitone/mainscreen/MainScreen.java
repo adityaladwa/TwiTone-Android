@@ -1,6 +1,7 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.User;
+import com.ladwa.aditya.twitone.interactions.Interactions;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -34,6 +36,8 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private AccountHeader headerResult;
     private ProfileDrawerItem profileDrawerItem;
     private Drawer result;
+    private PrimaryDrawerItem timeline;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
     private void setupDrawer(String screenName) {
 
-        final PrimaryDrawerItem timeline = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_reorder).
+        timeline = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_reorder).
                 withIdentifier(1).withName(R.string.drawer_timeline).withSetSelected(true);
         final PrimaryDrawerItem interaction = new PrimaryDrawerItem().withIcon(GoogleMaterial.Icon.gmd_people)
                 .withIdentifier(2).withName(R.string.drawer_interaction);
@@ -86,6 +90,10 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         switch (position) {
+
+            case 2:
+                startActivity(new Intent(MainScreen.this, Interactions.class));
+                break;
             case 6:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
                 builder.setTitle(R.string.logout_dialog_title);
