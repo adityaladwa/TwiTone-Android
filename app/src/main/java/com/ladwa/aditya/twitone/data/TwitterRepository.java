@@ -86,6 +86,22 @@ public class TwitterRepository implements TwitterDataStore {
 
     @Override
     public Observable<List<Interaction>> getInteraction(long sinceId) {
-        return mRemoteDataStore.getInteraction(sinceId);
+        return Observable
+                .concat(mLocalDataStore.getInteraction(sinceId).first(), mRemoteDataStore.getInteraction(sinceId))
+                .first(new Func1<List<Interaction>, Boolean>() {
+                    @Override
+                    public Boolean call(List<Interaction> interactionList) {
+                        if (interactionList == null) {
+                            Timber.d("Null");
+                            return false;
+                        } else {
+                            if (interactionList.size() == 0)
+                                return false;
+                            else {
+                                return true;
+                            }
+                        }
+                    }
+                });
     }
 }
