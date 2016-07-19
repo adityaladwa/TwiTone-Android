@@ -310,7 +310,19 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
 
     @Override
     public void onClickedFavourite(View view, int position) {
+        if (internet) {
+            if (mInteractions.get(position).getFav() == 0) {
+                mPresenter.createFavourite(mInteractions.get(position).getId());
+                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.RED));
+            } else {
+                mPresenter.unFavourite(mInteractions.get(position).getId());
+                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.GRAY));
 
+            }
+        } else {
+            Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)
+                    .show();
+        }
     }
 
     @Override
