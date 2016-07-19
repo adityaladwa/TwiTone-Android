@@ -114,8 +114,8 @@ public final class TwitterContract {
         public static final String CONTENT_URI_STRING = "content://" + CONTENT_AUTHORITY + "/" + PATH_INTERACTION;
         public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
 
-        public static final String CONTENT_TWEET_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_INTERACTION;
-        public static final String CONTENT_TWEET_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_INTERACTION;
+        public static final String CONTENT_INTERACTION_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_INTERACTION;
+        public static final String CONTENT_INTERACTION_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_INTERACTION;
 
         public static final String TABLE_NAME = "interaction";
 

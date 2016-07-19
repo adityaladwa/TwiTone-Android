@@ -23,6 +23,8 @@ public class TwitterDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TwitterContract.User.getUserCreateQuery());
         db.execSQL(TwitterContract.Tweet.getTweetCreateQuery());
+        db.execSQL(TwitterContract.Interaction.getTweetCreateQuery());
+
         Timber.d("Created database" + DATABASE_NAME);
     }
 
@@ -30,6 +32,8 @@ public class TwitterDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(TwitterContract.User.getUserDeleteQuery());
         db.execSQL(TwitterContract.Tweet.getTweetDeleteQuery());
+        db.execSQL(TwitterContract.Interaction.getTweetDeleteQuery());
+
         onCreate(db);
     }
 
@@ -37,6 +41,7 @@ public class TwitterDbHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(TwitterContract.User.getUserDeleteQuery());
         db.execSQL(TwitterContract.Tweet.getTweetDeleteQuery());
+        db.execSQL(TwitterContract.Interaction.getTweetDeleteQuery());
         onCreate(db);
     }
 }
