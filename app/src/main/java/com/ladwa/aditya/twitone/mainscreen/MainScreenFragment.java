@@ -307,7 +307,7 @@ public class MainScreenFragment extends Fragment
     @Override
     public void showError() {
 //        Toast.makeText(getActivity(), "An error occurred", Toast.LENGTH_SHORT).show();
-        Snackbar.make(recyclerView, "An error occurred", Snackbar.LENGTH_LONG)
+        Snackbar.make(recyclerView, R.string.error_occured, Snackbar.LENGTH_LONG)
                 .show();
 
     }
@@ -315,7 +315,7 @@ public class MainScreenFragment extends Fragment
     @Override
     public void createdFavouriteCallback(Tweet tweet) {
 //        Toast.makeText(getActivity(), "Favourite", Toast.LENGTH_SHORT).show();
-        Snackbar.make(recyclerView, "Favourite", Snackbar.LENGTH_LONG)
+        Snackbar.make(recyclerView, R.string.favourite, Snackbar.LENGTH_LONG)
                 .show();
         mPresenter.loadTimeLine();
     }
@@ -323,7 +323,7 @@ public class MainScreenFragment extends Fragment
     @Override
     public void destroyFavouriteCallback(Tweet tweet) {
 //        Toast.makeText(getActivity(), "Unfavourite", Toast.LENGTH_SHORT).show();
-        Snackbar.make(recyclerView, "UnFavourite", Snackbar.LENGTH_LONG)
+        Snackbar.make(recyclerView, R.string.unfavourite, Snackbar.LENGTH_LONG)
                 .show();
         mPresenter.loadTimeLine();
     }
@@ -331,7 +331,7 @@ public class MainScreenFragment extends Fragment
     @Override
     public void createRetweetCallback(Tweet tweet) {
 //        Toast.makeText(getActivity(), "Retweeted", Toast.LENGTH_SHORT).show();
-        Snackbar.make(recyclerView, "Retweeted", Snackbar.LENGTH_LONG)
+        Snackbar.make(recyclerView, R.string.retweet, Snackbar.LENGTH_LONG)
                 .show();
         mPresenter.loadTimeLine();
     }
@@ -344,7 +344,14 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void onRefresh() {
-        mPresenter.refreshRemoteTimeline();
+        if (internet) {
+            mPresenter.refreshRemoteTimeline();
+        } else {
+            Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)
+                    .show();
+            if (swipeContainer != null)
+                swipeContainer.setRefreshing(false);
+        }
 
     }
 
@@ -365,7 +372,7 @@ public class MainScreenFragment extends Fragment
 
             }
         } else {
-            Snackbar.make(recyclerView, "Check your Internet", Snackbar.LENGTH_LONG)
+            Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)
                     .show();
         }
 
@@ -380,7 +387,7 @@ public class MainScreenFragment extends Fragment
                 ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_retweet).color(Color.BLUE));
             }
         } else {
-            Snackbar.make(recyclerView, "Check your Internet", Snackbar.LENGTH_LONG)
+            Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)
                     .show();
         }
 
