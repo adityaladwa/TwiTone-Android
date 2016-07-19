@@ -108,6 +108,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     p.setCount(100);
                     ResponseList<Status> homeTimeline = mTwitter.getHomeTimeline(p);
 
+
                     for (Status status : homeTimeline) {
                         Tweet tweet = new Tweet();
                         tweet.setTweet(status.getText());

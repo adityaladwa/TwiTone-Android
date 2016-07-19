@@ -105,8 +105,7 @@ dependencies {
     //Preety Time
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
 
-    //Like Button
-    compile 'com.github.jd-alexander:LikeButton:0.2.0'
+
 
     //Stetho
     compile deps.stetho
