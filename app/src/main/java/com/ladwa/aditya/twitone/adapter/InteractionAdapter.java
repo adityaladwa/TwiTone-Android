@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
+import com.ladwa.aditya.twitone.util.Utility;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -63,12 +64,13 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
         mInteraction = mInteractionsList.get(position);
 
         holder.textViewTweet.setText(mInteraction.getTweet());
-//        holder.textViewTweet.setTypeface(mCustomeFont);
 
         holder.textViewUserName.setText(mInteraction.getUserName());
         holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mInteraction.getScreenName()));
         holder.textViewFavCount.setText(String.valueOf(mInteraction.getFavCount()));
         holder.textViewRetweetCount.setText(String.valueOf(mInteraction.getRetweetCount()));
+        holder.textViewDate.setText(Utility.parseDate(mInteraction.getDateCreated()));
+
 
         if (mInteraction.getFav() == 1) {
             holder.imageViewFav.setImageDrawable(favIcon.color(Color.RED));
