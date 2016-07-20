@@ -1,9 +1,12 @@
 package com.ladwa.aditya.twitone.data.local;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
+import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOContentResolverDeleteResolver;
@@ -25,7 +28,6 @@ import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
 import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.queries.Query;
-import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
 import java.util.List;
 
@@ -39,12 +41,15 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     private static TwitterLocalDataStore INSTANCE;
     private static TwitterDbHelper mTwitterDbHelper;
     private static SQLiteDatabase db;
-    private static StorIOSQLite mStorIOSQLite;
     private static StorIOContentResolver mStorIOContentResolver;
+    private static SharedPreferences preferences;
+    private static Context mContext;
 
     private TwitterLocalDataStore(@NonNull Context context) {
+        mContext = context;
         mTwitterDbHelper = new TwitterDbHelper(context);
         db = mTwitterDbHelper.getWritableDatabase();
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
 
         mStorIOContentResolver = DefaultStorIOContentResolver.builder()
@@ -113,9 +118,12 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
     @Override
     public Observable<List<DirectMessage>> getDirectMessage(long sinceId) {
+        long userId = preferences.getLong(mContext.getString(R.string.pref_userid), 0);
         return mStorIOContentResolver.get()
                 .listOfObjects(DirectMessage.class)
                 .withQuery(Query.builder().uri(TwitterContract.DirectMessage.CONTENT_URI)
+                        .where(TwitterContract.DirectMessage.COLUMN_SENDER_ID + " != ? GROUP BY " + TwitterContract.DirectMessage.COLUMN_SENDER_ID)
+                        .whereArgs(userId)
                         .sortOrder(TwitterContract.DirectMessage.COLUMN_ID + " DESC")
                         .build())
                 .prepare()
