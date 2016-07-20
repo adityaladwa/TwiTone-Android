@@ -46,6 +46,7 @@
             android:layout_marginTop="@dimen/timeline_top_margin"
             android:layout_toEndOf="@id/textview_user_name"
             android:fontFamily="sans-serif-smallcaps"
+            android:lines="1"
             android:text="\@" />
 
         <TextView
