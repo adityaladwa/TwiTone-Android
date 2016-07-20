@@ -24,7 +24,12 @@ public class TwitoneProvider extends ContentProvider {
     private static final int INTERACTION_ITEM = 300;
     private static final int INTERACTION_DIR = 301;
 
+    public static final int DIRECT_MESSAGE_ITEM = 400;
+    public static final int DIRECT_MESSAGE_DIR = 401;
+
     private static final UriMatcher sUriMatcher = buildUriMatcher();
+    private TwitterDbHelper mTwitterDbHelper;
+
 
     private static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -38,10 +43,12 @@ public class TwitoneProvider extends ContentProvider {
 
         matcher.addURI(authority, TwitterContract.PATH_INTERACTION + "/#", INTERACTION_ITEM);
         matcher.addURI(authority, TwitterContract.PATH_INTERACTION, INTERACTION_DIR);
+
+        matcher.addURI(authority, TwitterContract.PATH_DIRECT_MESSAGE + "/#", DIRECT_MESSAGE_ITEM);
+        matcher.addURI(authority, TwitterContract.PATH_DIRECT_MESSAGE, DIRECT_MESSAGE_DIR);
+
         return matcher;
     }
-
-    private TwitterDbHelper mTwitterDbHelper;
 
     @Override
     public boolean onCreate() {
@@ -126,6 +133,31 @@ public class TwitoneProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
+
+            //Case for Direct message
+            case DIRECT_MESSAGE_ITEM:
+                retCursor = mTwitterDbHelper.getReadableDatabase().query(
+                        TwitterContract.DirectMessage.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+
+            case DIRECT_MESSAGE_DIR:
+                retCursor = mTwitterDbHelper.getReadableDatabase().query(
+                        TwitterContract.DirectMessage.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri " + uri);
         }
@@ -155,6 +187,12 @@ public class TwitoneProvider extends ContentProvider {
                 return TwitterContract.Interaction.CONTENT_INTERACTION_ITEM_TYPE;
             case INTERACTION_DIR:
                 return TwitterContract.Interaction.CONTENT_INTERACTION_TYPE;
+
+            //Case for Direct message
+            case DIRECT_MESSAGE_ITEM:
+                return TwitterContract.DirectMessage.CONTENT_INTERACTION_ITEM_TYPE;
+            case DIRECT_MESSAGE_DIR:
+                return TwitterContract.DirectMessage.CONTENT_INTERACTION_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown URI " + uri);
         }
@@ -193,6 +231,15 @@ public class TwitoneProvider extends ContentProvider {
                 else
                     throw new SQLException("Failed to insert row " + uri);
                 break;
+
+            //Case for Direct message
+            case DIRECT_MESSAGE_DIR:
+                _id = db.insert(TwitterContract.DirectMessage.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = TwitterContract.DirectMessage.buildTweetUri(_id);
+                else
+                    throw new SQLException("Failed to insert row " + uri);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown URI " + uri);
         }
@@ -224,6 +271,11 @@ public class TwitoneProvider extends ContentProvider {
             //Case for Interaction
             case INTERACTION_DIR:
                 update = db.update(TwitterContract.Interaction.TABLE_NAME, values, selection, selectionArgs);
+                break;
+
+            //Case for Direct message
+            case DIRECT_MESSAGE_DIR:
+                update = db.update(TwitterContract.DirectMessage.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown URI " + uri);

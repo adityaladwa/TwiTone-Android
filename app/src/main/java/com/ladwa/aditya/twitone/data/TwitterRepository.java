@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.data;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
@@ -29,7 +30,6 @@ public class TwitterRepository implements TwitterDataStore {
     private TwitterRepository(@NonNull TwitterLocalDataStore local, @NonNull TwitterRemoteDataSource remote) {
         this.mLocalDataStore = local;
         this.mRemoteDataStore = remote;
-
     }
 
     public TwitterRemoteDataSource getmRemoteDataStore() {
@@ -103,5 +103,28 @@ public class TwitterRepository implements TwitterDataStore {
                         }
                     }
                 });
+    }
+
+    @Override
+    public Observable<List<DirectMessage>> getDirectMessage(long sinceId) {
+        return Observable
+                .concat(mLocalDataStore.getDirectMessage(sinceId).first(), mRemoteDataStore.getDirectMessage(sinceId))
+                .first(new Func1<List<DirectMessage>, Boolean>() {
+                    @Override
+                    public Boolean call(List<DirectMessage> directMessageList) {
+                        if (directMessageList == null) {
+                            Timber.d("Null");
+                            return false;
+                        } else {
+                            if (directMessageList.size() == 0)
+                                return false;
+                            else {
+                                return true;
+                            }
+                        }
+                    }
+                });
+//        return mRemoteDataStore.getDirectMessage(sinceId);
+//        return mLocalDataStore.getDirectMessage(sinceId).first();
     }
 }

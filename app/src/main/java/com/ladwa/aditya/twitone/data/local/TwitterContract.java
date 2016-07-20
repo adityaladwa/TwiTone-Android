@@ -17,6 +17,7 @@ public final class TwitterContract {
     public static final String PATH_USER = "user";
     public static final String PATH_TWEET = "tweet";
     public static final String PATH_INTERACTION = "interaction";
+    public static final String PATH_DIRECT_MESSAGE = "directmessage";
 
     public TwitterContract() {
     }
@@ -116,7 +117,6 @@ public final class TwitterContract {
 
         public static final String CONTENT_INTERACTION_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_INTERACTION;
         public static final String CONTENT_INTERACTION_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_INTERACTION;
-
         public static final String TABLE_NAME = "interaction";
 
 
@@ -134,7 +134,7 @@ public final class TwitterContract {
         public static final String COLUMN_RETWEET = "retweet";
 
 
-        public static String getTweetCreateQuery() {
+        public static String getInteractionCreateQuery() {
             return "CREATE TABLE " + TABLE_NAME + " (" +
                     COLUMN_ID + " LONG NOT NULL PRIMARY KEY, " +
                     COLUMN_TWEET + " TEXT NOT NULL, " +
@@ -151,7 +151,7 @@ public final class TwitterContract {
         }
 
 
-        public static String getTweetDeleteQuery() {
+        public static String getInteractionDeleteQuery() {
             return "DROP TABLE IF EXISTS " + TABLE_NAME;
         }
 
@@ -159,5 +159,48 @@ public final class TwitterContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+    }
+
+    public static abstract class DirectMessage implements BaseColumns {
+        @NonNull
+        public static final String CONTENT_URI_STRING = "content://" + CONTENT_AUTHORITY + "/" + PATH_DIRECT_MESSAGE;
+        public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
+
+        public static final String CONTENT_INTERACTION_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_DIRECT_MESSAGE;
+        public static final String CONTENT_INTERACTION_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_DIRECT_MESSAGE;
+        public static final String TABLE_NAME = "directmessage";
+
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_DATE_CREATED = "date_created";
+        public static final String COLUMN_PROFILE_URL = "profile_url";
+        public static final String COLUMN_RECIPIENT = "recipient";
+        public static final String COLUMN_RECIPIENT_ID = "recipient_id";
+        public static final String COLUMN_RECIPIENT_SCREEN_NAME = "recipient_screen_name";
+        public static final String COLUMN_SENDER = "sender";
+        public static final String COLUMN_SENDER_ID = "sender_id";
+        public static final String COLUMN_SENDER_SCREEN_NAME = "sender_screen_name";
+        public static final String COLUMN_TEXT = "text";
+
+        public static String getDirectMessageCreateQuery() {
+            return "CREATE TABLE " + TABLE_NAME + " (" +
+                    COLUMN_ID + " LONG NOT NULL PRIMARY KEY, " +
+                    COLUMN_RECIPIENT + " TEXT NOT NULL, " +
+                    COLUMN_PROFILE_URL + " TEXT NOT NULL, " +
+                    COLUMN_RECIPIENT_ID + " LONG NOT NULL, " +
+                    COLUMN_RECIPIENT_SCREEN_NAME + " TEXT NOT NULL, " +
+                    COLUMN_SENDER + " TEXT NOT NULL, " +
+                    COLUMN_SENDER_ID + " LONG NOT NULL, " +
+                    COLUMN_SENDER_SCREEN_NAME + " TEXT NOT NULL, " +
+                    COLUMN_TEXT + " TEXT NOT NULL, " +
+                    COLUMN_DATE_CREATED + " TEXT NOT NULL);";
+        }
+
+        public static String getDirectMessageDeleteQuery() {
+            return "DROP TABLE IF EXISTS " + TABLE_NAME;
+        }
+
+        public static Uri buildTweetUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
     }
 }

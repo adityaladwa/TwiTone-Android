@@ -24,11 +24,9 @@ import twitter4j.Twitter;
 public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     //TODO Add subscriber variable to fix memory leaks and nullify the in unsubscribe method
-
     private MainScreenContract.View mView;
     private Boolean mLogin;
     private long mUserId;
-    private Subscription loadUserSubscription;
     private Twitter mTwitter;
     private TwitterRepository mTwitterRepository;
 
@@ -52,8 +50,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        if (loadUserSubscription != null && !loadUserSubscription.isUnsubscribed())
-            loadUserSubscription.unsubscribe();
+
     }
 
     @Override

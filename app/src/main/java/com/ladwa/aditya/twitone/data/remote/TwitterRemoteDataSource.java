@@ -6,6 +6,7 @@ import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.util.Utility;
@@ -33,15 +34,12 @@ import twitter4j.auth.AccessToken;
  */
 public class TwitterRemoteDataSource implements TwitterDataStore {
 
+    private static TwitterRemoteDataSource INSTANCE = null;
     @Inject
     public Twitter mTwitter;
-
     @Inject
     SharedPreferences preferences;
     long id;
-
-
-    private static TwitterRemoteDataSource INSTANCE = null;
 
     private TwitterRemoteDataSource() {
         TwitoneApp.getTwitterComponent().inject(this);
@@ -159,6 +157,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     if (sinceId > 1)
                         p.setSinceId(sinceId);
                     ResponseList<Status> mentionsTimeline = mTwitter.getMentionsTimeline(p);
+
                     for (Status status : mentionsTimeline) {
                         Interaction interaction = new Interaction();
                         interaction.setTweet(status.getText());
@@ -194,6 +193,60 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                 TwitterLocalDataStore.saveInteraction(interactions);
             }
         });
+    }
+
+    @Override
+    public Observable<List<DirectMessage>> getDirectMessage(final long sinceId) {
+        final List<DirectMessage> localDirectMessages = new ArrayList<>();
+
+        return Observable.create(new Observable.OnSubscribe<List<DirectMessage>>() {
+            @Override
+            public void call(Subscriber<? super List<DirectMessage>> subscriber) {
+                try {
+                    Paging p = new Paging();
+                    p.setCount(50);
+                    if (sinceId > 1)
+                        p.setSinceId(sinceId);
+                    ResponseList<twitter4j.DirectMessage> directMessages = mTwitter.getDirectMessages(p);
+                    ResponseList<twitter4j.DirectMessage> sentMessages = mTwitter.getSentDirectMessages(p);
+                    directMessages.addAll(sentMessages);
+                    Timber.d(String.valueOf(directMessages.size()));
+                    for (twitter4j.DirectMessage message : directMessages) {
+                        DirectMessage directMessage = new DirectMessage();
+
+                        directMessage.setId(message.getId());
+                        directMessage.setDateCreated(String.valueOf(message.getCreatedAt()));
+                        directMessage.setRecipient(message.getRecipient().getName());
+                        directMessage.setRecipientId(message.getRecipientId());
+                        directMessage.setRecipientScreenName(message.getRecipientScreenName());
+                        directMessage.setSender(message.getSender().getName());
+                        directMessage.setSenderId(message.getSenderId());
+                        directMessage.setSenderScreenName(message.getSenderScreenName());
+                        directMessage.setText(message.getText());
+                        directMessage.setProfileUrl(message.getSender().getOriginalProfileImageURL());
+
+                        localDirectMessages.add(directMessage);
+                    }
+                    subscriber.onNext(localDirectMessages);
+
+
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+
+
+            }
+        }).doOnNext(new Action1<List<DirectMessage>>() {
+            @Override
+            public void call(List<DirectMessage> directMessageList) {
+                TwitterLocalDataStore.saveDirectMessage(directMessageList);
+            }
+        });
+
+
     }
 
 

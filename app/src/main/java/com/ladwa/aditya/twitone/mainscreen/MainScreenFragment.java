@@ -308,7 +308,6 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void showError() {
-//        Toast.makeText(getActivity(), "An error occurred", Toast.LENGTH_SHORT).show();
         Snackbar.make(recyclerView, R.string.error_occured, Snackbar.LENGTH_LONG)
                 .show();
 
@@ -316,7 +315,6 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void createdFavouriteCallback(Tweet tweet) {
-//        Toast.makeText(getActivity(), "Favourite", Toast.LENGTH_SHORT).show();
         Snackbar.make(recyclerView, R.string.favourite, Snackbar.LENGTH_LONG)
                 .show();
         mPresenter.loadTimeLine();

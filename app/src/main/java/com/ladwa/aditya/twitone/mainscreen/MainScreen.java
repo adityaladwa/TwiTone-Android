@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.interactions.Interactions;
-import com.ladwa.aditya.twitone.util.Utility;
+import com.ladwa.aditya.twitone.message.Message;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -25,8 +25,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-
-import java.util.Date;
 
 import timber.log.Timber;
 
@@ -96,6 +94,9 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
             case 2:
                 startActivity(new Intent(MainScreen.this, Interactions.class));
+                break;
+            case 3:
+                startActivity(new Intent(MainScreen.this, Message.class));
                 break;
             case 6:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);

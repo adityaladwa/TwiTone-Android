@@ -6,6 +6,7 @@ import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 import com.ladwa.aditya.twitone.interactions.InteractionsFragment;
 import com.ladwa.aditya.twitone.login.LoginActivityFragment;
 import com.ladwa.aditya.twitone.mainscreen.MainScreenFragment;
+import com.ladwa.aditya.twitone.message.MessageFragment;
 
 import javax.inject.Singleton;
 
@@ -27,5 +28,7 @@ public interface TwitterComponent {
     void inject(TwitterRemoteDataSource twitterRemoteDataSource);
 
     void inject(InteractionsFragment fragment);
+
+    void inject(MessageFragment fragment);
 
 }

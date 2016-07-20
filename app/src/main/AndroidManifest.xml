@@ -11,7 +11,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeDark">
+        android:theme="@style/AppTheme">
 
         <!-- Activities -->
         <activity
@@ -29,6 +29,25 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".interactions.Interactions"
+            android:label="@string/title_activity_interactions"
+            android:parentActivityName=".mainscreen.MainScreen"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
+        <activity
+            android:name=".message.Message"
+            android:label="@string/title_activity_message"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".mainscreen.MainScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
         </activity>
 
         <!-- Recievers -->
@@ -50,15 +69,7 @@
             android:name="com.ladwa.aditya.twitone.util.GlideConfiguration"
             android:value="GlideModule" />
 
-        <activity
-            android:name=".interactions.Interactions"
-            android:label="@string/title_activity_interactions"
-            android:parentActivityName=".mainscreen.MainScreen"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
-        </activity>
+
     </application>
 
 </manifest>

@@ -5,6 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.TwitterDataStore;
+import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
+import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOContentResolverDeleteResolver;
+import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOContentResolverGetResolver;
+import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOContentResolverPutResolver;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverGetResolver;
@@ -60,6 +64,11 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                         .getResolver(new InteractionStorIOContentResolverGetResolver())
                         .deleteResolver(new InteractionStorIOContentResolverDeleteResolver())
                         .build())
+                .addTypeMapping(DirectMessage.class, ContentResolverTypeMapping.<DirectMessage>builder()
+                        .putResolver(new DirectMessageStorIOContentResolverPutResolver())
+                        .getResolver(new DirectMessageStorIOContentResolverGetResolver())
+                        .deleteResolver(new DirectMessageStorIOContentResolverDeleteResolver())
+                        .build())
                 .build();
     }
 
@@ -100,6 +109,31 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                         .build())
                 .prepare()
                 .asRxObservable();
+    }
+
+    @Override
+    public Observable<List<DirectMessage>> getDirectMessage(long sinceId) {
+        return mStorIOContentResolver.get()
+                .listOfObjects(DirectMessage.class)
+                .withQuery(Query.builder().uri(TwitterContract.DirectMessage.CONTENT_URI)
+                        .sortOrder(TwitterContract.DirectMessage.COLUMN_ID + " DESC")
+                        .build())
+                .prepare()
+                .asRxObservable();
+    }
+
+    public static long getLastDirectMessageId() {
+        Interaction interaction = mStorIOContentResolver.get().object(Interaction.class)
+                .withQuery(Query.builder().uri(TwitterContract.Interaction.CONTENT_URI)
+                        .sortOrder(TwitterContract.Interaction.COLUMN_ID + " DESC LIMIT 1")
+                        .build())
+                .prepare()
+                .executeAsBlocking();
+
+        if (interaction == null)
+            return 1;
+        else
+            return interaction.getId();
     }
 
     public static long getLastTweetId() {
@@ -170,5 +204,8 @@ public class TwitterLocalDataStore implements TwitterDataStore {
         mStorIOContentResolver.put().objects(interactionList).prepare().executeAsBlocking();
     }
 
+    public static void saveDirectMessage(List<DirectMessage> directMessageList) {
+        mStorIOContentResolver.put().objects(directMessageList).prepare().executeAsBlocking();
+    }
 
 }
