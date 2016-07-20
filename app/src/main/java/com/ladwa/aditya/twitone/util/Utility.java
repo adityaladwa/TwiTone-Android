@@ -61,7 +61,7 @@ public class Utility {
         return (xlarge || large);
     }
 
-    public static Date parseDate(String date) {
+    public static String parseDate(String date) {
         Date twitterDate = null;
         SimpleDateFormat sf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
         try {
@@ -69,10 +69,10 @@ public class Utility {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return twitterDate;
+        return getTimeAgo(twitterDate.getTime());
     }
 
-    public static String getTimeAgo(long time, Context ctx) {
+    public static String getTimeAgo(long time) {
         if (time < 1000000000000L) {
             // if timestamp given in seconds, convert to millis
             time *= 1000;

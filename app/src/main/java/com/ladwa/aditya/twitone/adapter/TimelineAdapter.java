@@ -17,7 +17,6 @@ import com.ladwa.aditya.twitone.util.Utility;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -72,10 +71,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mTweet.getScreenName()));
         holder.textViewFavCount.setText(String.valueOf(mTweet.getFavCount()));
         holder.textViewRetweetCount.setText(String.valueOf(mTweet.getRetweetCount()));
-        String dateCreated = mTweet.getDateCreated();
-        Date date = Utility.parseDate(dateCreated);
-        String timeAgo = Utility.getTimeAgo(date.getTime(), mContext);
-        holder.textViewDate.setText(timeAgo);
+        holder.textViewDate.setText(Utility.parseDate(mTweet.getDateCreated()));
 
         if (mTweet.getFav() == 1) {
             holder.imageViewFav.setImageDrawable(favIcon.color(Color.RED));
