@@ -1,8 +1,12 @@
 package com.ladwa.aditya.twitone.trends;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +20,7 @@ import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.adapter.TrendAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
+import com.ladwa.aditya.twitone.data.local.TwitterContract;
 import com.ladwa.aditya.twitone.data.local.models.Trend;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 
@@ -31,7 +36,7 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TrendsFragment extends Fragment implements TrendsContract.View, ConnectionReceiver.ConnectionReceiverListener {
+public class TrendsFragment extends Fragment implements TrendsContract.View, ConnectionReceiver.ConnectionReceiverListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 
     @Inject
@@ -81,6 +86,8 @@ public class TrendsFragment extends Fragment implements TrendsContract.View, Con
         mTrends = new ArrayList<>();
         mTrendAdapter = new TrendAdapter(mTrends, getActivity());
         recyclerView.setAdapter(mTrendAdapter);
+
+        getLoaderManager().initLoader(0, null, this);
         return view;
     }
 
@@ -102,9 +109,9 @@ public class TrendsFragment extends Fragment implements TrendsContract.View, Con
 
     @Override
     public void loadedTrends(List<Trend> trendList) {
-        mTrends.clear();
-        mTrends.addAll(trendList);
-        mTrendAdapter.notifyDataSetChanged();
+//        mTrends.clear();
+//        mTrends.addAll(trendList);
+//        mTrendAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -125,5 +132,34 @@ public class TrendsFragment extends Fragment implements TrendsContract.View, Con
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         internet = isConnected;
+    }
+
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(), TwitterContract.Trends.CONTENT_URI, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null && data.getCount() > 0) {
+            mTrends.clear();
+            try {
+                while (data.moveToNext()) {
+                    Trend t = new Trend();
+                    t.setTrend(data.getString(data.getColumnIndex(TwitterContract.Trends.COLUMN_TREND)));
+                    mTrends.add(t);
+                }
+            } finally {
+                data.close();
+                mTrendAdapter.notifyDataSetChanged();
+            }
+
+        }
+    }
+
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+
     }
 }

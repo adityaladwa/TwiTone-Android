@@ -132,7 +132,7 @@ public class TwitterRepository implements TwitterDataStore {
     @Override
     public Observable<List<Trend>> getTrends() {
         return Observable
-                .concat(mLocalDataStore.getTrends().first(), mRemoteDataStore.getTrends())
+                .merge(mLocalDataStore.getTrends().first(), mRemoteDataStore.getTrends())
                 .first(new Func1<List<Trend>, Boolean>() {
                     @Override
                     public Boolean call(List<Trend> trendList) {
