@@ -11,7 +11,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.interactions.Interactions;
 import com.ladwa.aditya.twitone.message.Message;
@@ -38,6 +41,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private ProfileDrawerItem profileDrawerItem;
     private Drawer result;
     private PrimaryDrawerItem timeline;
+    private Tracker mTracker;
 
 
     @Override
@@ -48,6 +52,16 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Setup google Analytics Tracking
+        mTracker = TwitoneApp.getDefaultTracker();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTracker.setScreenName(MainScreen.class.getSimpleName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        
     }
 
     private void setupDrawer(String screenName) {

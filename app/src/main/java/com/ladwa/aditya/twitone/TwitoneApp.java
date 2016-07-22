@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.stetho.Stetho;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.ladwa.aditya.twitone.data.DaggerTwitterComponent;
 import com.ladwa.aditya.twitone.data.TwitterComponent;
 import com.ladwa.aditya.twitone.data.remote.TwitterModule;
@@ -20,12 +22,14 @@ import com.squareup.leakcanary.RefWatcher;
 import timber.log.Timber;
 
 /**
+ * An Application subclass for Twitone App
  * Created by Aditya on 25-Jun-16.
  */
 public class TwitoneApp extends MultiDexApplication {
     private static TwitterComponent mTwitterComponent;
     private static RefWatcher refWatcher;
     private static TwitoneApp smTwitoneApp;
+    private static Tracker mTracker;
 
     @Override
     public void onCreate() {
@@ -80,5 +84,14 @@ public class TwitoneApp extends MultiDexApplication {
 
     public static RefWatcher getRefWatcher() {
         return refWatcher;
+    }
+
+    public static synchronized Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(smTwitoneApp);
+            mTracker = analytics.newTracker(R.xml.track_app);
+            mTracker.enableAutoActivityTracking(true);
+        }
+        return mTracker;
     }
 }

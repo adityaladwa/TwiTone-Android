@@ -41,7 +41,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            applicationIdSuffix ".debug"
+//            applicationIdSuffix ".debug"
         }
     }
 
@@ -54,7 +54,7 @@ android {
     productFlavors {
         dev {
             minSdkVersion rootProject.ext.minSdkVersionDev
-            applicationId 'com.ladwa.aditya.twitone.dev'
+            applicationId 'com.ladwa.aditya.twitone'
             targetSdkVersion 23
             versionCode 1
             versionName '1.0'
@@ -92,6 +92,9 @@ dependencies {
     compile deps.googleMaterial
     //Iconic
     compile 'com.mikepenz:fontawesome-typeface:4.6.0.2@aar'
+
+    //Play services Analytics
+    compile 'com.google.android.gms:play-services-analytics:9.2.0'
 
     //Glide
     compile deps.glide
@@ -155,3 +158,4 @@ tasks.whenTaskAdded { task ->
         task.enabled = false
     }
 }
+apply plugin: 'com.google.gms.google-services'
