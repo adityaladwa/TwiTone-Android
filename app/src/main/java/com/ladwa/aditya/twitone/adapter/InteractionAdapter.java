@@ -64,13 +64,17 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
         mInteraction = mInteractionsList.get(position);
 
         holder.textViewTweet.setText(mInteraction.getTweet());
-
         holder.textViewUserName.setText(mInteraction.getUserName());
         holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mInteraction.getScreenName()));
         holder.textViewFavCount.setText(String.valueOf(mInteraction.getFavCount()));
         holder.textViewRetweetCount.setText(String.valueOf(mInteraction.getRetweetCount()));
         holder.textViewDate.setText(Utility.parseDate(mInteraction.getDateCreated()));
 
+        if (mInteraction.getVerified() == 1) {
+            holder.imageViewVerified.setImageDrawable(mContext.getDrawable(R.drawable.ic_user_type_verified));
+        } else {
+            holder.imageViewVerified.setVisibility(View.GONE);
+        }
 
         if (mInteraction.getFav() == 1) {
             holder.imageViewFav.setImageDrawable(favIcon.color(Color.RED));
@@ -111,6 +115,8 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
 
         @BindView(R.id.imageview_profile_pic)
         ImageView imageViewProfile;
+        @BindView(R.id.imageview_verified)
+        ImageView imageViewVerified;
         @BindView(R.id.textview_tweet)
         TextView textViewTweet;
         @BindView(R.id.textview_screen_name)

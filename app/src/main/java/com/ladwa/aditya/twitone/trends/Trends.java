@@ -39,7 +39,7 @@ public class Trends extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TrendsFragment(), "Global");
-        adapter.addFragment(new TrendsFragment(), "Local");
+        adapter.addFragment(new LocalTrendsFragment(), "Local");
 
         viewPager.setAdapter(adapter);
     }

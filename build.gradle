@@ -26,6 +26,7 @@ allprojects {
     repositories {
         jcenter()
         maven { url "http://dl.bintray.com/jjhesk/maven" }
+        maven { url "https://clojars.org/repo/" }
         maven { url "https://jitpack.io" }
         mavenCentral()
     }

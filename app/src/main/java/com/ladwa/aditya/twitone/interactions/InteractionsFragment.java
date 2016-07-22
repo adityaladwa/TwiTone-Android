@@ -97,8 +97,6 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
         //Check if tablet or phone
         tablet = Utility.isTablet(getActivity());
 
-        //Check internet connection
-        internet = ConnectionReceiver.isConnected();
 
         //Shared Preferences
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
@@ -174,7 +172,9 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
     public void onResume() {
         super.onResume();
         mPresenter.subscribe();
-        TwitoneApp.setConnectionListener(this);
+        ConnectionReceiver.setConnectionReceiverListener(this);
+        //Check internet connection
+        internet = ConnectionReceiver.isConnected();
     }
 
     @Override
@@ -182,6 +182,7 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
         super.onPause();
         mPresenter.unsubscribe();
         saveScrollPosition();
+        ConnectionReceiver.destoryInstance();
     }
 
     @Override

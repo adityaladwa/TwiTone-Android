@@ -9,7 +9,8 @@ import android.net.NetworkInfo;
 import com.ladwa.aditya.twitone.TwitoneApp;
 
 /**
- *
+ * A BroadCast Receiver to listen for Connectivity Changes
+ * {@link BroadcastReceiver}
  * Created by Aditya on 28-Jun-16.
  */
 public class ConnectionReceiver extends BroadcastReceiver {
@@ -31,6 +32,14 @@ public class ConnectionReceiver extends BroadcastReceiver {
         if (connectionReceiverListener != null) {
             connectionReceiverListener.onNetworkConnectionChanged(isConnected);
         }
+    }
+
+    public static void destoryInstance() {
+        connectionReceiverListener = null;
+    }
+
+    public static void setConnectionReceiverListener(ConnectionReceiverListener listener) {
+        connectionReceiverListener = listener;
     }
 
     public static boolean isConnected() {

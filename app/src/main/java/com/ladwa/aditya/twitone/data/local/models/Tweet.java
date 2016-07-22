@@ -1,5 +1,9 @@
 package com.ladwa.aditya.twitone.data.local.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.auto.value.AutoValue;
 import com.ladwa.aditya.twitone.data.local.TwitterContract;
 import com.pushtorefresh.storio.contentresolver.annotations.StorIOContentResolverColumn;
 import com.pushtorefresh.storio.contentresolver.annotations.StorIOContentResolverType;
@@ -10,9 +14,13 @@ import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteType;
  * A model for Tweets
  * Created by Aditya on 14-Jul-16.
  */
+@AutoValue
 @StorIOSQLiteType(table = TwitterContract.Tweet.TABLE_NAME)
 @StorIOContentResolverType(uri = TwitterContract.Tweet.CONTENT_URI_STRING)
-public class Tweet {
+public class Tweet implements Parcelable {
+
+    public Tweet() {
+    }
 
     @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_ID, key = true)
     @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_ID, key = true)
@@ -62,6 +70,32 @@ public class Tweet {
     @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_RETWEET)
     @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_RETWEET)
     int retweet;
+
+    protected Tweet(Parcel in) {
+        tweet = in.readString();
+        lastModified = in.readString();
+        dateCreated = in.readString();
+        profileUrl = in.readString();
+        screenName = in.readString();
+        userName = in.readString();
+        favCount = in.readInt();
+        verified = in.readInt();
+        retweetCount = in.readInt();
+        fav = in.readInt();
+        retweet = in.readInt();
+    }
+
+    public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
+        @Override
+        public Tweet createFromParcel(Parcel in) {
+            return new Tweet(in);
+        }
+
+        @Override
+        public Tweet[] newArray(int size) {
+            return new Tweet[size];
+        }
+    };
 
     public Long getId() {
         return id;
@@ -157,5 +191,25 @@ public class Tweet {
 
     public void setRetweet(int retweet) {
         this.retweet = retweet;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(tweet);
+        dest.writeString(lastModified);
+        dest.writeString(dateCreated);
+        dest.writeString(profileUrl);
+        dest.writeString(screenName);
+        dest.writeString(userName);
+        dest.writeInt(favCount);
+        dest.writeInt(verified);
+        dest.writeInt(retweetCount);
+        dest.writeInt(fav);
+        dest.writeInt(retweet);
     }
 }

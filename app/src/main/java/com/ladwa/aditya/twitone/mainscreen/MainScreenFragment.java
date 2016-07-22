@@ -104,8 +104,6 @@ public class MainScreenFragment extends Fragment
         //Check if tablet or phone
         tablet = Utility.isTablet(getActivity());
 
-        //Check internet connection
-        internet = ConnectionReceiver.isConnected();
 
         //Shared Preferences
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
@@ -193,8 +191,9 @@ public class MainScreenFragment extends Fragment
     public void onResume() {
         super.onResume();
         mPresenter.subscribe();
-        TwitoneApp.setConnectionListener(this);
-
+        ConnectionReceiver.setConnectionReceiverListener(this);
+        //Check internet connection
+        internet = ConnectionReceiver.isConnected();
     }
 
     @Override
@@ -202,6 +201,8 @@ public class MainScreenFragment extends Fragment
         super.onPause();
         mPresenter.unsubscribe();
         saveScrollPosition();
+        mDrawerCallback = null;
+        ConnectionReceiver.destoryInstance();
     }
 
     @Override
@@ -215,7 +216,7 @@ public class MainScreenFragment extends Fragment
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        mDrawerCallback = null;
+
     }
 
     @Override
@@ -384,7 +385,7 @@ public class MainScreenFragment extends Fragment
         if (internet) {
             if (mTweets.get(position).getRetweet() == 0) {
                 mPresenter.createRetweet(mTweets.get(position).getId());
-                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_retweet).color(Color.BLUE));
+                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_retweet).color(Color.GREEN));
             }
         } else {
             Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)

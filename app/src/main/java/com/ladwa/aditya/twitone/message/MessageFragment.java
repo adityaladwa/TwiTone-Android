@@ -77,8 +77,7 @@ public class MessageFragment extends Fragment implements MessageContract.View,
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
 
-        //Check internet connection
-        internet = ConnectionReceiver.isConnected();
+
 
         //Shared Preferences
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
@@ -116,13 +115,16 @@ public class MessageFragment extends Fragment implements MessageContract.View,
     public void onResume() {
         super.onResume();
         mPresenter.subscribe();
-        TwitoneApp.setConnectionListener(this);
+        ConnectionReceiver.setConnectionReceiverListener(this);
+        //Check internet connection
+        internet = ConnectionReceiver.isConnected();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mPresenter.unsubscribe();
+        ConnectionReceiver.destoryInstance();
     }
 
     @Override

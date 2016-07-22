@@ -91,10 +91,8 @@ dependencies {
     }
     compile deps.googleMaterial
     //Iconic
-    compile 'com.mikepenz:fontawesome-typeface:4.6.0.2@aar'
 
     //Play services Analytics
-    compile 'com.google.android.gms:play-services-analytics:9.2.0'
 
     //Glide
     compile deps.glide
@@ -103,12 +101,13 @@ dependencies {
     compile deps.ultimateRecyclerView
 
     //Circular Image View
-    compile 'com.mikhaellopez:circularimageview:3.0.2'
 
     //Preety Time
+    compile 'com.mikepenz:fontawesome-typeface:4.6.0.2@aar'
+    compile 'com.google.android.gms:play-services-analytics:9.2.0'
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
-
-
+    compile 'com.android.support:support-v4:23.4.0'
 
     //Stetho
     compile deps.stetho
@@ -143,6 +142,10 @@ dependencies {
     releaseCompile deps.leakCanaryTestAndRelease
     testCompile deps.leakCanaryTestAndRelease
 
+    compile "com.google.auto.value:auto-value:1.2"
+    apt         "com.google.auto.value:auto-value:1.2"
+    apt 'frankiesardo:auto-parcel:1.0.3'
+
     //Test dependency
     testCompile deps.junit
     androidTestCompile deps.testRunner
@@ -151,6 +154,7 @@ dependencies {
     androidTestCompile deps.uiautomator
     androidTestCompile deps.annotation
     androidTestCompile deps.espressoWeb
+
 }
 
 tasks.whenTaskAdded { task ->

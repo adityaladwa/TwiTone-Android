@@ -65,7 +65,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         mTweet = mTweetList.get(position);
-
         holder.textViewTweet.setText(mTweet.getTweet());
         holder.textViewUserName.setText(mTweet.getUserName());
         holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mTweet.getScreenName()));
@@ -73,14 +72,20 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         holder.textViewRetweetCount.setText(String.valueOf(mTweet.getRetweetCount()));
         holder.textViewDate.setText(Utility.parseDate(mTweet.getDateCreated()));
 
-        if (mTweet.getFav() == 1) {
+        if (mTweetList.get(position).getVerified() == 1) {
+            holder.imageViewVerified.setImageDrawable(mContext.getDrawable(R.drawable.ic_user_type_verified));
+        } else {
+            holder.imageViewVerified.setVisibility(View.GONE);
+        }
+
+        if (mTweetList.get(position).getFav() == 1) {
             holder.imageViewFav.setImageDrawable(favIcon.color(Color.RED));
         } else {
             holder.imageViewFav.setImageDrawable(favIcon.color(Color.GRAY));
         }
 
-        if (mTweet.getRetweet() == 1) {
-            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLUE));
+        if (mTweetList.get(position).getRetweet() == 1) {
+            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.GREEN));
         } else {
             holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.GRAY));
         }
@@ -95,6 +100,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                 .into(holder.imageViewProfile);
 
     }
+
 
 
     @Override
@@ -114,6 +120,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
         @BindView(R.id.imageview_profile_pic)
         ImageView imageViewProfile;
+        @BindView(R.id.imageview_verified)
+        ImageView imageViewVerified;
         @BindView(R.id.textview_tweet)
         TextView textViewTweet;
         @BindView(R.id.textview_screen_name)

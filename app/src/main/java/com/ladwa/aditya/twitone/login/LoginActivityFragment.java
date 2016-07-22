@@ -70,7 +70,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
-        internet = ConnectionReceiver.isConnected();
+
         new LoginPresenter(this, twitter);
 
 
@@ -133,13 +133,15 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     public void onResume() {
         super.onResume();
         mPresenter.subscribe();
-        TwitoneApp.setConnectionListener(this);
+        internet = ConnectionReceiver.isConnected();
+        ConnectionReceiver.setConnectionReceiverListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mPresenter.unsubscribe();
+        ConnectionReceiver.destoryInstance();
     }
 
     @Override
