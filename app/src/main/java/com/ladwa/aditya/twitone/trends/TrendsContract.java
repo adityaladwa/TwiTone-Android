@@ -10,7 +10,7 @@ import com.ladwa.aditya.twitone.BaseView;
 public class TrendsContract {
 
     interface View extends BaseView<Presenter> {
-        void loadLocalTrends();
+        void loadedTrends();
 
         void stopRefreshing();
 

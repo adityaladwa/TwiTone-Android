@@ -5,6 +5,7 @@
     tools:context="com.ladwa.aditya.twitone.mainscreen.MainScreenFragment"
     tools:showIn="@layout/activity_main_screen">
 
+
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
@@ -18,5 +19,4 @@
             android:scrollbars="vertical" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
 </RelativeLayout>

@@ -89,6 +89,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
         result = new DrawerBuilder()
                 .withActivity(this)
+
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
