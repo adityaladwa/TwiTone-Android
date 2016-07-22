@@ -18,6 +18,7 @@ import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.interactions.Interactions;
 import com.ladwa.aditya.twitone.message.Message;
+import com.ladwa.aditya.twitone.trends.Trends;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -61,7 +62,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         super.onResume();
         mTracker.setScreenName(MainScreen.class.getSimpleName());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        
+
     }
 
     private void setupDrawer(String screenName) {
@@ -72,8 +73,10 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                 .withIdentifier(2).withName(R.string.drawer_interaction);
         final PrimaryDrawerItem message = new PrimaryDrawerItem()
                 .withIcon(GoogleMaterial.Icon.gmd_question_answer).withIdentifier(3).withName(R.string.drawer_message);
-        final PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.drawer_setting);
-        final PrimaryDrawerItem logOut = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.drawer_logout);
+        final PrimaryDrawerItem trends = new PrimaryDrawerItem()
+                .withIcon(GoogleMaterial.Icon.gmd_trending_up).withIdentifier(4).withName(R.string.drawer_trends);
+        final PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.drawer_setting);
+        final PrimaryDrawerItem logOut = new PrimaryDrawerItem().withIdentifier(6).withName(R.string.drawer_logout);
 
         profileDrawerItem = new ProfileDrawerItem()
                 .withName(screenName)
@@ -92,6 +95,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                         timeline,
                         interaction,
                         message,
+                        trends,
                         new DividerDrawerItem(),
                         settings,
                         logOut
@@ -112,7 +116,10 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
             case 3:
                 startActivity(new Intent(MainScreen.this, Message.class));
                 break;
-            case 6:
+            case 4:
+                startActivity(new Intent(MainScreen.this, Trends.class));
+                break;
+            case 7:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
                 builder.setTitle(R.string.logout_dialog_title);
                 builder.setMessage(R.string.logout_dialog_message);

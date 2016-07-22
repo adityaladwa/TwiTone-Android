@@ -107,7 +107,6 @@ public class MainScreenFragment extends Fragment
         //Check internet connection
         internet = ConnectionReceiver.isConnected();
 
-
         //Shared Preferences
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         long id = preferences.getLong(getString(R.string.pref_userid), 0);
@@ -216,6 +215,7 @@ public class MainScreenFragment extends Fragment
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        mDrawerCallback = null;
     }
 
     @Override

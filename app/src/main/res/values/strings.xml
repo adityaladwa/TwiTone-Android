@@ -37,6 +37,7 @@
     <string name="drawer_interaction">Interection</string>
     <string name="drawer_message">Messages</string>
     <string name="drawer_setting">Settings</string>
+    <string name="drawer_trends">Trends</string>
     <string name="drawer_logout">Log Out</string>
     <string name="profile_image">Profile Image</string>
 
@@ -48,6 +49,7 @@
     <string name="pref_scroll_pos_interaction">Scroll_pos_interaction</string>
     <string name="pref_scroll_pos">Scroll_pos</string>
     <string name="title_activity_message">Message</string>
+    <string name="title_activity_trends">Trends</string>
 
 
 </resources>
