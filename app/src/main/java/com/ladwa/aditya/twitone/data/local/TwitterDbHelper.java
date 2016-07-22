@@ -13,7 +13,7 @@ import timber.log.Timber;
 public class TwitterDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Twitone.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 1;
 
     public TwitterDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,6 +25,7 @@ public class TwitterDbHelper extends SQLiteOpenHelper {
         db.execSQL(TwitterContract.Tweet.getTweetCreateQuery());
         db.execSQL(TwitterContract.Interaction.getInteractionCreateQuery());
         db.execSQL(TwitterContract.DirectMessage.getDirectMessageCreateQuery());
+        db.execSQL(TwitterContract.Trends.getTrendsCreateQuery());
         Timber.d("Created database" + DATABASE_NAME);
     }
 
@@ -34,6 +35,7 @@ public class TwitterDbHelper extends SQLiteOpenHelper {
         db.execSQL(TwitterContract.Tweet.getTweetDeleteQuery());
         db.execSQL(TwitterContract.Interaction.getInteractionDeleteQuery());
         db.execSQL(TwitterContract.DirectMessage.getDirectMessageDeleteQuery());
+        db.execSQL(TwitterContract.Trends.getTrendsDeleteQuery());
         onCreate(db);
     }
 
@@ -43,6 +45,7 @@ public class TwitterDbHelper extends SQLiteOpenHelper {
         db.execSQL(TwitterContract.Tweet.getTweetDeleteQuery());
         db.execSQL(TwitterContract.Interaction.getInteractionDeleteQuery());
         db.execSQL(TwitterContract.DirectMessage.getDirectMessageDeleteQuery());
+        db.execSQL(TwitterContract.Trends.getTrendsDeleteQuery());
         onCreate(db);
     }
 }

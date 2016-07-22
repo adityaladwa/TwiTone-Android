@@ -27,6 +27,9 @@ public class TwitoneProvider extends ContentProvider {
     public static final int DIRECT_MESSAGE_ITEM = 400;
     public static final int DIRECT_MESSAGE_DIR = 401;
 
+    public static final int TRENDS_ITEM = 500;
+    public static final int TRENDS_DIR = 501;
+
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private TwitterDbHelper mTwitterDbHelper;
 
@@ -46,6 +49,9 @@ public class TwitoneProvider extends ContentProvider {
 
         matcher.addURI(authority, TwitterContract.PATH_DIRECT_MESSAGE + "/#", DIRECT_MESSAGE_ITEM);
         matcher.addURI(authority, TwitterContract.PATH_DIRECT_MESSAGE, DIRECT_MESSAGE_DIR);
+
+        matcher.addURI(authority, TwitterContract.PATH_TRENDS + "/#", TRENDS_ITEM);
+        matcher.addURI(authority, TwitterContract.PATH_TRENDS, TRENDS_DIR);
 
         return matcher;
     }
@@ -158,6 +164,31 @@ public class TwitoneProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
+
+            //Case for Trends
+            case TRENDS_ITEM:
+                retCursor = mTwitterDbHelper.getReadableDatabase().query(
+                        TwitterContract.Trends.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+
+            case TRENDS_DIR:
+                retCursor = mTwitterDbHelper.getReadableDatabase().query(
+                        TwitterContract.Trends.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri " + uri);
         }
@@ -193,6 +224,12 @@ public class TwitoneProvider extends ContentProvider {
                 return TwitterContract.DirectMessage.CONTENT_INTERACTION_ITEM_TYPE;
             case DIRECT_MESSAGE_DIR:
                 return TwitterContract.DirectMessage.CONTENT_INTERACTION_TYPE;
+
+            //Case for Trends
+            case TRENDS_ITEM:
+                return TwitterContract.Trends.CONTENT_INTERACTION_ITEM_TYPE;
+            case TRENDS_DIR:
+                return TwitterContract.Trends.CONTENT_INTERACTION_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown URI " + uri);
         }
@@ -240,6 +277,15 @@ public class TwitoneProvider extends ContentProvider {
                 else
                     throw new SQLException("Failed to insert row " + uri);
                 break;
+
+            //Case for Trends
+            case TRENDS_DIR:
+                _id = db.insert(TwitterContract.Trends.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = TwitterContract.Trends.buildTrendUri(_id);
+                else
+                    throw new SQLException("Failed to insert row " + uri);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown URI " + uri);
         }
@@ -250,7 +296,20 @@ public class TwitoneProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = mTwitterDbHelper.getWritableDatabase();
+        int rowsDeleted;
+        switch (sUriMatcher.match(uri)) {
+            case TRENDS_DIR:
+                rowsDeleted = db.delete(TwitterContract.Trends.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown URI " + uri);
+        }
+
+        if (selection == null || 0 != rowsDeleted)
+            getContext().getContentResolver().notifyChange(uri, null);
+        return rowsDeleted;
+
     }
 
     @Override
@@ -276,6 +335,10 @@ public class TwitoneProvider extends ContentProvider {
             //Case for Direct message
             case DIRECT_MESSAGE_DIR:
                 update = db.update(TwitterContract.DirectMessage.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            //Case for Trends message
+            case TRENDS_DIR:
+                update = db.update(TwitterContract.Trends.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown URI " + uri);

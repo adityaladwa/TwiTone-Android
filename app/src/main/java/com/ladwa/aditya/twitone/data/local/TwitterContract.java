@@ -14,10 +14,13 @@ public final class TwitterContract {
     public static final String CONTENT_AUTHORITY = "com.ladwa.aditya.twitone";
     private static final String CONTENT_SCHEME = "content://";
     public static final Uri BASE_CONTENT_URI = Uri.parse(CONTENT_SCHEME + CONTENT_AUTHORITY);
+
+    //Content Uri paths
     public static final String PATH_USER = "user";
     public static final String PATH_TWEET = "tweet";
     public static final String PATH_INTERACTION = "interaction";
     public static final String PATH_DIRECT_MESSAGE = "directmessage";
+    public static final String PATH_TRENDS = "trends";
 
     public TwitterContract() {
     }
@@ -200,6 +203,37 @@ public final class TwitterContract {
         }
 
         public static Uri buildTweetUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+    }
+
+    public static abstract class Trends implements BaseColumns {
+        @NonNull
+        public static final String CONTENT_URI_STRING = "content://" + CONTENT_AUTHORITY + "/" + PATH_TRENDS;
+        public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
+
+        public static final String CONTENT_INTERACTION_TYPE = "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_TRENDS;
+        public static final String CONTENT_INTERACTION_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_TRENDS;
+        public static final String TABLE_NAME = "trends";
+
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_DATE_CREATED = "date_created";
+        public static final String COLUMN_TREND = "trend";
+        public static final String COLUMN_LOCAL = "local";
+
+        public static String getTrendsCreateQuery() {
+            return "CREATE TABLE " + TABLE_NAME + " (" +
+                    COLUMN_TREND + " TEXT NOT NULL PRIMARY KEY, " +
+                    COLUMN_LOCAL + " INT NOT NULL, " +
+                    COLUMN_DATE_CREATED + " TEXT NOT NULL);";
+
+        }
+
+        public static String getTrendsDeleteQuery() {
+            return "DROP TABLE IF EXISTS " + TABLE_NAME;
+        }
+
+        public static Uri buildTrendUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }

@@ -16,6 +16,10 @@ import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverGetResolver;
 import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverPutResolver;
+import com.ladwa.aditya.twitone.data.local.models.Trend;
+import com.ladwa.aditya.twitone.data.local.models.TrendStorIOContentResolverDeleteResolver;
+import com.ladwa.aditya.twitone.data.local.models.TrendStorIOContentResolverGetResolver;
+import com.ladwa.aditya.twitone.data.local.models.TrendStorIOContentResolverPutResolver;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.TweetStorIOContentResolverDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.TweetStorIOContentResolverGetResolver;
@@ -27,6 +31,7 @@ import com.ladwa.aditya.twitone.data.local.models.UserStorIOContentResolverPutRe
 import com.pushtorefresh.storio.contentresolver.ContentResolverTypeMapping;
 import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
+import com.pushtorefresh.storio.contentresolver.queries.DeleteQuery;
 import com.pushtorefresh.storio.contentresolver.queries.Query;
 
 import java.util.List;
@@ -74,6 +79,11 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                         .getResolver(new DirectMessageStorIOContentResolverGetResolver())
                         .deleteResolver(new DirectMessageStorIOContentResolverDeleteResolver())
                         .build())
+                .addTypeMapping(Trend.class, ContentResolverTypeMapping.<Trend>builder()
+                        .putResolver(new TrendStorIOContentResolverPutResolver())
+                        .getResolver(new TrendStorIOContentResolverGetResolver())
+                        .deleteResolver(new TrendStorIOContentResolverDeleteResolver())
+                        .build())
                 .build();
     }
 
@@ -116,6 +126,7 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                 .asRxObservable();
     }
 
+
     @Override
     public Observable<List<DirectMessage>> getDirectMessage(long sinceId) {
         long userId = preferences.getLong(mContext.getString(R.string.pref_userid), 0);
@@ -129,6 +140,17 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                 .prepare()
                 .asRxObservable();
     }
+
+    @Override
+    public Observable<List<Trend>> getTrends() {
+        return mStorIOContentResolver.get()
+                .listOfObjects(Trend.class)
+                .withQuery(Query.builder().uri(TwitterContract.Trends.CONTENT_URI)
+                        .build())
+                .prepare()
+                .asRxObservable();
+    }
+
 
     public static long getLastDirectMessageId() {
         Interaction interaction = mStorIOContentResolver.get().object(Interaction.class)
@@ -201,7 +223,6 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
     public static void saveUserInfo(User user) {
         mStorIOContentResolver.put().object(user).prepare().executeAsBlocking();
-
     }
 
     public static void saveTimeLine(List<Tweet> tweetList) {
@@ -214,6 +235,17 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
     public static void saveDirectMessage(List<DirectMessage> directMessageList) {
         mStorIOContentResolver.put().objects(directMessageList).prepare().executeAsBlocking();
+    }
+
+    public static void deleteTrends() {
+        mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.Trends.CONTENT_URI)
+                .where(TwitterContract.Trends.COLUMN_LOCAL + " = ? ")
+                .whereArgs(0)
+                .build()).prepare().executeAsBlocking();
+    }
+
+    public static void saveTrend(List<Trend> trendList) {
+        mStorIOContentResolver.put().objects(trendList).prepare().executeAsBlocking();
     }
 
 }

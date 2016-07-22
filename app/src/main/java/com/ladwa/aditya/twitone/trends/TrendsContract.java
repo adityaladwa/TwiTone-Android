@@ -2,6 +2,9 @@ package com.ladwa.aditya.twitone.trends;
 
 import com.ladwa.aditya.twitone.BasePresenter;
 import com.ladwa.aditya.twitone.BaseView;
+import com.ladwa.aditya.twitone.data.local.models.Trend;
+
+import java.util.List;
 
 /**
  * A Contract class for Trends
@@ -10,7 +13,7 @@ import com.ladwa.aditya.twitone.BaseView;
 public class TrendsContract {
 
     interface View extends BaseView<Presenter> {
-        void loadedTrends();
+        void loadedTrends(List<Trend> trendList);
 
         void stopRefreshing();
 

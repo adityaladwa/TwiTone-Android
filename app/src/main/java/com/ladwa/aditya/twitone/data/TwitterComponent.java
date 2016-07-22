@@ -7,6 +7,8 @@ import com.ladwa.aditya.twitone.interactions.InteractionsFragment;
 import com.ladwa.aditya.twitone.login.LoginActivityFragment;
 import com.ladwa.aditya.twitone.mainscreen.MainScreenFragment;
 import com.ladwa.aditya.twitone.message.MessageFragment;
+import com.ladwa.aditya.twitone.trends.LocalTrendsFragment;
+import com.ladwa.aditya.twitone.trends.TrendsFragment;
 
 import javax.inject.Singleton;
 
@@ -30,5 +32,9 @@ public interface TwitterComponent {
     void inject(InteractionsFragment fragment);
 
     void inject(MessageFragment fragment);
+
+    void inject(TrendsFragment fragment);
+
+    void inject(LocalTrendsFragment fragment);
 
 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
+import com.ladwa.aditya.twitone.data.local.models.Trend;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
@@ -126,5 +127,28 @@ public class TwitterRepository implements TwitterDataStore {
                 });
 //        return mRemoteDataStore.getDirectMessage(sinceId);
 //        return mLocalDataStore.getDirectMessage(sinceId).first();
+    }
+
+    @Override
+    public Observable<List<Trend>> getTrends() {
+        return Observable
+                .concat(mLocalDataStore.getTrends().first(), mRemoteDataStore.getTrends())
+                .first(new Func1<List<Trend>, Boolean>() {
+                    @Override
+                    public Boolean call(List<Trend> trendList) {
+                        if (trendList == null) {
+                            Timber.d("Null");
+                            return false;
+                        } else {
+                            if (trendList.size() == 0)
+                                return false;
+                            else {
+                                return true;
+                            }
+                        }
+                    }
+                });
+
+//        return mRemoteDataStore.getTrends();
     }
 }

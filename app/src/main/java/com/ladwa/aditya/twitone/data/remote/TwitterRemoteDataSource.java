@@ -23,6 +23,8 @@ import timber.log.Timber;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
+import twitter4j.Trend;
+import twitter4j.Trends;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -157,7 +159,6 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     if (sinceId > 1)
                         p.setSinceId(sinceId);
                     ResponseList<Status> mentionsTimeline = mTwitter.getMentionsTimeline(p);
-
                     for (Status status : mentionsTimeline) {
                         Interaction interaction = new Interaction();
                         interaction.setTweet(status.getText());
@@ -247,6 +248,47 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         });
 
 
+    }
+
+    @Override
+    public Observable<List<com.ladwa.aditya.twitone.data.local.models.Trend>> getTrends() {
+        final List<com.ladwa.aditya.twitone.data.local.models.Trend> localTrendObject = new ArrayList<>();
+        return Observable.create(new Observable.OnSubscribe<List<com.ladwa.aditya.twitone.data.local.models.Trend>>() {
+            @Override
+            public void call(Subscriber<? super List<com.ladwa.aditya.twitone.data.local.models.Trend>> subscriber) {
+                Trends placeTrends = null;
+                try {
+                    placeTrends = mTwitter.getPlaceTrends(1);
+                    Trend[] trends = placeTrends.getTrends();
+                    for (Trend trend : trends) {
+                        com.ladwa.aditya.twitone.data.local.models.Trend trend1 = new com.ladwa.aditya.twitone.data.local.models.Trend();
+                        trend1.setTrend(trend.getName());
+                        trend1.setLocal(0);
+                        trend1.setDateCreated(Utility.getDateTime());
+
+                        localTrendObject.add(trend1);
+                    }
+                    subscriber.onNext(localTrendObject);
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+
+            }
+        }).doOnNext(new Action1<List<com.ladwa.aditya.twitone.data.local.models.Trend>>() {
+            @Override
+            public void call(List<com.ladwa.aditya.twitone.data.local.models.Trend> trendList) {
+                //Delete Old trends first
+                TwitterLocalDataStore.deleteTrends();
+            }
+        }).doOnNext(new Action1<List<com.ladwa.aditya.twitone.data.local.models.Trend>>() {
+            @Override
+            public void call(List<com.ladwa.aditya.twitone.data.local.models.Trend> trendList) {
+                TwitterLocalDataStore.saveTrend(trendList);
+            }
+        });
     }
 
 
