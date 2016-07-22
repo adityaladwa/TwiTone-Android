@@ -1,5 +1,9 @@
 package com.ladwa.aditya.twitone.data.local.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.auto.value.AutoValue;
 import com.ladwa.aditya.twitone.data.local.TwitterContract;
 import com.pushtorefresh.storio.contentresolver.annotations.StorIOContentResolverColumn;
 import com.pushtorefresh.storio.contentresolver.annotations.StorIOContentResolverType;
@@ -10,9 +14,10 @@ import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteType;
  * A model for User profile
  * Created by Aditya on 04-Jul-16.
  */
+@AutoValue
 @StorIOSQLiteType(table = TwitterContract.User.TABLE_NAME)
 @StorIOContentResolverType(uri = TwitterContract.User.CONTENT_URI_STRING)
-public class User {
+public class User implements Parcelable {
 
 
     public User() {
@@ -88,5 +93,39 @@ public class User {
 
     public void setBannerUrl(String bannerUrl) {
         this.bannerUrl = bannerUrl;
+    }
+
+    protected User(Parcel in) {
+        name = in.readString();
+        screenName = in.readString();
+        profileUrl = in.readString();
+        bannerUrl = in.readString();
+        lastModified = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(screenName);
+        dest.writeString(profileUrl);
+        dest.writeString(bannerUrl);
+        dest.writeString(lastModified);
     }
 }

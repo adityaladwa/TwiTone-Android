@@ -71,31 +71,6 @@ public class Tweet implements Parcelable {
     @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_RETWEET)
     int retweet;
 
-    protected Tweet(Parcel in) {
-        tweet = in.readString();
-        lastModified = in.readString();
-        dateCreated = in.readString();
-        profileUrl = in.readString();
-        screenName = in.readString();
-        userName = in.readString();
-        favCount = in.readInt();
-        verified = in.readInt();
-        retweetCount = in.readInt();
-        fav = in.readInt();
-        retweet = in.readInt();
-    }
-
-    public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
-        @Override
-        public Tweet createFromParcel(Parcel in) {
-            return new Tweet(in);
-        }
-
-        @Override
-        public Tweet[] newArray(int size) {
-            return new Tweet[size];
-        }
-    };
 
     public Long getId() {
         return id;
@@ -192,6 +167,32 @@ public class Tweet implements Parcelable {
     public void setRetweet(int retweet) {
         this.retweet = retweet;
     }
+
+    protected Tweet(Parcel in) {
+        tweet = in.readString();
+        lastModified = in.readString();
+        dateCreated = in.readString();
+        profileUrl = in.readString();
+        screenName = in.readString();
+        userName = in.readString();
+        favCount = in.readInt();
+        verified = in.readInt();
+        retweetCount = in.readInt();
+        fav = in.readInt();
+        retweet = in.readInt();
+    }
+
+    public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
+        @Override
+        public Tweet createFromParcel(Parcel in) {
+            return new Tweet(in);
+        }
+
+        @Override
+        public Tweet[] newArray(int size) {
+            return new Tweet[size];
+        }
+    };
 
     @Override
     public int describeContents() {

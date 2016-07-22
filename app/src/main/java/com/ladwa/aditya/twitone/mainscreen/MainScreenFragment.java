@@ -201,7 +201,6 @@ public class MainScreenFragment extends Fragment
         super.onPause();
         mPresenter.unsubscribe();
         saveScrollPosition();
-        mDrawerCallback = null;
         ConnectionReceiver.destoryInstance();
     }
 

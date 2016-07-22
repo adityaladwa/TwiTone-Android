@@ -1,5 +1,9 @@
 package com.ladwa.aditya.twitone.data.local.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.auto.value.AutoValue;
 import com.ladwa.aditya.twitone.data.local.TwitterContract;
 import com.pushtorefresh.storio.contentresolver.annotations.StorIOContentResolverColumn;
 import com.pushtorefresh.storio.contentresolver.annotations.StorIOContentResolverType;
@@ -10,9 +14,13 @@ import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteType;
  * A Model for Interactions
  * Created by Aditya on 19-Jul-16.
  */
+@AutoValue
 @StorIOSQLiteType(table = TwitterContract.Interaction.TABLE_NAME)
 @StorIOContentResolverType(uri = TwitterContract.Interaction.CONTENT_URI_STRING)
-public class Interaction {
+public class Interaction implements Parcelable {
+
+    public Interaction() {
+    }
 
     @StorIOSQLiteColumn(name = TwitterContract.Interaction.COLUMN_ID, key = true)
     @StorIOContentResolverColumn(name = TwitterContract.Interaction.COLUMN_ID, key = true)
@@ -158,4 +166,50 @@ public class Interaction {
     public void setRetweet(int retweet) {
         this.retweet = retweet;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(tweet);
+        dest.writeString(lastModified);
+        dest.writeString(dateCreated);
+        dest.writeString(profileUrl);
+        dest.writeString(screenName);
+        dest.writeString(userName);
+        dest.writeInt(favCount);
+        dest.writeInt(verified);
+        dest.writeInt(retweetCount);
+        dest.writeInt(fav);
+        dest.writeInt(retweet);
+    }
+
+    protected Interaction(Parcel in) {
+        tweet = in.readString();
+        lastModified = in.readString();
+        dateCreated = in.readString();
+        profileUrl = in.readString();
+        screenName = in.readString();
+        userName = in.readString();
+        favCount = in.readInt();
+        verified = in.readInt();
+        retweetCount = in.readInt();
+        fav = in.readInt();
+        retweet = in.readInt();
+    }
+
+    public static final Creator<Interaction> CREATOR = new Creator<Interaction>() {
+        @Override
+        public Interaction createFromParcel(Parcel in) {
+            return new Interaction(in);
+        }
+
+        @Override
+        public Interaction[] newArray(int size) {
+            return new Interaction[size];
+        }
+    };
 }

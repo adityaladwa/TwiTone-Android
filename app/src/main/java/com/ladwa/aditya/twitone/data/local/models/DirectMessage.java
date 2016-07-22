@@ -1,5 +1,9 @@
 package com.ladwa.aditya.twitone.data.local.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.auto.value.AutoValue;
 import com.ladwa.aditya.twitone.data.local.TwitterContract;
 import com.pushtorefresh.storio.contentresolver.annotations.StorIOContentResolverColumn;
 import com.pushtorefresh.storio.contentresolver.annotations.StorIOContentResolverType;
@@ -10,9 +14,10 @@ import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteType;
  * A model class for Direct message
  * Created by Aditya on 20-Jul-16.
  */
+@AutoValue
 @StorIOSQLiteType(table = TwitterContract.DirectMessage.TABLE_NAME)
 @StorIOContentResolverType(uri = TwitterContract.DirectMessage.CONTENT_URI_STRING)
-public class DirectMessage {
+public class DirectMessage implements Parcelable {
 
     @StorIOSQLiteColumn(name = TwitterContract.DirectMessage.COLUMN_ID, key = true)
     @StorIOContentResolverColumn(name = TwitterContract.DirectMessage.COLUMN_ID, key = true)
@@ -54,6 +59,8 @@ public class DirectMessage {
     @StorIOSQLiteColumn(name = TwitterContract.DirectMessage.COLUMN_TEXT)
     @StorIOContentResolverColumn(name = TwitterContract.DirectMessage.COLUMN_TEXT)
     String text;
+
+
 
     public Long getId() {
         return id;
@@ -133,5 +140,46 @@ public class DirectMessage {
 
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
+    }
+
+    protected DirectMessage(Parcel in) {
+        dateCreated = in.readString();
+        profileUrl = in.readString();
+        recipient = in.readString();
+        recipientScreenName = in.readString();
+        sender = in.readString();
+        senderScreenName = in.readString();
+        text = in.readString();
+    }
+
+    public static final Creator<DirectMessage> CREATOR = new Creator<DirectMessage>() {
+        @Override
+        public DirectMessage createFromParcel(Parcel in) {
+            return new DirectMessage(in);
+        }
+
+        @Override
+        public DirectMessage[] newArray(int size) {
+            return new DirectMessage[size];
+        }
+    };
+
+    public DirectMessage() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(dateCreated);
+        dest.writeString(profileUrl);
+        dest.writeString(recipient);
+        dest.writeString(recipientScreenName);
+        dest.writeString(sender);
+        dest.writeString(senderScreenName);
+        dest.writeString(text);
     }
 }
