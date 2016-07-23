@@ -74,7 +74,7 @@ public class TrendsFragment extends Fragment implements TrendsContract.View,
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
 
-        new TrendsPresenter(this, repository);
+        new TrendsPresenter(this, repository, "Global", getActivity());
 
         //Recycler View
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -99,6 +99,7 @@ public class TrendsFragment extends Fragment implements TrendsContract.View,
     @Override
     public void onResume() {
         super.onResume();
+        getLoaderManager().restartLoader(0, null, this);
         mPresenter.subscribe();
         ConnectionReceiver.setConnectionReceiverListener(this);
         //Check internet connection
@@ -138,7 +139,8 @@ public class TrendsFragment extends Fragment implements TrendsContract.View,
 
     @Override
     public void showError() {
-        Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+        Snackbar.make(recyclerView, R.string.error_occured, Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @Override
@@ -160,14 +162,16 @@ public class TrendsFragment extends Fragment implements TrendsContract.View,
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.getCount() > 0) {
             mTrends.clear();
+            List<Trend> trendList = new ArrayList<>();
             try {
                 while (data.moveToNext()) {
                     Trend t = new Trend();
                     t.setTrend(data.getString(data.getColumnIndex(TwitterContract.Trends.COLUMN_TREND)));
-                    mTrends.add(t);
+                    trendList.add(t);
                 }
             } finally {
                 data.close();
+                mTrends.addAll(trendList);
                 mTrendAdapter.notifyDataSetChanged();
             }
 

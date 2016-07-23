@@ -26,4 +26,6 @@ public interface TwitterDataStore {
 
     Observable<List<Trend>> getTrends();
 
+    Observable<List<Trend>> getLocalTrends(double latitude, double longitude);
+
 }

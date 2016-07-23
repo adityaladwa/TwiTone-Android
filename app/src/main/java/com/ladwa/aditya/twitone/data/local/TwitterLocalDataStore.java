@@ -151,6 +151,11 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                 .asRxObservable();
     }
 
+    @Override
+    public Observable<List<Trend>> getLocalTrends(double latitude, double longitude) {
+        return null;
+    }
+
 
     public static long getLastDirectMessageId() {
         Interaction interaction = mStorIOContentResolver.get().object(Interaction.class)
@@ -245,6 +250,18 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     }
 
     public static void saveTrend(List<Trend> trendList) {
+        mStorIOContentResolver.put().objects(trendList).prepare().executeAsBlocking();
+    }
+
+
+    public static void deleteLocalTrends() {
+        mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.Trends.CONTENT_URI)
+                .where(TwitterContract.Trends.COLUMN_LOCAL + " = ? ")
+                .whereArgs(1)
+                .build()).prepare().executeAsBlocking();
+    }
+
+    public static void saveLocalTrend(List<Trend> trendList) {
         mStorIOContentResolver.put().objects(trendList).prepare().executeAsBlocking();
     }
 

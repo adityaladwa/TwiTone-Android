@@ -20,6 +20,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
 import timber.log.Timber;
+import twitter4j.GeoLocation;
+import twitter4j.Location;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -287,6 +289,54 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             @Override
             public void call(List<com.ladwa.aditya.twitone.data.local.models.Trend> trendList) {
                 TwitterLocalDataStore.saveTrend(trendList);
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<com.ladwa.aditya.twitone.data.local.models.Trend>> getLocalTrends(final double latitude, final double longitude) {
+        final List<com.ladwa.aditya.twitone.data.local.models.Trend> localTrendObject = new ArrayList<>();
+        return Observable.create(new Observable.OnSubscribe<List<com.ladwa.aditya.twitone.data.local.models.Trend>>() {
+            @Override
+            public void call(Subscriber<? super List<com.ladwa.aditya.twitone.data.local.models.Trend>> subscriber) {
+                Trends placeTrends = null;
+                try {
+                    ResponseList<Location> closestTrends = mTwitter.getClosestTrends(new GeoLocation(latitude, longitude));
+                    for (Location loc : closestTrends) {
+                        Timber.d(loc.getName() + "--" + loc.getWoeid());
+                    }
+
+                    placeTrends = mTwitter.getPlaceTrends(closestTrends.get(0).getWoeid());
+                    Trend[] trends = placeTrends.getTrends();
+
+
+                    for (Trend trend : trends) {
+                        com.ladwa.aditya.twitone.data.local.models.Trend trend1 = new com.ladwa.aditya.twitone.data.local.models.Trend();
+                        trend1.setTrend(trend.getName());
+                        trend1.setLocal(1);
+                        trend1.setDateCreated(Utility.getDateTime());
+
+                        localTrendObject.add(trend1);
+                    }
+                    subscriber.onNext(localTrendObject);
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+
+            }
+        }).doOnNext(new Action1<List<com.ladwa.aditya.twitone.data.local.models.Trend>>() {
+            @Override
+            public void call(List<com.ladwa.aditya.twitone.data.local.models.Trend> trendList) {
+                //Delete Old trends first
+                TwitterLocalDataStore.deleteLocalTrends();
+            }
+        }).doOnNext(new Action1<List<com.ladwa.aditya.twitone.data.local.models.Trend>>() {
+            @Override
+            public void call(List<com.ladwa.aditya.twitone.data.local.models.Trend> trendList) {
+                TwitterLocalDataStore.saveLocalTrend(trendList);
             }
         });
     }

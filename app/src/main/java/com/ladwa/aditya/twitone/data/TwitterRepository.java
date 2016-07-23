@@ -151,4 +151,11 @@ public class TwitterRepository implements TwitterDataStore {
 
 //        return mRemoteDataStore.getTrends();
     }
+
+    @Override
+    public Observable<List<Trend>> getLocalTrends(double latitude, double longitude) {
+        return mRemoteDataStore.getLocalTrends(latitude, longitude);
+    }
+
+
 }

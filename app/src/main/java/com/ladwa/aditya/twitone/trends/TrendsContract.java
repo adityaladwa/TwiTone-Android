@@ -25,6 +25,10 @@ public class TrendsContract {
     interface Presenter extends BasePresenter {
         void loadTrends();
 
+        void loadLocalTrends();
+
         void refreshRemoteTrends();
+
+        void refreshRemoteLocalTrends();
     }
 }
