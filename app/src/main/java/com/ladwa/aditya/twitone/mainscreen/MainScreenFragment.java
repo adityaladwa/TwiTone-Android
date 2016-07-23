@@ -333,6 +333,9 @@ public class MainScreenFragment extends Fragment
                         .setSmallIcon(R.drawable.ic_user_type_verified)
                         .setContentTitle(tweets + getActivity().getString(R.string.new_tweets))
                         .setAutoCancel(true)
+                        .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                        .setLights(Color.RED, 3000, 3000)
+                        .setDefaults(NotificationCompat.DEFAULT_SOUND)
                         .setContentText(mTweets.get(0).getTweet());
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();

@@ -12,7 +12,16 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
+import com.ladwa.aditya.twitone.data.local.models.Tweet;
+import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
+import com.ladwa.aditya.twitone.util.NotificationUtil;
 
+import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -23,17 +32,45 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final String ACCOUNT_TYPE = "com.ladwa.aditya.twitone";
     public static final String ACCOUNT = "Twitone";
-
-    public static final int SYNC_INTERVAL = 20;
+    public static final int SYNC_INTERVAL = 100;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+
+    private Context mContext;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        this.mContext = context;
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Timber.d("Sync is performed");
+        TwitterLocalDataStore.getInstance(mContext);
+        long lastTweetId = TwitterLocalDataStore.getLastTweetId();
+
+        TwitterRemoteDataSource.getInstance().getTimeLine(lastTweetId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<Tweet>>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Sync is performed");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.d(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<Tweet> tweetList) {
+                        Timber.d("Synced tweets " + tweetList.size());
+                        if (tweetList.size() > 0) {
+                            NotificationUtil.showNotification(mContext, tweetList.size(), tweetList.get(0).getTweet(), tweetList);
+                        }
+                    }
+                });
+
+
     }
 
     public static Account getSyncAccount(Context context) {
