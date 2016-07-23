@@ -155,6 +155,24 @@ public class TwitterRepository implements TwitterDataStore {
     @Override
     public Observable<List<Trend>> getLocalTrends(double latitude, double longitude) {
         return mRemoteDataStore.getLocalTrends(latitude, longitude);
+
+//        return Observable
+//                .concat(mLocalDataStore.getLocalTrends(latitude, longitude).first(), mRemoteDataStore.getLocalTrends(latitude, longitude))
+//                .filter(new Func1<List<Trend>, Boolean>() {
+//                    @Override
+//                    public Boolean call(List<Trend> trendList) {
+//                        if (trendList == null) {
+//                            Timber.d("Null");
+//                            return false;
+//                        } else {
+//                            if (trendList.size() == 0)
+//                                return false;
+//                            else {
+//                                return true;
+//                            }
+//                        }
+//                    }
+//                });
     }
 
 
