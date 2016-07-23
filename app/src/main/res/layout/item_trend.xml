@@ -11,8 +11,8 @@
         android:id="@+id/textview_trend"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:gravity="center_vertical"
         android:fontFamily="sans-serif-smallcaps"
+        android:gravity="center_vertical"
         android:text="Name"
         android:textSize="20sp"
         android:textStyle="bold" />

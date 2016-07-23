@@ -2,6 +2,7 @@ package com.ladwa.aditya.twitone.trends;
 
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.Trend;
+import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import java.util.List;
 
@@ -38,17 +39,21 @@ public class TrendsPresenter implements TrendsContract.Presenter {
 
     @Override
     public void loadTrends() {
-        mTwitterRepository.getTrends().observeOn(AndroidSchedulers.mainThread())
+        mView.showRefreshing();
+        mTwitterRepository.getTrends()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Trend>>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("Loaded Trends");
+                        mView.stopRefreshing();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mView.showError();
+                        mView.stopRefreshing();
                         Timber.d(e.toString());
                     }
 
@@ -62,6 +67,28 @@ public class TrendsPresenter implements TrendsContract.Presenter {
 
     @Override
     public void refreshRemoteTrends() {
+        TwitterRemoteDataSource.getInstance().getTrends()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<Trend>>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Loaded Trends from remote");
+                        mView.stopRefreshing();
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.showError();
+                        mView.stopRefreshing();
+                        Timber.d(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<Trend> trendList) {
+                        mView.loadedTrends(trendList);
+                        Timber.d("Loaded trends from remote =" + trendList.size());
+                    }
+                });
     }
 }

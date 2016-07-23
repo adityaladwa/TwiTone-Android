@@ -11,7 +11,6 @@ import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 import java.util.List;
 
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -80,7 +79,6 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void loadTimeLine() {
-
         mTwitterRepository.getTimeLine(TwitterLocalDataStore.getLastTweetId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
@@ -88,11 +86,13 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                     @Override
                     public void onCompleted() {
                         Timber.d("Loaded TimeLine");
+                        mView.stopRefreshing();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Timber.e(e, "Error :" + e.toString());
+                        mView.stopRefreshing();
                     }
 
                     @Override

@@ -17,6 +17,8 @@ public class TrendsContract {
 
         void stopRefreshing();
 
+        void showRefreshing();
+
         void showError();
     }
 

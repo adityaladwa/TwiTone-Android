@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.trends;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -36,7 +37,10 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TrendsFragment extends Fragment implements TrendsContract.View, ConnectionReceiver.ConnectionReceiverListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class TrendsFragment extends Fragment implements TrendsContract.View,
+        ConnectionReceiver.ConnectionReceiverListener,
+        SwipeRefreshLayout.OnRefreshListener,
+        LoaderManager.LoaderCallbacks<Cursor> {
 
 
     @Inject
@@ -45,7 +49,7 @@ public class TrendsFragment extends Fragment implements TrendsContract.View, Con
     @BindView(R.id.recyclerview_trends)
     RecyclerView recyclerView;
 
-    @BindView(R.id.swipeContainer)
+    @BindView(R.id.swipeContainer_trends)
     SwipeRefreshLayout swipeContainer;
 
     private boolean internet;
@@ -86,6 +90,7 @@ public class TrendsFragment extends Fragment implements TrendsContract.View, Con
         mTrends = new ArrayList<>();
         mTrendAdapter = new TrendAdapter(mTrends, getActivity());
         recyclerView.setAdapter(mTrendAdapter);
+        swipeContainer.setOnRefreshListener(this);
 
         getLoaderManager().initLoader(0, null, this);
         return view;
@@ -116,7 +121,19 @@ public class TrendsFragment extends Fragment implements TrendsContract.View, Con
 
     @Override
     public void stopRefreshing() {
+        if (swipeContainer != null)
+            swipeContainer.setRefreshing(false);
+    }
 
+    @Override
+    public void showRefreshing() {
+        if (swipeContainer != null)
+            swipeContainer.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeContainer.setRefreshing(true);
+                }
+            });
     }
 
     @Override
@@ -161,5 +178,17 @@ public class TrendsFragment extends Fragment implements TrendsContract.View, Con
     @Override
     public void onLoaderReset(Loader loader) {
 
+    }
+
+    @Override
+    public void onRefresh() {
+        if (internet) {
+            mPresenter.refreshRemoteTrends();
+        } else {
+            Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)
+                    .show();
+            if (swipeContainer != null)
+                swipeContainer.setRefreshing(false);
+        }
     }
 }

@@ -303,7 +303,23 @@ public class MainScreenFragment extends Fragment
     @Override
     public void stopRefreshing() {
         if (swipeContainer != null)
-            swipeContainer.setRefreshing(false);
+            swipeContainer.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeContainer.setRefreshing(false);
+                }
+            });
+    }
+
+    @Override
+    public void showRefreshing() {
+        if (swipeContainer != null)
+            swipeContainer.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeContainer.setRefreshing(true);
+                }
+            });
     }
 
     @Override

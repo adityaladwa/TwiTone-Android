@@ -25,6 +25,8 @@ public class MainScreenContract {
 
         void stopRefreshing();
 
+        void showRefreshing();
+
         void showError();
 
         void createdFavouriteCallback(Tweet tweet);
