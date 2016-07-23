@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/textview_trend"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center_vertical"

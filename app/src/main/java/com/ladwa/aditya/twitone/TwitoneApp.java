@@ -74,9 +74,6 @@ public class TwitoneApp extends MultiDexApplication {
     }
 
 
-    public static void setConnectionListener(ConnectionReceiver.ConnectionReceiverListener listener) {
-        ConnectionReceiver.connectionReceiverListener = listener;
-    }
 
     public static TwitterComponent getTwitterComponent() {
         return mTwitterComponent;

@@ -1,6 +1,7 @@
 package com.ladwa.aditya.twitone.trends;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -20,13 +21,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.TwitoneApp;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import timber.log.Timber;
 
 public class Trends extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    @Inject
+    SharedPreferences preferences;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -34,7 +41,6 @@ public class Trends extends AppCompatActivity implements GoogleApiClient.Connect
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private static final int LOCATION_REQUEST_CODE = 20;
-
 
 
     @Override
@@ -45,6 +51,9 @@ public class Trends extends AppCompatActivity implements GoogleApiClient.Connect
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Inject Dependencied
+        TwitoneApp.getTwitterComponent().inject(this);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -100,7 +109,11 @@ public class Trends extends AppCompatActivity implements GoogleApiClient.Connect
         if (mLastLocation != null) {
             double latitude = mLastLocation.getLatitude();
             double longitude = mLastLocation.getLongitude();
-            Toast.makeText(this, "Location = " + String.valueOf(latitude) + ", " + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(getString(R.string.pref_user_location_latitude), String.valueOf(latitude));
+            editor.putString(getString(R.string.pref_user_location_longitude), String.valueOf(longitude));
+            editor.apply();
+
         }
     }
 

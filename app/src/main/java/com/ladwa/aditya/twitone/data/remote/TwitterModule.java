@@ -20,6 +20,7 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
+ * A {@see Dagger} module for Twitter
  * Created by Aditya on 24-Jun-16.
  */
 @Module

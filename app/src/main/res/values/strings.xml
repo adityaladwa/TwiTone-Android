@@ -15,6 +15,8 @@
     <string name="pref_access_secret">pref_access_secret</string>
     <string name="pref_userid">pref_userid</string>
     <string name="pref_screen_name">pref_screen_name</string>
+    <string name="pref_user_location_latitude">pref_user_location_latitude</string>
+    <string name="pref_user_location_longitude">pref_user_location_longitude</string>
 
 
     //Utility Strings
