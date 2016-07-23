@@ -16,7 +16,6 @@
             android:id="@+id/textview_trend"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="?android:attr/selectableItemBackground"
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center_vertical"
             android:text="Name"
