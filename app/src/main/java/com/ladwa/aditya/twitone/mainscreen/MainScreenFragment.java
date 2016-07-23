@@ -1,5 +1,6 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -260,6 +263,7 @@ public class MainScreenFragment extends Fragment
         setScrollPos();
     }
 
+
     @Override
     public void setScrollPos() {
 
@@ -320,6 +324,33 @@ public class MainScreenFragment extends Fragment
                     swipeContainer.setRefreshing(true);
                 }
             });
+    }
+
+    @Override
+    public void showNotification(int tweets) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(getActivity())
+                        .setSmallIcon(R.drawable.ic_user_type_verified)
+                        .setContentTitle(tweets + getActivity().getString(R.string.new_tweets))
+                        .setAutoCancel(true)
+                        .setContentText(mTweets.get(0).getTweet());
+
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+        inboxStyle.setBigContentTitle(tweets + getActivity().getString(R.string.new_tweets));
+        for (int i = 0; i < 5; i++) {
+            inboxStyle.addLine("@" + mTweets.get(i).getScreenName() + " : " + mTweets.get(i).getTweet());
+        }
+
+        mBuilder.setStyle(inboxStyle);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        getActivity(),
+                        0,
+                        new Intent(getActivity(), MainScreen.class),
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManagerCompat.from(getActivity()).notify(10, mBuilder.build());
     }
 
     @Override

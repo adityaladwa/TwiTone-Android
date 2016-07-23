@@ -125,6 +125,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                     @Override
                     public void onNext(List<Tweet> tweetList) {
                         Timber.d("Loaded TimeLine from remote =" + String.valueOf(tweetList.size()));
+                        mView.showNotification(tweetList.size());
                     }
                 });
     }
