@@ -1,5 +1,6 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
+import android.accounts.Account;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.local.models.User;
+import com.ladwa.aditya.twitone.data.sync.SyncAdapter;
 import com.ladwa.aditya.twitone.interactions.Interactions;
 import com.ladwa.aditya.twitone.message.Message;
 import com.ladwa.aditya.twitone.trends.Trends;
@@ -43,6 +45,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private Drawer result;
     private PrimaryDrawerItem timeline;
     private Tracker mTracker;
+    private Account mAccount;
 
 
     @Override
@@ -55,7 +58,11 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
         //Setup google Analytics Tracking
         mTracker = TwitoneApp.getDefaultTracker();
+
+        //Setup Account for Sync
+        SyncAdapter.initializeSyncAdapter(this);
     }
+
 
     @Override
     protected void onResume() {

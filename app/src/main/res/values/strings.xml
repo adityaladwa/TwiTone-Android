@@ -57,5 +57,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_tweets">" New Tweets"</string>
 
+    <string name="account_type">com.ladwa.aditya.twitone</string>
+    <string name="content_authority">com.ladwa.aditya.twitone</string>
 
 </resources>
