@@ -16,7 +16,8 @@
             android:id="@+id/recyclerview_timeline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:stateListAnimator="@xml/recycler_view" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
