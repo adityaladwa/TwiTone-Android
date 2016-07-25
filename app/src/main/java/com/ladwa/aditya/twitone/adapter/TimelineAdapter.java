@@ -73,21 +73,35 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         holder.textViewDate.setText(Utility.parseDate(mTweet.getDateCreated()));
 
         if (mTweetList.get(position).getVerified() == 1) {
-            holder.imageViewVerified.setImageDrawable(mContext.getDrawable(R.drawable.ic_user_type_verified));
+            Glide.with(mContext)
+                    .load(R.drawable.ic_user_type_verified)
+                    .into(holder.imageViewVerified);
         } else {
             holder.imageViewVerified.setVisibility(View.GONE);
         }
 
         if (mTweetList.get(position).getFav() == 1) {
-            holder.imageViewFav.setImageDrawable(favIcon.color(Color.RED));
+            Glide.with(mContext)
+                    .load("")
+                    .placeholder(favIcon.color(Color.RED))
+                    .into(holder.imageViewFav);
         } else {
-            holder.imageViewFav.setImageDrawable(favIcon.color(Color.GRAY));
+            Glide.with(mContext)
+                    .load("")
+                    .placeholder(favIcon.color(Color.GRAY))
+                    .into(holder.imageViewFav);
         }
 
         if (mTweetList.get(position).getRetweet() == 1) {
-            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.GREEN));
+            Glide.with(mContext)
+                    .load("")
+                    .placeholder(retweetIcon.color(Color.GREEN))
+                    .into(holder.imageViewRetweet);
         } else {
-            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.GRAY));
+            Glide.with(mContext)
+                    .load("")
+                    .placeholder(retweetIcon.color(Color.GRAY))
+                    .into(holder.imageViewRetweet);
         }
 
 
@@ -100,7 +114,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                 .into(holder.imageViewProfile);
 
     }
-
 
 
     @Override
