@@ -14,8 +14,6 @@ public class ImageViewer extends AppCompatActivity {
         setContentView(R.layout.activity_image_viewer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
