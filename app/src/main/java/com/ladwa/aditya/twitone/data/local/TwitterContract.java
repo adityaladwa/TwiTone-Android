@@ -75,6 +75,7 @@ public final class TwitterContract {
 
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_TWEET = "tweet_text";
+        public static final String COLUMN_MEDIA_URL = "media_url";
         public static final String COLUMN_LAST_MODIFIED = "last_modified";
         public static final String COLUMN_DATE_CREATED = "date_created";
         public static final String COLUMN_PROFILE_URL = "profile_url";
@@ -91,6 +92,7 @@ public final class TwitterContract {
             return "CREATE TABLE " + TABLE_NAME + " (" +
                     COLUMN_ID + " LONG NOT NULL PRIMARY KEY, " +
                     COLUMN_TWEET + " TEXT NOT NULL, " +
+                    COLUMN_MEDIA_URL + " TEXT , " +
                     COLUMN_LAST_MODIFIED + " TEXT NOT NULL, " +
                     COLUMN_PROFILE_URL + " TEXT NOT NULL, " +
                     COLUMN_USER_SCREEN_NAME + " TEXT NOT NULL, " +

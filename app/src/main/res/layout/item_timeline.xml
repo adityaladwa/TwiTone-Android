@@ -72,12 +72,24 @@
             android:fontFamily="sans-serif"
             android:text="@string/lorem" />
 
+
+        <ImageView
+            android:id="@+id/imageview_media"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@id/textview_tweet"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/timeline_tweet_text_start_margin"
+            android:layout_marginTop="@dimen/timeline_top_margin"
+            android:layout_toEndOf="@id/imageview_profile_pic"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/imageview_retweet"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignStart="@+id/textview_tweet"
-            android:layout_below="@+id/textview_tweet"
+            android:layout_below="@+id/imageview_media"
             android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginTop="15dp"
             android:maxHeight="20dp"
@@ -89,7 +101,7 @@
             android:id="@+id/textview_retweet_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textview_tweet"
+            android:layout_below="@+id/imageview_media"
             android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginStart="@dimen/timeline_count_start_margin"
             android:layout_marginTop="15dp"
@@ -102,7 +114,7 @@
             android:id="@+id/imageview_fav"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_below="@+id/textview_tweet"
+            android:layout_below="@+id/imageview_media"
             android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginStart="30dp"
             android:layout_marginTop="17dp"
@@ -113,7 +125,7 @@
             android:id="@+id/textview_fav_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textview_tweet"
+            android:layout_below="@+id/imageview_media"
             android:layout_marginBottom="@dimen/timeline_bottom_margin"
             android:layout_marginStart="@dimen/timeline_count_start_margin"
             android:layout_marginTop="15dp"

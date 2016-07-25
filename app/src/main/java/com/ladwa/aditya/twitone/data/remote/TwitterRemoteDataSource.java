@@ -13,6 +13,7 @@ import com.ladwa.aditya.twitone.util.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -22,6 +23,7 @@ import rx.functions.Action1;
 import timber.log.Timber;
 import twitter4j.GeoLocation;
 import twitter4j.Location;
+import twitter4j.MediaEntity;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -114,6 +116,14 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     ResponseList<Status> homeTimeline = mTwitter.getHomeTimeline(p);
                     for (Status status : homeTimeline) {
                         Tweet tweet = new Tweet();
+                        MediaEntity[] mediaEntities = status.getMediaEntities();
+                        for (MediaEntity m : mediaEntities) {
+                            String mediaURLHttps = m.getMediaURLHttps();
+                            String type = m.getType();
+                            if (Objects.equals(type, "photo")) {
+                                tweet.setMediaUrl(mediaURLHttps);
+                            }
+                        }
                         tweet.setTweet(status.getText());
                         tweet.setId(status.getId());
                         tweet.setDateCreated(String.valueOf(status.getCreatedAt()));

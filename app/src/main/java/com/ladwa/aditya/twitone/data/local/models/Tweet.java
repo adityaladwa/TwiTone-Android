@@ -30,6 +30,11 @@ public class Tweet implements Parcelable {
     @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_TWEET)
     String tweet;
 
+
+    @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_MEDIA_URL)
+    @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_MEDIA_URL)
+    String mediaUrl;
+
     @StorIOSQLiteColumn(name = TwitterContract.Tweet.COLUMN_LAST_MODIFIED)
     @StorIOContentResolverColumn(name = TwitterContract.Tweet.COLUMN_LAST_MODIFIED)
     String lastModified;
@@ -72,6 +77,33 @@ public class Tweet implements Parcelable {
     int retweet;
 
 
+    protected Tweet(Parcel in) {
+        tweet = in.readString();
+        mediaUrl = in.readString();
+        lastModified = in.readString();
+        dateCreated = in.readString();
+        profileUrl = in.readString();
+        screenName = in.readString();
+        userName = in.readString();
+        favCount = in.readInt();
+        verified = in.readInt();
+        retweetCount = in.readInt();
+        fav = in.readInt();
+        retweet = in.readInt();
+    }
+
+    public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
+        @Override
+        public Tweet createFromParcel(Parcel in) {
+            return new Tweet(in);
+        }
+
+        @Override
+        public Tweet[] newArray(int size) {
+            return new Tweet[size];
+        }
+    };
+
     public Long getId() {
         return id;
     }
@@ -82,6 +114,14 @@ public class Tweet implements Parcelable {
 
     public String getTweet() {
         return tweet;
+    }
+
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
     }
 
     public void setTweet(String tweet) {
@@ -168,31 +208,6 @@ public class Tweet implements Parcelable {
         this.retweet = retweet;
     }
 
-    protected Tweet(Parcel in) {
-        tweet = in.readString();
-        lastModified = in.readString();
-        dateCreated = in.readString();
-        profileUrl = in.readString();
-        screenName = in.readString();
-        userName = in.readString();
-        favCount = in.readInt();
-        verified = in.readInt();
-        retweetCount = in.readInt();
-        fav = in.readInt();
-        retweet = in.readInt();
-    }
-
-    public static final Creator<Tweet> CREATOR = new Creator<Tweet>() {
-        @Override
-        public Tweet createFromParcel(Parcel in) {
-            return new Tweet(in);
-        }
-
-        @Override
-        public Tweet[] newArray(int size) {
-            return new Tweet[size];
-        }
-    };
 
     @Override
     public int describeContents() {
@@ -202,6 +217,7 @@ public class Tweet implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(tweet);
+        dest.writeString(mediaUrl);
         dest.writeString(lastModified);
         dest.writeString(dateCreated);
         dest.writeString(profileUrl);

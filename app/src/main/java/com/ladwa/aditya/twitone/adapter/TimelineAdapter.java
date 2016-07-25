@@ -3,6 +3,8 @@ package com.ladwa.aditya.twitone.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,12 +74,44 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         mTweet = mTweetList.get(position);
+
         holder.textViewTweet.setText(mTweet.getTweet());
         holder.textViewUserName.setText(mTweet.getUserName());
         holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mTweet.getScreenName()));
         holder.textViewFavCount.setText(String.valueOf(mTweet.getFavCount()));
         holder.textViewRetweetCount.setText(String.valueOf(mTweet.getRetweetCount()));
         holder.textViewDate.setText(Utility.parseDate(mTweet.getDateCreated()));
+
+        if (mTweet.getMediaUrl() != null) {
+            holder.imageViewMedia.setVisibility(View.VISIBLE);
+            Glide.with(mContext)
+                    .load(mTweet.getMediaUrl())
+                    .fitCenter()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .crossFade()
+                    .into(holder.imageViewMedia);
+        } else {
+            holder.imageViewMedia.setVisibility(View.GONE);
+        }
+
+        Linkify.TransformFilter filter = new Linkify.TransformFilter() {
+            public final String transformUrl(final Matcher match, String url) {
+                return match.group();
+            }
+        };
+
+        Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
+        String mentionScheme = "http://www.twitter.com/";
+        Linkify.addLinks(holder.textViewTweet, mentionPattern, mentionScheme, null, filter);
+
+        Pattern hashtagPattern = Pattern.compile("#([A-Za-z0-9_-]+)");
+        String hashtagScheme = "http://www.twitter.com/search/";
+        Linkify.addLinks(holder.textViewTweet, hashtagPattern, hashtagScheme, null, filter);
+
+        Pattern urlPattern = Patterns.WEB_URL;
+        Linkify.addLinks(holder.textViewTweet, urlPattern, null, null, filter);
+
 
         if (mTweet.getVerified() == 1) {
             Glide.with(mContext)
@@ -142,6 +178,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         ImageView imageViewVerified;
         @BindView(R.id.textview_tweet)
         TextView textViewTweet;
+        @BindView(R.id.imageview_media)
+        ImageView imageViewMedia;
         @BindView(R.id.textview_screen_name)
         TextView textViewScreenName;
         @BindView(R.id.textview_time)

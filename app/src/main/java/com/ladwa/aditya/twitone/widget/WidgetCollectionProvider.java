@@ -54,14 +54,12 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
             Intent clickIntent = new Intent(context, WidgetCollectionService.class);
             clickIntent.setAction(CLICK_ACTION);
             clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
-            clickIntent.setData(Uri.parse(clickIntent.toUri(Intent.URI_INTENT_SCHEME)));
+            intentWidget.setData(Uri.parse(intentWidget.toUri(Intent.URI_INTENT_SCHEME)));
 
 
             PendingIntent clickPendingIntent = PendingIntent.getBroadcast(context, 0, clickIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
-
             views.setPendingIntentTemplate(R.id.widgetListviewCollection, clickPendingIntent);
-
             appWidgetManager.updateAppWidget(id, views);
         }
     }

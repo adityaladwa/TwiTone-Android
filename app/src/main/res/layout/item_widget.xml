@@ -2,7 +2,8 @@
     android:id="@+id/frame_widget"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grey">
+    android:background="@color/grey"
+    android:clickable="true">
 
     <TextView
         android:id="@+id/textview_user_name"
