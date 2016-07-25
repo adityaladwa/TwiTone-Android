@@ -109,6 +109,7 @@ dependencies {
     compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
 
     //Stetho
     compile deps.stetho

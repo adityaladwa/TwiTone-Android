@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
@@ -82,7 +83,24 @@
             android:layout_marginStart="@dimen/timeline_tweet_text_start_margin"
             android:layout_marginTop="@dimen/timeline_top_margin"
             android:layout_toEndOf="@id/imageview_profile_pic"
-            android:visibility="gone" />
+            android:visibility="visible" />
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/progressBar_timeline"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_tweet"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/timeline_tweet_text_start_margin"
+            android:layout_marginTop="75dp"
+            android:layout_toEndOf="@id/imageview_profile_pic"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:mpb_progressStyle="horizontal"
+            app:mpb_setBothDrawables="true"
+            app:mpb_showTrack="true" />
+
 
         <ImageView
             android:id="@+id/imageview_retweet"

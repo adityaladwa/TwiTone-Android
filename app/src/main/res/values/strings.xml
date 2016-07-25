@@ -59,5 +59,7 @@
 
     <string name="account_type">com.ladwa.aditya.twitone</string>
     <string name="content_authority">com.ladwa.aditya.twitone</string>
+    <string name="title_activity_image_viewer">ImageViewer</string>
+    <string name="extra_url">extra_url</string>
 
 </resources>

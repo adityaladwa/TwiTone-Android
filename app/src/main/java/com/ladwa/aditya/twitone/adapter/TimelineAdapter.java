@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.util.Utility;
@@ -25,6 +28,7 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import timber.log.Timber;
 
 /**
@@ -48,6 +52,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         void onClickedRetweet(View view, int position);
 
         void onLongClick(View view, int position);
+
+        void onClickMedia(View view, int position);
     }
 
 
@@ -72,7 +78,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         mTweet = mTweetList.get(position);
 
         holder.textViewTweet.setText(mTweet.getTweet());
@@ -82,14 +88,29 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         holder.textViewRetweetCount.setText(String.valueOf(mTweet.getRetweetCount()));
         holder.textViewDate.setText(Utility.parseDate(mTweet.getDateCreated()));
 
+        //Load Media if available
         if (mTweet.getMediaUrl() != null) {
             holder.imageViewMedia.setVisibility(View.VISIBLE);
+            holder.materialProgressBar.setVisibility(View.VISIBLE);
             Glide.with(mContext)
                     .load(mTweet.getMediaUrl())
                     .fitCenter()
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .crossFade()
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            //Set progress bar visibility to null
+                            holder.materialProgressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
                     .into(holder.imageViewMedia);
         } else {
             holder.imageViewMedia.setVisibility(View.GONE);
@@ -180,6 +201,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         TextView textViewTweet;
         @BindView(R.id.imageview_media)
         ImageView imageViewMedia;
+        @BindView(R.id.progressBar_timeline)
+        MaterialProgressBar materialProgressBar;
         @BindView(R.id.textview_screen_name)
         TextView textViewScreenName;
         @BindView(R.id.textview_time)
@@ -202,6 +225,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             itemView.setOnLongClickListener(this);
             imageViewFav.setOnClickListener(this);
             imageViewRetweet.setOnClickListener(this);
+            imageViewMedia.setOnClickListener(this);
         }
 
 
@@ -213,6 +237,9 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                     break;
                 case R.id.imageview_retweet:
                     mTimeLineClickListener.onClickedRetweet(v, getAdapterPosition());
+                    break;
+                case R.id.imageview_media:
+                    mTimeLineClickListener.onClickMedia(v, getAdapterPosition());
                     break;
                 default:
                     mTimeLineClickListener.onItemClick(v, getAdapterPosition());

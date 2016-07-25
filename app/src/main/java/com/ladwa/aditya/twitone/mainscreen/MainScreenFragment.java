@@ -34,6 +34,7 @@ import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
+import com.ladwa.aditya.twitone.imageviewer.ImageViewer;
 import com.ladwa.aditya.twitone.login.LoginActivity;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
@@ -452,6 +453,14 @@ public class MainScreenFragment extends Fragment
         ClipData clip = ClipData.newPlainText(mTweets.get(position).getUserName(), mTweets.get(position).getTweet());
         clipboard.setPrimaryClip(clip);
         Toast.makeText(getActivity(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClickMedia(View view, int position) {
+        //Dummy
+        Intent intent = new Intent(getActivity(), ImageViewer.class);
+        intent.putExtra(getActivity().getString(R.string.extra_url), mTweets.get(position).getMediaUrl());
+        startActivity(intent);
     }
 
     @Override

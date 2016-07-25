@@ -4,13 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".TwitoneApp"
@@ -52,7 +51,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
         </activity>
-
         <activity
             android:name=".trends.Trends"
             android:label="@string/title_activity_trends"
@@ -70,28 +68,26 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
-
         <receiver android:name=".widget.WidgetCollectionProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_collection" />
         </receiver>
-        <!--Services-->
-
+        <!-- Services -->
 
         <service android:name=".data.sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/account_authenticator" />
         </service>
-
         <service
             android:name=".data.sync.SyncService"
             android:exported="true"
@@ -99,15 +95,14 @@
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
+
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/sync" />
         </service>
-
         <service
             android:name=".widget.WidgetCollectionService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
 
         <!-- Content Provider -->
         <provider
@@ -152,6 +147,15 @@
 
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
+        <activity
+            android:name=".imageviewer.ImageViewer"
+            android:label="@string/title_activity_image_viewer"
+            android:parentActivityName=".mainscreen.MainScreen"
+            android:theme="@style/AppThemeDark">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
     </application>
 
 </manifest>
