@@ -1,10 +1,8 @@
 package com.ladwa.aditya.twitone.util;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
@@ -27,9 +25,7 @@ public class NotificationUtil {
                         .setSmallIcon(R.drawable.ic_user_type_verified)
                         .setContentTitle(size + context.getString(R.string.new_tweets))
                         .setAutoCancel(true)
-                        .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                        .setLights(Color.RED, 3000, 3000)
-                        .setDefaults(NotificationCompat.DEFAULT_SOUND)
+                        .setDefaults(NotificationCompat.DEFAULT_ALL)
                         .setContentText(title);
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();

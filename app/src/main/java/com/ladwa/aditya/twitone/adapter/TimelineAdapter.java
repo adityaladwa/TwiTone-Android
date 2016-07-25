@@ -63,6 +63,11 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     }
 
     @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         mTweet = mTweetList.get(position);
         holder.textViewTweet.setText(mTweet.getTweet());
@@ -72,7 +77,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         holder.textViewRetweetCount.setText(String.valueOf(mTweet.getRetweetCount()));
         holder.textViewDate.setText(Utility.parseDate(mTweet.getDateCreated()));
 
-        if (mTweetList.get(position).getVerified() == 1) {
+        if (mTweet.getVerified() == 1) {
             Glide.with(mContext)
                     .load(R.drawable.ic_user_type_verified)
                     .into(holder.imageViewVerified);
@@ -80,7 +85,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             holder.imageViewVerified.setVisibility(View.GONE);
         }
 
-        if (mTweetList.get(position).getFav() == 1) {
+        if (mTweet.getFav() == 1) {
             Glide.with(mContext)
                     .load("")
                     .placeholder(favIcon.color(Color.RED))
@@ -92,7 +97,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                     .into(holder.imageViewFav);
         }
 
-        if (mTweetList.get(position).getRetweet() == 1) {
+        if (mTweet.getRetweet() == 1) {
             Glide.with(mContext)
                     .load("")
                     .placeholder(retweetIcon.color(Color.GREEN))

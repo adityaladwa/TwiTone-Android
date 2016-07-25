@@ -70,22 +70,36 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
         holder.textViewRetweetCount.setText(String.valueOf(mInteraction.getRetweetCount()));
         holder.textViewDate.setText(Utility.parseDate(mInteraction.getDateCreated()));
 
-        if (mInteraction.getVerified() == 1) {
-            holder.imageViewVerified.setImageDrawable(mContext.getDrawable(R.drawable.ic_user_type_verified));
+        if (mInteractionsList.get(position).getVerified() == 1) {
+            Glide.with(mContext)
+                    .load(R.drawable.ic_user_type_verified)
+                    .into(holder.imageViewVerified);
         } else {
             holder.imageViewVerified.setVisibility(View.GONE);
         }
 
-        if (mInteraction.getFav() == 1) {
-            holder.imageViewFav.setImageDrawable(favIcon.color(Color.RED));
+        if (mInteractionsList.get(position).getFav() == 1) {
+            Glide.with(mContext)
+                    .load("")
+                    .placeholder(favIcon.color(Color.RED))
+                    .into(holder.imageViewFav);
         } else {
-            holder.imageViewFav.setImageDrawable(favIcon.color(Color.GRAY));
+            Glide.with(mContext)
+                    .load("")
+                    .placeholder(favIcon.color(Color.GRAY))
+                    .into(holder.imageViewFav);
         }
 
-        if (mInteraction.getRetweet() == 1) {
-            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.BLUE));
+        if (mInteractionsList.get(position).getRetweet() == 1) {
+            Glide.with(mContext)
+                    .load("")
+                    .placeholder(retweetIcon.color(Color.GREEN))
+                    .into(holder.imageViewRetweet);
         } else {
-            holder.imageViewRetweet.setImageDrawable(retweetIcon.color(Color.GRAY));
+            Glide.with(mContext)
+                    .load("")
+                    .placeholder(retweetIcon.color(Color.GRAY))
+                    .into(holder.imageViewRetweet);
         }
 
 

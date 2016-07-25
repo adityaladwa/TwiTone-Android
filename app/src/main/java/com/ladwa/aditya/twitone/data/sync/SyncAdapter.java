@@ -112,7 +112,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         SyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL);
 
 
-        syncImmediately(context);
+//        syncImmediately(context);
     }
 
     public static void initializeSyncAdapter(Context context) {

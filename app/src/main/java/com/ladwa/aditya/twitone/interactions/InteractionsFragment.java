@@ -264,10 +264,11 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
             Timber.d("Scroll pos asd= " + position[0]);
         }
 
-
-        editor = preferences.edit();
-        editor.putInt(getActivity().getResources().getString(R.string.pref_scroll_pos_interaction), pos);
-        editor.apply();
+        if (getActivity() != null) {
+            editor = preferences.edit();
+            editor.putInt(getActivity().getResources().getString(R.string.pref_scroll_pos_interaction), pos);
+            editor.apply();
+        }
     }
 
     @Override

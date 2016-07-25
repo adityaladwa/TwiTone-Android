@@ -299,9 +299,12 @@ public class MainScreenFragment extends Fragment
         }
 
 
-        editor = preferences.edit();
-        editor.putInt(getActivity().getResources().getString(R.string.pref_scroll_pos), pos);
-        editor.apply();
+        if (getActivity() != null) {
+
+            editor = preferences.edit();
+            editor.putInt(getActivity().getResources().getString(R.string.pref_scroll_pos), pos);
+            editor.apply();
+        }
     }
 
     @Override
