@@ -7,7 +7,6 @@ import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -30,6 +29,7 @@ import com.ladwa.aditya.twitone.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import timber.log.Timber;
@@ -144,18 +144,18 @@ public class ImageViewerFragment extends Fragment {
 
             Bitmap bm = bitmaps[0];
 
-            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+            String path = Environment.getExternalStorageDirectory().toString();
             File dir = new File(path, "/Twitone");
             try {
                 dir.mkdirs();
 
 
-                File img = new File(dir, "name.png");
+                File img = new File(dir, UUID.randomUUID().toString() +  ".jpeg");
                 FileOutputStream outStream = new FileOutputStream(img);
-                bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
 
 //                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), img.getAbsolutePath(), img.getName(), img.getName());
-                MediaScannerConnection.scanFile(getActivity().getApplicationContext(), new String[]{img.getPath()}, new String[]{"image/png"}, null);
+                MediaScannerConnection.scanFile(getActivity().getApplicationContext(), new String[]{img.getPath()}, new String[]{"image/jpeg"}, null);
                 outStream.flush();
                 outStream.close();
                 success = true;
