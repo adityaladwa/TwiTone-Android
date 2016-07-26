@@ -140,7 +140,6 @@ public class MainScreenFragment extends Fragment
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
-//        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setHasFixedSize(false);
 
         if (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT)

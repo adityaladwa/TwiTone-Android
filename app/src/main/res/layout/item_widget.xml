@@ -1,53 +1,58 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/frame_widget"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/grey"
-    android:clickable="true">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textview_user_name"
-        android:layout_width="wrap_content"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="@dimen/timeline_top_margin"
-        android:layout_toEndOf="@id/imageview_profile_pic"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Name"
-        android:textStyle="bold" />
+        android:background="@color/grey"
+        android:clickable="true">
 
-    <TextView
-        android:id="@+id/textview_screen_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="@dimen/timeline_top_margin"
-        android:layout_toEndOf="@id/textview_user_name"
-        android:fontFamily="sans-serif-smallcaps"
-        android:lines="1"
-        android:text="\@" />
+        <TextView
+            android:id="@+id/textview_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/timeline_top_margin"
+            android:layout_toEndOf="@id/imageview_profile_pic"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Name"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textview_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="@dimen/timeline_top_margin"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="15h" />
+        <TextView
+            android:id="@+id/textview_screen_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="@dimen/timeline_top_margin"
+            android:layout_toEndOf="@id/textview_user_name"
+            android:fontFamily="sans-serif-smallcaps"
+            android:lines="1"
+            android:text="\@" />
 
-    <TextView
-        android:id="@+id/textview_tweet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textview_user_name"
-        android:layout_marginBottom="@dimen/timeline_bottom_margin"
-        android:layout_marginStart="@dimen/timeline_tweet_text_start_margin"
-        android:layout_marginTop="@dimen/timeline_top_margin"
-        android:layout_toEndOf="@id/imageview_profile_pic"
-        android:fontFamily="sans-serif"
-        android:text="@string/lorem" />
+        <TextView
+            android:id="@+id/textview_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="@dimen/timeline_top_margin"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="15h" />
+
+        <TextView
+            android:id="@+id/textview_tweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_user_name"
+            android:layout_marginBottom="@dimen/timeline_bottom_margin"
+            android:layout_marginStart="@dimen/timeline_tweet_text_start_margin"
+            android:layout_marginTop="@dimen/timeline_top_margin"
+            android:layout_toEndOf="@id/imageview_profile_pic"
+            android:fontFamily="sans-serif"
+            android:text="@string/lorem" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

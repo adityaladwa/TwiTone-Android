@@ -41,10 +41,12 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void subscribe() {
-        if (!mLogin)
+        if (!mLogin) {
             mView.logout();
-        loadUserInfo();
-        loadTimeLine();
+        } else {
+            loadUserInfo();
+            loadTimeLine();
+        }
     }
 
     @Override

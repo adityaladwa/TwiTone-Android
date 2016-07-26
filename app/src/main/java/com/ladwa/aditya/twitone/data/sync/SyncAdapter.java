@@ -111,7 +111,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         SyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL);
 
-
         syncImmediately(context);
     }
 

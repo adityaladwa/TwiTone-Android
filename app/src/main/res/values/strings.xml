@@ -62,5 +62,6 @@
     <string name="title_activity_image_viewer">ImageViewer</string>
     <string name="extra_url">extra_url</string>
     <string name="action_save">Save</string>
+    <string name="storage_permission">Storage permission needed to save Images</string>
 
 </resources>

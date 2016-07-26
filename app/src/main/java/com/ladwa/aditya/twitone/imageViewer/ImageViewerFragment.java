@@ -1,10 +1,15 @@
 package com.ladwa.aditya.twitone.imageviewer;
 
-import android.content.Intent;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.media.MediaScannerConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -23,14 +29,16 @@ import com.ladwa.aditya.twitone.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Random;
+import java.io.IOException;
 
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+import timber.log.Timber;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class ImageViewerFragment extends Fragment {
+    private static final int STORAGE_REQUEST_CODE = 120;
     private SubsamplingScaleImageView imageView;
     private String imageUrl;
 
@@ -64,44 +72,27 @@ public class ImageViewerFragment extends Fragment {
         return view;
     }
 
-    private void saveImage(Bitmap finalBitmap) {
-
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/saved_images");
-        myDir.mkdirs();
-        Random generator = new Random();
-        int n = 10000;
-        n = generator.nextInt(n);
-        String fname = "Image-" + n + ".jpg";
-        File file = new File(myDir, fname);
-        if (file.exists())
-            file.delete();
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Intent mediaScanIntent = new Intent(
-                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.fromFile(file);
-        mediaScanIntent.setData(contentUri);
-        getActivity().sendBroadcast(mediaScanIntent);
-
-//        getActivity().sendBroadcast(new Intent(
-//                Intent.ACTION_MEDIA_MOUNTED,
-//                Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+//        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_image_viewer, menu);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case STORAGE_REQUEST_CODE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    saveImage();
+                } else {
+                    Toast.makeText(getActivity(), R.string.storage_permission, Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+        }
     }
 
     @Override
@@ -109,22 +100,78 @@ public class ImageViewerFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_save:
-                Glide.with(getActivity().getApplicationContext())
-                        .load(imageUrl)
-                        .asBitmap()
-                        .fitCenter()
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                saveImage(resource);
-                            }
-                        });
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            STORAGE_REQUEST_CODE);
+
+                    Timber.d("No permission");
+                    break;
+                }
+
+
+                saveImage();
 
                 break;
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveImage() {
+        Glide.with(getActivity().getApplicationContext())
+                .load(imageUrl)
+                .asBitmap()
+                .fitCenter()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        new DownloadImage().execute(resource);
+                    }
+                });
+    }
+
+    private class DownloadImage extends AsyncTask<Bitmap, Boolean, Void> {
+        boolean success = false;
+        String imagepath;
+
+        @Override
+        protected Void doInBackground(Bitmap... bitmaps) {
+
+
+            Bitmap bm = bitmaps[0];
+
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+            File dir = new File(path, "/Twitone");
+            try {
+                dir.mkdirs();
+
+
+                File img = new File(dir, "name.png");
+                FileOutputStream outStream = new FileOutputStream(img);
+                bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+
+//                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), img.getAbsolutePath(), img.getName(), img.getName());
+                MediaScannerConnection.scanFile(getActivity().getApplicationContext(), new String[]{img.getPath()}, new String[]{"image/png"}, null);
+                outStream.flush();
+                outStream.close();
+                success = true;
+                imagepath = img.getAbsolutePath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (success)
+                Toast.makeText(getActivity().getApplicationContext(), "Image saved", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getActivity().getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+        }
     }
 }

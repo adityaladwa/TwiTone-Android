@@ -114,6 +114,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                     .into(holder.imageViewMedia);
         } else {
             holder.imageViewMedia.setVisibility(View.GONE);
+            holder.materialProgressBar.setVisibility(View.GONE);
         }
 
         Linkify.TransformFilter filter = new Linkify.TransformFilter() {
@@ -123,11 +124,11 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         };
 
         Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
-        String mentionScheme = "http://www.twitter.com/";
+        String mentionScheme = "com.ladwa.aditya.twitone/" + mTweet.getId();
         Linkify.addLinks(holder.textViewTweet, mentionPattern, mentionScheme, null, filter);
 
         Pattern hashtagPattern = Pattern.compile("#([A-Za-z0-9_-]+)");
-        String hashtagScheme = "http://www.twitter.com/search/";
+        String hashtagScheme = "com.ladwa.aditya.twitone/" + mTweet.getId();
         Linkify.addLinks(holder.textViewTweet, hashtagPattern, hashtagScheme, null, filter);
 
         Pattern urlPattern = Patterns.WEB_URL;
@@ -188,7 +189,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
     public void setTimeLineClickListner(TimeLineClickListener mTimeLineClickListener) {
         this.mTimeLineClickListener = mTimeLineClickListener;
-        Timber.d("Click listener is set");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

@@ -25,7 +25,6 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
         Timber.d("onRecieve");
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         if (intent.getAction().equals(CLICK_ACTION)) {
@@ -34,11 +33,12 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
             int viewIndex = intent.getIntExtra(EXTRA_ITEM, 0);
             Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
         }
+        super.onReceive(context, intent);
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
+
         for (int i = 0; i < appWidgetIds.length; i++) {
             int id = appWidgetIds[i];
             Log.d("Collection", "yes");
@@ -54,13 +54,14 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
             Intent clickIntent = new Intent(context, WidgetCollectionService.class);
             clickIntent.setAction(CLICK_ACTION);
             clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
-            intentWidget.setData(Uri.parse(intentWidget.toUri(Intent.URI_INTENT_SCHEME)));
+            clickIntent.setData(Uri.parse(clickIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
 
-            PendingIntent clickPendingIntent = PendingIntent.getBroadcast(context, 0, clickIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent clickPendingIntent = PendingIntent
+                    .getBroadcast(context, 0, clickIntent,PendingIntent.FLAG_UPDATE_CURRENT);
             views.setPendingIntentTemplate(R.id.widgetListviewCollection, clickPendingIntent);
             appWidgetManager.updateAppWidget(id, views);
         }
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 }

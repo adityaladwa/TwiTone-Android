@@ -1,5 +1,7 @@
 package com.ladwa.aditya.twitone.message;
 
+import android.content.Context;
+
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
@@ -24,19 +26,20 @@ public class MessagePresenter implements MessageContract.Presenter {
     private long mUserId;
     private Twitter mTwitter;
     private TwitterRepository mTwitterRepository;
+    private Context mContext;
 
-    public MessagePresenter(MessageContract.View mView, Boolean mLogin, long mUserId, Twitter mTwitter, TwitterRepository mTwitterRepository) {
+    public MessagePresenter(MessageContract.View mView, Boolean mLogin, long mUserId, Twitter mTwitter, TwitterRepository mTwitterRepository, Context context) {
         this.mView = mView;
         this.mLogin = mLogin;
         this.mUserId = mUserId;
         this.mTwitter = mTwitter;
         this.mTwitterRepository = mTwitterRepository;
+        this.mContext = context;
         mView.setPresenter(this);
     }
 
     @Override
     public void loadDirectMessage() {
-
         mTwitterRepository.getDirectMessage(TwitterLocalDataStore.getLastDirectMessageId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
@@ -57,7 +60,6 @@ public class MessagePresenter implements MessageContract.Presenter {
                         mView.loadDirectMessage(directMessageList);
                     }
                 });
-
     }
 
     @Override

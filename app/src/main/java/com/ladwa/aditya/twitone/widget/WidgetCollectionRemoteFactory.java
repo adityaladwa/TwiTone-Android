@@ -65,19 +65,20 @@ public class WidgetCollectionRemoteFactory implements RemoteViewsService.RemoteV
                         mCursor.getString(mCursor.getColumnIndex(TwitterContract.Tweet.COLUMN_TWEET)));
 
 
-                Bundle extras = new Bundle();
-                extras.putInt(WidgetCollectionProvider.EXTRA_ITEM, position);
-                Intent fillInIntent = new Intent();
-                fillInIntent.putExtras(extras);
-                // Make it possible to distinguish the individual on-click
-                // action of a given item
-                views.setOnClickFillInIntent(R.id.frame_widget, fillInIntent);
-
             }
         } catch (CursorIndexOutOfBoundsException | NullPointerException e) {
             e.printStackTrace();
             Timber.d("Exception");
         }
+
+        Bundle extras = new Bundle();
+        extras.putInt(WidgetCollectionProvider.EXTRA_ITEM, position);
+        Intent fillInIntent = new Intent();
+        fillInIntent.putExtras(extras);
+        fillInIntent.setAction(WidgetCollectionProvider.CLICK_ACTION);
+        // Make it possible to distinguish the individual on-click
+        // action of a given item
+        views.setOnClickFillInIntent(R.id.frame_widget, fillInIntent);
 
         return views;
     }
