@@ -359,7 +359,6 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             public void call(Subscriber<? super Tweet> subscriber) {
                 try {
                     Status status = mTwitter.createFavorite(id);
-
                     StatusUpdate statusUpdate;
                     Tweet tweet = new Tweet();
                     tweet.setTweet(status.getText());
@@ -464,7 +463,6 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         });
     }
 
-
     //For Interactons
     public Observable<Interaction> createFavouriteInteraction(final long id) {
         return Observable.create(new Observable.OnSubscribe<Interaction>() {
@@ -538,7 +536,6 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         });
     }
 
-
     public Observable<Interaction> createRetweetInteraction(final long id) {
         return Observable.create(new Observable.OnSubscribe<Interaction>() {
             @Override
@@ -571,6 +568,23 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             @Override
             public void call(Interaction interaction) {
                 TwitterLocalDataStore.createRetweetInteraction(interaction);
+            }
+        });
+    }
+
+    public Observable<Status> updateStatus(final StatusUpdate statusUpdate) {
+        return Observable.create(new Observable.OnSubscribe<Status>() {
+            @Override
+            public void call(Subscriber<? super Status> subscriber) {
+                try {
+                    Status status = mTwitter.updateStatus(statusUpdate);
+                    subscriber.onNext(status);
+                } catch (TwitterException e) {
+                    subscriber.onError(e);
+                    e.printStackTrace();
+                } finally {
+                    subscriber.onCompleted();
+                }
             }
         });
     }

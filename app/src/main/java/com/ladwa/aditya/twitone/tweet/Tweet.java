@@ -43,6 +43,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.mikepenz.iconics.view.IconicsImageView;
 
@@ -53,7 +54,13 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
+import twitter4j.GeoLocation;
+import twitter4j.Status;
+import twitter4j.StatusUpdate;
 
 public class Tweet extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -98,7 +105,7 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
     private double latitude;
     private double longitude;
     private Geocoder geocoder;
-
+    private String locality;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,9 +185,50 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
             location = false;
             unSetLocation();
         }
-
-
     }
+
+    @OnClick(R.id.button_tweet)
+    public void onClickTweet() {
+        int length = mEditTextTweet.getText().length();
+        if (length > 0 && length <= 140) {
+            StatusUpdate statusUpdate = new StatusUpdate(mEditTextTweet.getText().toString());
+            if (location) {
+                statusUpdate.setPlaceId(locality);
+                statusUpdate.setLocation(new GeoLocation(latitude, longitude));
+            }
+
+            TwitterRemoteDataSource.getInstance().updateStatus(statusUpdate)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(new Subscriber<Status>() {
+                        @Override
+                        public void onCompleted() {
+                            Toast.makeText(Tweet.this, "Tweet sent...", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Timber.d(e.toString());
+                        }
+
+                        @Override
+                        public void onNext(Status status) {
+                            Timber.d("Updated status -" + status.getText());
+
+                        }
+                    });
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mEditTextTweet.getWindowToken(), 0);
+
+        } else if (length == 0) {
+            Toast.makeText(this, "Type something...", Toast.LENGTH_SHORT).show();
+        } else if (length > 140) {
+            Toast.makeText(this, "You can tweet 140 character only", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void unSetLocation() {
         Animation fadeIn = AnimationUtils.loadAnimation(Tweet.this, android.R.anim.fade_out);
@@ -307,7 +355,8 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String locality = "Unknown Location";
+
+            locality = "Unknown Location";
 
             if (fromLocation != null) {
                 locality = fromLocation.get(0).getLocality();

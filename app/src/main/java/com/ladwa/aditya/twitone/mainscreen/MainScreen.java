@@ -67,7 +67,8 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mTweetButton.setImageDrawable(new IconicsDrawable(this).icon(FontAwesome.Icon.faw_twitter));
+        mTweetButton.setImageDrawable(new IconicsDrawable(this).icon(FontAwesome.Icon.faw_twitter)
+                .color(getResources().getColor(R.color.md_blue_700)));
 
         //Setup google Analytics Tracking
         mTracker = TwitoneApp.getDefaultTracker();
@@ -83,6 +84,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                 .makeSceneTransitionAnimation(this, mTweetButton, mTweetButton.getTransitionName());
         startActivity(new Intent(this, Tweet.class), options.toBundle());
     }
+
 
 
     @Override
