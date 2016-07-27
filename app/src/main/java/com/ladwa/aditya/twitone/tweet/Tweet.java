@@ -1,15 +1,23 @@
 package com.ladwa.aditya.twitone.tweet;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
@@ -24,18 +32,27 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.ladwa.aditya.twitone.R;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.mikepenz.iconics.view.IconicsImageView;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class Tweet extends AppCompatActivity {
+public class Tweet extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private static final int LOCATION_REQUEST_CODE = 10;
     @BindView(R.id.fab_tweet_activity)
     FloatingActionButton mFab;
 
@@ -54,6 +71,14 @@ public class Tweet extends AppCompatActivity {
     @BindView(R.id.imageview_location)
     IconicsImageView mImageViewLocation;
 
+    private Location mLastLocation;
+    private GoogleApiClient mGoogleApiClient;
+    boolean click = true;
+    boolean location = false;
+    private double latitude;
+    private double longitude;
+    private Geocoder geocoder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +88,49 @@ public class Tweet extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addApi(LocationServices.API)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setUpEnterAnimation();
         setupExitAnimation();
+
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     @OnClick(R.id.imageview_location)
     public void onClickLocation() {
-        mImageViewLocation.setColor(getResources().getColor(R.color.md_blue_700));
+        if (click) {
+            mImageViewLocation.setColor(getResources().getColor(R.color.md_blue_700));
+            click = false;
+            location = true;
+            getUserLocation();
+
+        } else {
+            mImageViewLocation.setColor(getResources().getColor(R.color.md_black_1000));
+            click = true;
+            location = false;
+        }
+
+
     }
 
     @Override
@@ -157,6 +216,73 @@ public class Tweet extends AppCompatActivity {
                         initViews();
                     }
                 });
+    }
+
+    private void getUserLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_REQUEST_CODE);
+
+            Timber.d("No permission");
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+
+            latitude = mLastLocation.getLatitude();
+            longitude = mLastLocation.getLongitude();
+            List<Address> fromLocation = null;
+            Timber.d("Location " + latitude + "-" + longitude);
+            geocoder = new Geocoder(this, Locale.getDefault());
+            try {
+                fromLocation = geocoder.getFromLocation(latitude, longitude, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String locality = "Unknown Location";
+
+            if (fromLocation != null) {
+                locality = fromLocation.get(0).getLocality();
+                Toast.makeText(this, locality, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, locality, Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (location)
+            getUserLocation();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast.makeText(this, "Location suspended", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this, "Location failed", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_REQUEST_CODE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getUserLocation();
+                } else {
+                    Toast.makeText(this, "Location needed to show Local Trends", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
     public interface OnRevealAnimationListener {

@@ -27,6 +27,7 @@ import twitter4j.MediaEntity;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
+import twitter4j.StatusUpdate;
 import twitter4j.Trend;
 import twitter4j.Trends;
 import twitter4j.Twitter;
@@ -358,6 +359,8 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             public void call(Subscriber<? super Tweet> subscriber) {
                 try {
                     Status status = mTwitter.createFavorite(id);
+
+                    StatusUpdate statusUpdate;
                     Tweet tweet = new Tweet();
                     tweet.setTweet(status.getText());
                     tweet.setId(status.getId());
