@@ -39,6 +39,8 @@ public class Tweet extends AppCompatActivity {
     @BindView(R.id.tweet_appbar)
     AppBarLayout mAppBarLayout;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,8 @@ public class Tweet extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setUpEnterAnimation();
@@ -97,7 +101,7 @@ public class Tweet extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         mFab.setVisibility(View.VISIBLE);
-        animateRevealHide(this, mRlContainer, R.color.accent, mFab.getWidth() / 2,
+        animateRevealHide(this, mRlContainer, R.color.md_white_1000, mFab.getWidth() / 2,
                 new OnRevealAnimationListener() {
                     @Override
                     public void onRevealHide() {
@@ -118,7 +122,7 @@ public class Tweet extends AppCompatActivity {
     private void animateRevealShow(final View viewRoot) {
         int cx = (viewRoot.getLeft() + viewRoot.getRight()) / 2;
         int cy = (viewRoot.getTop() + viewRoot.getBottom()) / 2;
-        animateRevealShow(this, viewRoot, mFab.getWidth() / 2, R.color.accent,
+        animateRevealShow(this, viewRoot, mFab.getWidth() / 2, R.color.md_white_1000,
                 cx, cy, new OnRevealAnimationListener() {
                     @Override
                     public void onRevealHide() {
@@ -193,15 +197,15 @@ public class Tweet extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                Animation animation = AnimationUtils.loadAnimation(Tweet.this, android.R.anim.fade_in);
-                animation.setDuration(300);
-                mAppBarLayout.startAnimation(animation);
+                Animation fadeIn = AnimationUtils.loadAnimation(Tweet.this, android.R.anim.fade_in);
+                fadeIn.setDuration(300);
+                mAppBarLayout.startAnimation(fadeIn);
                 mAppBarLayout.setVisibility(View.VISIBLE);
 
-                mFab.startAnimation(animation);
-                mFab.setVisibility(View.INVISIBLE);
-
-
+                Animation fadeOut = AnimationUtils.loadAnimation(Tweet.this, android.R.anim.fade_out);
+                fadeOut.setDuration(100);
+                mFab.startAnimation(fadeOut);
+                mFab.setVisibility(View.GONE);
             }
         });
     }
