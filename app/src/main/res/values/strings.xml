@@ -68,5 +68,6 @@
     <string name="cant_determine_location">Cant determine your Location</string>
     <string name="location_suspended">Location suspended</string>
     <string name="location_failed">Location failed</string>
+    <string name="tweet_char">140</string>
 
 </resources>

@@ -86,6 +86,9 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
     @BindView(R.id.button_tweet)
     Button mButtonTweet;
 
+    @BindView(R.id.textview_tweet_char)
+    TextView mTextViewChar;
+
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
     boolean click = true;
@@ -443,7 +446,8 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
                         mButtonTweet.startAnimation(scaleUp);
                         mButtonTweet.setVisibility(View.VISIBLE);
 
-
+                        mTextViewChar.startAnimation(scaleUp);
+                        mTextViewChar.setVisibility(View.VISIBLE);
 
 
                     }
