@@ -31,7 +31,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -70,6 +72,15 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
 
     @BindView(R.id.imageview_location)
     IconicsImageView mImageViewLocation;
+
+    @BindView(R.id.imageview_place_icon)
+    IconicsImageView mImageViewPlace;
+
+    @BindView(R.id.linear_layout_place)
+    LinearLayout mLinearLayoutPlace;
+
+    @BindView(R.id.textview_location)
+    TextView mTextViewLocation;
 
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
@@ -128,8 +139,26 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
             mImageViewLocation.setColor(getResources().getColor(R.color.md_black_1000));
             click = true;
             location = false;
+            unSetLocation();
         }
 
+
+    }
+
+    private void unSetLocation() {
+        Animation fadeIn = AnimationUtils.loadAnimation(Tweet.this, android.R.anim.fade_out);
+        fadeIn.setDuration(1000);
+
+        Animation scaleUp = AnimationUtils.loadAnimation(Tweet.this, R.anim.scale_down);
+        scaleUp.setDuration(700);
+        if (mImageViewPlace.getVisibility() == View.VISIBLE) {
+            mImageViewPlace.startAnimation(scaleUp);
+            mTextViewLocation.startAnimation(scaleUp);
+            mLinearLayoutPlace.startAnimation(fadeIn);
+            mImageViewPlace.setVisibility(View.INVISIBLE);
+            mTextViewLocation.setVisibility(View.INVISIBLE);
+            mLinearLayoutPlace.setVisibility(View.INVISIBLE);
+        }
 
     }
 
@@ -245,12 +274,36 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
 
             if (fromLocation != null) {
                 locality = fromLocation.get(0).getLocality();
-                Toast.makeText(this, locality, Toast.LENGTH_SHORT).show();
+                mTextViewLocation.setText(locality);
+
+                Animation fadeIn = AnimationUtils.loadAnimation(Tweet.this, android.R.anim.fade_in);
+                fadeIn.setDuration(1000);
+
+                Animation scaleUp = AnimationUtils.loadAnimation(Tweet.this, R.anim.scale_up);
+                scaleUp.setDuration(700);
+
+                mImageViewPlace.startAnimation(scaleUp);
+                mImageViewPlace.setVisibility(View.VISIBLE);
+
+                mTextViewLocation.startAnimation(scaleUp);
+                mTextViewLocation.setVisibility(View.VISIBLE);
+
+                mLinearLayoutPlace.startAnimation(fadeIn);
+                mLinearLayoutPlace.setVisibility(View.VISIBLE);
+
             } else {
+                mImageViewLocation.setColor(getResources().getColor(R.color.md_black_1000));
+                click = true;
+                location = false;
                 Toast.makeText(this, locality, Toast.LENGTH_SHORT).show();
             }
 
 
+        } else {
+            mImageViewLocation.setColor(getResources().getColor(R.color.md_black_1000));
+            click = true;
+            location = false;
+            Toast.makeText(this, R.string.cant_determine_location, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -262,12 +315,12 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
 
     @Override
     public void onConnectionSuspended(int i) {
-        Toast.makeText(this, "Location suspended", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.location_suspended, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "Location failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.location_failed, Toast.LENGTH_SHORT).show();
     }
 
 

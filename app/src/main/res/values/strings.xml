@@ -65,5 +65,8 @@
     <string name="storage_permission">Storage permission needed to save Images</string>
     <string name="title_activity_tweet">Tweet</string>
     <string name="tweet_hint_text">What\'s happening?</string>
+    <string name="cant_determine_location">Cant determine your Location</string>
+    <string name="location_suspended">Location suspended</string>
+    <string name="location_failed">Location failed</string>
 
 </resources>

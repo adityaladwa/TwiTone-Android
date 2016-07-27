@@ -119,12 +119,12 @@ public class Trends extends AppCompatActivity implements GoogleApiClient.Connect
 
     @Override
     public void onConnectionSuspended(int i) {
-        Toast.makeText(this, "Location suspended", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.location_suspended, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "Location failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.location_failed, Toast.LENGTH_SHORT).show();
 
     }
 

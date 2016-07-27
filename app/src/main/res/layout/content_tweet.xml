@@ -8,16 +8,45 @@
 
     <EditText
         android:id="@+id/edittext_tweet"
-        android:fontFamily="sans-serif-smallcaps"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@android:color/transparent"
+        android:fontFamily="sans-serif-smallcaps"
         android:gravity="top"
         android:hint="@string/tweet_hint_text"
         android:textColor="@color/md_black_1000"
         android:textColorHint="@color/colorAccent"
         android:visibility="invisible" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edittext_tweet">
+
+
+        <com.mikepenz.iconics.view.IconicsImageView
+            android:id="@+id/imageview_place_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:iiv_color="@color/md_black_1000"
+            app:iiv_icon="faw_map-marker"
+            app:iiv_size="18dp" />
+
+        <TextView
+            android:id="@+id/textview_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-smallcaps"
+            android:gravity="center"
+            android:textColor="@color/md_black_1000"
+            android:textSize="18sp"
+            android:visibility="invisible" />
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/relativelayout_tweet_footer"
@@ -37,16 +66,13 @@
             app:iiv_icon="faw_map-marker"
             app:iiv_size="38dp" />
 
-        <TextView
-            android:id="@+id/textview_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="Tweet" />
+            android:text="Tweet"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
