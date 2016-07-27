@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +22,9 @@ import com.ladwa.aditya.twitone.data.sync.SyncAdapter;
 import com.ladwa.aditya.twitone.interactions.Interactions;
 import com.ladwa.aditya.twitone.message.Message;
 import com.ladwa.aditya.twitone.trends.Trends;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -32,6 +35,9 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
@@ -46,6 +52,8 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private PrimaryDrawerItem timeline;
     private Tracker mTracker;
     private Account mAccount;
+    @BindView(R.id.tweet_fab)
+    FloatingActionButton mTweetButton;
 
 
     @Override
@@ -53,14 +61,22 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+        ButterKnife.bind(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mTweetButton.setImageDrawable(new IconicsDrawable(this).icon(FontAwesome.Icon.faw_twitter));
 
         //Setup google Analytics Tracking
         mTracker = TwitoneApp.getDefaultTracker();
 
         //Setup Account for Sync
         SyncAdapter.initializeSyncAdapter(this);
+    }
+
+    @OnClick(R.id.tweet_fab)
+    public void onClickTweetButton() {
+        //On click tweet button
     }
 
 
