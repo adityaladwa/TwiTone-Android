@@ -30,6 +30,7 @@ import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -81,6 +82,9 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
 
     @BindView(R.id.textview_location)
     TextView mTextViewLocation;
+
+    @BindView(R.id.button_tweet)
+    Button mButtonTweet;
 
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
@@ -435,6 +439,13 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
                         scaleUp.setDuration(700);
                         mImageViewLocation.startAnimation(scaleUp);
                         mImageViewLocation.setVisibility(View.VISIBLE);
+
+                        mButtonTweet.startAnimation(scaleUp);
+                        mButtonTweet.setVisibility(View.VISIBLE);
+
+
+
+
                     }
 
                     @Override
