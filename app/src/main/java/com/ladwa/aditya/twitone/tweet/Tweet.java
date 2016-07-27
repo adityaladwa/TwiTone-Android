@@ -22,6 +22,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
@@ -117,6 +119,34 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setUpEnterAnimation();
         setupExitAnimation();
+
+        mEditTextTweet.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = mEditTextTweet.getText().toString();
+                int length = 140 - text.length();
+                if (length < 0) {
+                    mTextViewChar.setText(String.valueOf(length));
+                    mTextViewChar.setTextColor(getResources().getColor(R.color.md_red_A700));
+                } else if (length < 20) {
+                    mTextViewChar.setText(String.valueOf(length));
+                    mTextViewChar.setTextColor(getResources().getColor(R.color.md_yellow_A700));
+                } else {
+                    mTextViewChar.setText(String.valueOf(length));
+                    mTextViewChar.setTextColor(getResources().getColor(R.color.md_black_1000));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
     }

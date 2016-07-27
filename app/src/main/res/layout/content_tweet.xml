@@ -32,7 +32,7 @@
             android:layout_height="24dp"
             android:layout_gravity="center"
             android:visibility="invisible"
-            app:iiv_color="@color/md_black_1000"
+            app:iiv_color="@color/md_blue_700"
             app:iiv_icon="faw_map-marker"
             app:iiv_size="18dp" />
 
@@ -43,7 +43,7 @@
             android:layout_gravity="center"
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
-            android:textColor="@color/md_black_1000"
+            android:textColor="@color/md_blue_700"
             android:textSize="18sp"
             android:visibility="invisible" />
     </LinearLayout>
@@ -70,23 +70,21 @@
             android:id="@+id/button_tweet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tweet"
-            android:visibility="invisible"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
+            android:text="Tweet"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/textview_tweet_char"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/button_tweet"
             android:gravity="center"
             android:text="@string/tweet_char"
             android:textColor="@color/md_black_1000"
-            android:visibility="invisible"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/button_tweet" />
-
-
+            android:visibility="invisible" />
 
 
     </RelativeLayout>
