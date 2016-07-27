@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.ladwa.aditya.twitone.R;
 
@@ -39,6 +41,8 @@ public class Tweet extends AppCompatActivity {
     @BindView(R.id.tweet_appbar)
     AppBarLayout mAppBarLayout;
 
+    @BindView(R.id.edittext_tweet)
+    EditText mEditTextTweet;
 
 
     @Override
@@ -48,7 +52,6 @@ public class Tweet extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -202,10 +205,33 @@ public class Tweet extends AppCompatActivity {
                 mAppBarLayout.startAnimation(fadeIn);
                 mAppBarLayout.setVisibility(View.VISIBLE);
 
+                mEditTextTweet.startAnimation(fadeIn);
+                mEditTextTweet.setVisibility(View.VISIBLE);
+
                 Animation fadeOut = AnimationUtils.loadAnimation(Tweet.this, android.R.anim.fade_out);
                 fadeOut.setDuration(100);
                 mFab.startAnimation(fadeOut);
                 mFab.setVisibility(View.GONE);
+
+                fadeIn.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                        mEditTextTweet.requestFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(mEditTextTweet, InputMethodManager.SHOW_IMPLICIT);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
             }
         });
     }

@@ -64,5 +64,6 @@
     <string name="action_save">Save</string>
     <string name="storage_permission">Storage permission needed to save Images</string>
     <string name="title_activity_tweet">Tweet</string>
+    <string name="tweet_hint_text">What\'s happening?</string>
 
 </resources>

@@ -26,14 +26,6 @@
 
     <include layout="@layout/content_tweet" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_tweet_activity"
-        app:backgroundTint="@color/md_white_1000"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:transitionName="transition_reveal"
-        app:elevation="0dp" />
 
 
 </android.support.design.widget.CoordinatorLayout>
