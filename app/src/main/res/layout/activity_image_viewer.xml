@@ -24,5 +24,4 @@
     <include layout="@layout/content_image_viewer" />
 
 
-
 </android.support.design.widget.CoordinatorLayout>

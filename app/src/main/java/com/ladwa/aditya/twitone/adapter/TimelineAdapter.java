@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-import timber.log.Timber;
 
 /**
  * A Recycler View Adapter for TimeLine of the User

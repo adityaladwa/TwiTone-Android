@@ -6,5 +6,4 @@
     android:previewImage="@drawable/widget_collection"
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="1800000"
-    android:widgetCategory="home_screen">
-</appwidget-provider>
+    android:widgetCategory="home_screen"></appwidget-provider>

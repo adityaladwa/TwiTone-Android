@@ -23,11 +23,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.ladwa.aditya.twitone.R;
+import com.mikepenz.iconics.context.IconicsContextWrapper;
+import com.mikepenz.iconics.view.IconicsImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class Tweet extends AppCompatActivity {
@@ -44,6 +48,12 @@ public class Tweet extends AppCompatActivity {
     @BindView(R.id.edittext_tweet)
     EditText mEditTextTweet;
 
+    @BindView(R.id.relativelayout_tweet_footer)
+    RelativeLayout mRelativeLayoutTweetFooter;
+
+    @BindView(R.id.imageview_location)
+    IconicsImageView mImageViewLocation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +67,16 @@ public class Tweet extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setUpEnterAnimation();
         setupExitAnimation();
+    }
+
+    @OnClick(R.id.imageview_location)
+    public void onClickLocation() {
+        mImageViewLocation.setColor(getResources().getColor(R.color.md_blue_700));
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
     }
 
     private void setUpEnterAnimation() {
@@ -205,6 +225,9 @@ public class Tweet extends AppCompatActivity {
                 mAppBarLayout.startAnimation(fadeIn);
                 mAppBarLayout.setVisibility(View.VISIBLE);
 
+                mRelativeLayoutTweetFooter.startAnimation(fadeIn);
+                mRelativeLayoutTweetFooter.setVisibility(View.VISIBLE);
+
                 mEditTextTweet.startAnimation(fadeIn);
                 mEditTextTweet.setVisibility(View.VISIBLE);
 
@@ -212,6 +235,7 @@ public class Tweet extends AppCompatActivity {
                 fadeOut.setDuration(100);
                 mFab.startAnimation(fadeOut);
                 mFab.setVisibility(View.GONE);
+
 
                 fadeIn.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -222,9 +246,16 @@ public class Tweet extends AppCompatActivity {
                     @Override
                     public void onAnimationEnd(Animation animation) {
 
+                        //Show keyboard
                         mEditTextTweet.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(mEditTextTweet, InputMethodManager.SHOW_IMPLICIT);
+
+                        //Scale up location Icon
+                        Animation scaleUp = AnimationUtils.loadAnimation(Tweet.this, R.anim.scale_up);
+                        scaleUp.setDuration(700);
+                        mImageViewLocation.startAnimation(scaleUp);
+                        mImageViewLocation.setVisibility(View.VISIBLE);
                     }
 
                     @Override

@@ -60,6 +60,26 @@
                 android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
         </activity>
 
+        <activity
+            android:name=".imageviewer.ImageViewer"
+            android:label="@string/title_activity_image_viewer"
+            android:parentActivityName=".mainscreen.MainScreen"
+            android:theme="@style/AppThemeDark">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
+        <activity
+            android:name=".tweet.Tweet"
+            android:label="@string/title_activity_tweet"
+            android:parentActivityName=".mainscreen.MainScreen"
+            android:theme="@style/AppThemeDark"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
+
         <!-- Recievers -->
         <receiver
             android:name=".util.ConnectionReceiver"
@@ -101,9 +121,13 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/sync" />
         </service>
+
         <service
             android:name=".widget.WidgetCollectionService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+
 
         <!-- Content Provider -->
         <provider
@@ -146,26 +170,6 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-
-        <activity
-            android:name=".imageviewer.ImageViewer"
-            android:label="@string/title_activity_image_viewer"
-            android:parentActivityName=".mainscreen.MainScreen"
-            android:theme="@style/AppThemeDark">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
-        </activity>
-        <activity
-            android:name=".tweet.Tweet"
-            android:label="@string/title_activity_tweet"
-            android:parentActivityName=".mainscreen.MainScreen"
-            android:theme="@style/AppThemeDark">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
-        </activity>
     </application>
 
 </manifest>
