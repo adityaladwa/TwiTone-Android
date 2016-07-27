@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:name=".TwitoneApp"
         android:allowBackup="true"
@@ -29,8 +28,7 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".mainscreen.MainScreen"
-            android:label="@string/app_name"
-            android:theme="@style/MaterialDrawerTheme">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -153,6 +151,15 @@
         <activity
             android:name=".imageviewer.ImageViewer"
             android:label="@string/title_activity_image_viewer"
+            android:parentActivityName=".mainscreen.MainScreen"
+            android:theme="@style/AppThemeDark">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
+        <activity
+            android:name=".tweet.Tweet"
+            android:label="@string/title_activity_tweet"
             android:parentActivityName=".mainscreen.MainScreen"
             android:theme="@style/AppThemeDark">
             <meta-data
