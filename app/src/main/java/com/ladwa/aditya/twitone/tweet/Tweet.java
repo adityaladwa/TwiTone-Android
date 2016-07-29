@@ -180,7 +180,7 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
             getUserLocation();
 
         } else {
-            mImageViewLocation.setColor(getResources().getColor(R.color.md_black_1000));
+            mImageViewLocation.setColor(getResources().getColor(R.color.grey));
             click = true;
             location = false;
             unSetLocation();
@@ -204,12 +204,13 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
                         @Override
                         public void onCompleted() {
                             Toast.makeText(Tweet.this, "Tweet sent...", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
+
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             Timber.d(e.toString());
+                            Toast.makeText(Tweet.this, "Error sending tweet...", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -219,9 +220,10 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
                         }
                     });
 
+
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mEditTextTweet.getWindowToken(), 0);
-
+            onBackPressed();
         } else if (length == 0) {
             Toast.makeText(this, "Type something...", Toast.LENGTH_SHORT).show();
         } else if (length > 140) {
@@ -378,7 +380,7 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
                 mLinearLayoutPlace.setVisibility(View.VISIBLE);
 
             } else {
-                mImageViewLocation.setColor(getResources().getColor(R.color.md_black_1000));
+                mImageViewLocation.setColor(getResources().getColor(R.color.grey));
                 click = true;
                 location = false;
                 Toast.makeText(this, locality, Toast.LENGTH_SHORT).show();
@@ -386,7 +388,7 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
 
 
         } else {
-            mImageViewLocation.setColor(getResources().getColor(R.color.md_black_1000));
+            mImageViewLocation.setColor(getResources().getColor(R.color.grey));
             click = true;
             location = false;
             Toast.makeText(this, R.string.cant_determine_location, Toast.LENGTH_SHORT).show();

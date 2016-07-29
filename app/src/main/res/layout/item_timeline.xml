@@ -18,6 +18,7 @@
             android:id="@+id/imageview_profile_pic"
             android:layout_width="@dimen/profile_pic_size"
             android:layout_height="@dimen/profile_pic_size"
+            android:layout_marginStart="7dp"
             android:layout_marginTop="@dimen/timeline_top_margin"
             android:contentDescription="@string/profile_image"
             card:civ_border="false"
@@ -77,7 +78,7 @@
         <ImageView
             android:id="@+id/imageview_media"
             android:layout_width="match_parent"
-            android:elevation="7dp"
+            android:elevation="10dp"
             android:layout_height="150dp"
             android:layout_below="@id/textview_tweet"
             android:layout_marginEnd="10dp"

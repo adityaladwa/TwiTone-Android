@@ -62,7 +62,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:visibility="invisible"
-            app:iiv_color="@color/md_black_1000"
+            app:iiv_color="@color/grey"
             app:iiv_icon="faw_map-marker"
             app:iiv_size="38dp" />
 
