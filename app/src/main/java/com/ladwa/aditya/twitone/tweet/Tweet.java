@@ -408,7 +408,7 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, R.string.location_failed, Toast.LENGTH_SHORT).show();
+        Timber.d("Location Connection Failed");
     }
 
 

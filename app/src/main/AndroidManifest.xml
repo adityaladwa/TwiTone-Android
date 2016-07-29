@@ -59,7 +59,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
         </activity>
-
         <activity
             android:name=".imageviewer.ImageViewer"
             android:label="@string/title_activity_image_viewer"
@@ -121,13 +120,10 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/sync" />
         </service>
-
         <service
             android:name=".widget.WidgetCollectionService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-
 
         <!-- Content Provider -->
         <provider
@@ -170,6 +166,15 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".tweetdetail.TweetDetail"
+            android:label="@string/title_activity_tweet_detail"
+            android:parentActivityName=".mainscreen.MainScreen"
+            android:theme="@style/AppThemeDark">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
     </application>
 
 </manifest>

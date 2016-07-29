@@ -1,6 +1,7 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
 import android.accounts.Account;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.ladwa.aditya.twitone.tweet.Tweet;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -85,6 +87,10 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         startActivity(new Intent(this, Tweet.class), options.toBundle());
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+    }
 
 
     @Override

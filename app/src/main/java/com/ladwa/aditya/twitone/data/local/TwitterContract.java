@@ -72,7 +72,6 @@ public final class TwitterContract {
         public static final String CONTENT_TWEET_ITEM_TYPE = "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_TWEET;
 
         public static final String TABLE_NAME = "tweet";
-
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_TWEET = "tweet_text";
         public static final String COLUMN_MEDIA_URL = "media_url";
@@ -86,6 +85,7 @@ public final class TwitterContract {
         public static final String COLUMN_RETWEET_COUNT = "retweet_count";
         public static final String COLUMN_FAV = "fav";
         public static final String COLUMN_RETWEET = "retweet";
+
 
 
         public static String getTweetCreateQuery() {

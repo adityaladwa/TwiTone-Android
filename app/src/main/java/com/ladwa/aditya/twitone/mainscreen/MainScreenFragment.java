@@ -11,7 +11,9 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -44,6 +46,8 @@ import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -411,6 +415,33 @@ public class MainScreenFragment extends Fragment
     @Override
     public void onItemClick(View view, int position) {
         //Start detail tweet view activity
+    }
+
+    @Override
+    public void onClickedReplay(View view, int position) {
+        Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
+        Matcher split = mentionPattern.matcher(mTweets.get(position).getTweet());
+
+        String mention = "";
+        String concat = "";
+
+        while (split.find()) {
+
+            for (int i = 0; i < split.groupCount(); i++) {
+                Timber.d(split.group(i));
+                concat += split.group(i) + " ";
+            }
+
+        }
+        Timber.d(concat);
+        String inReplay = "@" + mTweets.get(position).getScreenName() + " " + concat;
+
+        Intent intent = new Intent(getActivity(), com.ladwa.aditya.twitone.tweet.Tweet.class);
+        intent.putExtra(getActivity().getString(R.string.extra_id), mTweets.get(position).getId());
+        intent.putExtra(getActivity().getString(R.string.extra_replay), inReplay);
+
+        startActivity(intent);
+
     }
 
     @Override

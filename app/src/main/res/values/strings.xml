@@ -69,5 +69,8 @@
     <string name="location_suspended">Location suspended</string>
     <string name="location_failed">Location failed</string>
     <string name="tweet_char">140</string>
+    <string name="title_activity_tweet_detail">TweetDetail</string>
+    <string name="extra_id">id</string>
+    <string name="extra_replay">replay</string>
 
 </resources>

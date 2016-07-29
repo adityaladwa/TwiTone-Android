@@ -46,6 +46,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     public interface TimeLineClickListener {
         void onItemClick(View view, int position);
 
+        void onClickedReplay(View view, int position);
+
         void onClickedFavourite(View view, int position);
 
         void onClickedRetweet(View view, int position);
@@ -125,6 +127,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
         String mentionScheme = "com.ladwa.aditya.twitone/" + mTweet.getId();
         Linkify.addLinks(holder.textViewTweet, mentionPattern, mentionScheme, null, filter);
+
+
 
         Pattern hashtagPattern = Pattern.compile("#([A-Za-z0-9_-]+)");
         String hashtagScheme = "com.ladwa.aditya.twitone/" + mTweet.getId();
@@ -216,6 +220,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         TextView textViewRetweetCount;
         @BindView(R.id.textview_fav_count)
         TextView textViewFavCount;
+        @BindView(R.id.imageview_replay)
+        ImageView imageViewReplay;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -225,6 +231,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             imageViewFav.setOnClickListener(this);
             imageViewRetweet.setOnClickListener(this);
             imageViewMedia.setOnClickListener(this);
+            imageViewReplay.setOnClickListener(this);
         }
 
 
@@ -239,6 +246,9 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                     break;
                 case R.id.imageview_media:
                     mTimeLineClickListener.onClickMedia(v, getAdapterPosition());
+                    break;
+                case R.id.imageview_replay:
+                    mTimeLineClickListener.onClickedReplay(v, getAdapterPosition());
                     break;
                 default:
                     mTimeLineClickListener.onItemClick(v, getAdapterPosition());
