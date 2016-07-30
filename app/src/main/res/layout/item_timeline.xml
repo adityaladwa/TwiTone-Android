@@ -76,7 +76,6 @@
 
 
         <ImageView
-            android:background="@color/md_white_1000"
             android:id="@+id/imageview_media"
             android:layout_width="match_parent"
             android:layout_height="150dp"

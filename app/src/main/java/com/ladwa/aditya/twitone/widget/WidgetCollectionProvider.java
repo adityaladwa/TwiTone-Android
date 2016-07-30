@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -40,14 +39,13 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int i = 0; i < appWidgetIds.length; i++) {
             int id = appWidgetIds[i];
-            Log.d("Collection", "yes");
 
             Intent intentWidget = new Intent(context, WidgetCollectionService.class);
             intentWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
             intentWidget.setData(Uri.parse(intentWidget.toUri(Intent.URI_INTENT_SCHEME)));
 
             RemoteViews views = new RemoteViews(context.getApplicationContext().getPackageName(), R.layout.widget_collection);
-            views.setRemoteAdapter(R.id.widgetListviewCollection, intentWidget);
+            views.setRemoteAdapter(R.id.widget_list_view, intentWidget);
 
             Intent clickIntent = new Intent(context, WidgetCollectionService.class);
             clickIntent.setAction(CLICK_ACTION);
@@ -57,7 +55,7 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
 
             PendingIntent clickPendingIntent = PendingIntent
                     .getBroadcast(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            views.setPendingIntentTemplate(R.id.widgetListviewCollection, clickPendingIntent);
+            views.setPendingIntentTemplate(R.id.widget_list_view, clickPendingIntent);
             appWidgetManager.updateAppWidget(id, views);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);

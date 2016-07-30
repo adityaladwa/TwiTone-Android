@@ -91,7 +91,6 @@
         <receiver android:name=".widget.WidgetCollectionProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.ladwa.aditya.twitone.widget.WidgetCollectionProvider.CLICK_ACTION" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"

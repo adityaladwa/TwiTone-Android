@@ -13,7 +13,6 @@ public class WidgetCollectionService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        Log.d(TAG, "YES");
         return new WidgetCollectionRemoteFactory(getApplicationContext(), intent);
     }
 }

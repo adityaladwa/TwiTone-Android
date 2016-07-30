@@ -53,7 +53,7 @@ public class WidgetCollectionRemoteFactory implements RemoteViewsService.RemoteV
         try {
             Timber.d(String.valueOf(position));
             if (position < getCount()) {
-                mCursor.move(position + 1);
+                mCursor.moveToNext();
                 views.setTextViewText(R.id.textview_user_name,
                         mCursor.getString(mCursor.getColumnIndex(TwitterContract.Tweet.COLUMN_USER_NAME)));
                 views.setTextViewText(R.id.textview_screen_name,
@@ -75,10 +75,10 @@ public class WidgetCollectionRemoteFactory implements RemoteViewsService.RemoteV
         extras.putInt(WidgetCollectionProvider.EXTRA_ITEM, position);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
-        fillInIntent.setAction(WidgetCollectionProvider.CLICK_ACTION);
+//        fillInIntent.setAction(WidgetCollectionProvider.CLICK_ACTION);
         // Make it possible to distinguish the individual on-click
         // action of a given item
-        views.setOnClickFillInIntent(R.id.frame_widget, fillInIntent);
+        views.setOnClickFillInIntent(R.id.widget_relative_layout, fillInIntent);
 
         return views;
     }
