@@ -26,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
@@ -38,10 +37,10 @@ import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.imageviewer.ImageViewer;
 import com.ladwa.aditya.twitone.login.LoginActivity;
+import com.ladwa.aditya.twitone.tweetdetail.TweetDetail;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
-import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.view.IconicsImageView;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.util.ArrayList;
@@ -81,9 +80,9 @@ public class MainScreenFragment extends Fragment
 
     @BindView(R.id.swipeContainer)
     SwipeRefreshLayout swipeContainer;
+
+
     private boolean internet;
-
-
     private boolean mLogin;
     private Unbinder unbinder;
     private MainScreenContract.Presenter mPresenter;
@@ -95,9 +94,7 @@ public class MainScreenFragment extends Fragment
     private int finalPos;
     private boolean tablet;
     private int orientation;
-
     private List<Tweet> mTweets;
-
     private FloatingActionButton mActionButton;
 
     public MainScreenFragment() {
@@ -417,6 +414,9 @@ public class MainScreenFragment extends Fragment
     @Override
     public void onItemClick(View view, int position) {
         //Start detail tweet view activity
+        Intent intent = new Intent(getActivity(), TweetDetail.class);
+        intent.putExtra("extra_tweet", mTweets.get(position));
+        startActivity(intent);
     }
 
     @Override
@@ -426,7 +426,6 @@ public class MainScreenFragment extends Fragment
 
         String concat = "";
         while (split.find()) {
-
             for (int i = 0; i < split.groupCount(); i++) {
                 Timber.d(split.group(i));
                 concat += split.group(i) + " ";
@@ -453,11 +452,10 @@ public class MainScreenFragment extends Fragment
         if (internet) {
             if (mTweets.get(position).getFav() == 0) {
                 mPresenter.createFavourite(mTweets.get(position).getId());
-                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.RED));
+                ((IconicsImageView) view).setColor(Color.RED);
             } else {
                 mPresenter.unFavourite(mTweets.get(position).getId());
-                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_heart).color(Color.GRAY));
-
+                ((IconicsImageView) view).setColor(Color.GRAY);
             }
         } else {
             Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)
@@ -472,7 +470,9 @@ public class MainScreenFragment extends Fragment
         if (internet) {
             if (mTweets.get(position).getRetweet() == 0) {
                 mPresenter.createRetweet(mTweets.get(position).getId());
-                ((ImageView) view).setImageDrawable(new IconicsDrawable(getActivity()).icon(FontAwesome.Icon.faw_retweet).color(Color.GREEN));
+                ((IconicsImageView) view).setColor(Color.GREEN);
+            } else {
+                ((IconicsImageView) view).setColor(Color.GRAY);
             }
         } else {
             Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)

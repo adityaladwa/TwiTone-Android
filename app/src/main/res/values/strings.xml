@@ -73,5 +73,6 @@
     <string name="extra_id">extra_id</string>
     <string name="extra_replay">extra_replay</string>
     <string name="extra_is_replay">extra_is_replay</string>
+    <string name="transation_profile_pic">profile_pic</string>
 
 </resources>

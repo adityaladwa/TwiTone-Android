@@ -445,7 +445,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     tweet.setRetweetCount(status.getRetweetCount());
                     tweet.setVerified(status.getUser().isVerified() ? 1 : 0);
                     tweet.setFav(status.isFavorited() ? 1 : 0);
-                    tweet.setRetweet(status.isRetweetedByMe() ? 1 : 0);
+                    tweet.setRetweet(status.isRetweeted() ? 1 : 0);
 
                     subscriber.onNext(tweet);
                 } catch (TwitterException e) {

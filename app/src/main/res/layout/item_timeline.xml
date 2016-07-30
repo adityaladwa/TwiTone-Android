@@ -21,6 +21,7 @@
             android:layout_marginStart="7dp"
             android:layout_marginTop="@dimen/timeline_top_margin"
             android:contentDescription="@string/profile_image"
+            android:transitionName="@string/transation_profile_pic"
             card:civ_border="false"
             card:civ_shadow="false" />
 
@@ -119,18 +120,20 @@
             app:iiv_size="25dp" />
 
 
-        <ImageView
-            android:layout_marginStart="30dp"
+        <com.mikepenz.iconics.view.IconicsImageView
             android:id="@+id/imageview_retweet"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_below="@+id/imageview_media"
             android:layout_marginBottom="@dimen/timeline_bottom_margin"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="15dp"
             android:layout_toEndOf="@id/imageview_replay"
             android:maxHeight="20dp"
             android:maxWidth="20dp"
-            android:src="@drawable/retweet" />
+            app:iiv_color="@android:color/darker_gray"
+            app:iiv_icon="faw_retweet"
+            app:iiv_size="25dp" />
 
 
         <TextView
@@ -146,7 +149,7 @@
             android:text="20"
             android:textSize="20sp" />
 
-        <ImageView
+        <com.mikepenz.iconics.view.IconicsImageView
             android:id="@+id/imageview_fav"
             android:layout_width="22dp"
             android:layout_height="22dp"
@@ -155,7 +158,9 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="17dp"
             android:layout_toEndOf="@id/textview_retweet_count"
-            android:src="@drawable/retweet" />
+            app:iiv_color="@android:color/darker_gray"
+            app:iiv_icon="faw_heart"
+            app:iiv_size="25dp" />
 
         <TextView
             android:id="@+id/textview_fav_count"

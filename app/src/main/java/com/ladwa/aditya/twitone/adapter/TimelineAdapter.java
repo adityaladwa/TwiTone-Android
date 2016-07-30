@@ -19,8 +19,7 @@ import com.bumptech.glide.request.target.Target;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.util.Utility;
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
-import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.view.IconicsImageView;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -39,7 +38,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
     private List<Tweet> mTweetList;
     private Context mContext;
-    private IconicsDrawable retweetIcon, favIcon;
     private Tweet mTweet;
     private TimeLineClickListener mTimeLineClickListener;
 
@@ -61,8 +59,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     public TimelineAdapter(List<Tweet> mTweetList, Context mContext) {
         this.mTweetList = mTweetList;
         this.mContext = mContext;
-        this.retweetIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_retweet);
-        this.favIcon = new IconicsDrawable(mContext).icon(FontAwesome.Icon.faw_heart);
     }
 
 
@@ -129,7 +125,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         Linkify.addLinks(holder.textViewTweet, mentionPattern, mentionScheme, null, filter);
 
 
-
         Pattern hashtagPattern = Pattern.compile("#([A-Za-z0-9_-]+)");
         String hashtagScheme = "com.ladwa.aditya.twitone/" + mTweet.getId();
         Linkify.addLinks(holder.textViewTweet, hashtagPattern, hashtagScheme, null, filter);
@@ -147,27 +142,15 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         }
 
         if (mTweet.getFav() == 1) {
-            Glide.with(mContext)
-                    .load("")
-                    .placeholder(favIcon.color(Color.RED))
-                    .into(holder.imageViewFav);
+            holder.imageViewFav.setColor(Color.RED);
         } else {
-            Glide.with(mContext)
-                    .load("")
-                    .placeholder(favIcon.color(Color.GRAY))
-                    .into(holder.imageViewFav);
+            holder.imageViewFav.setColor(Color.GRAY);
         }
 
         if (mTweet.getRetweet() == 1) {
-            Glide.with(mContext)
-                    .load("")
-                    .placeholder(retweetIcon.color(Color.GREEN))
-                    .into(holder.imageViewRetweet);
+            holder.imageViewRetweet.setColor(Color.GREEN);
         } else {
-            Glide.with(mContext)
-                    .load("")
-                    .placeholder(retweetIcon.color(Color.GRAY))
-                    .into(holder.imageViewRetweet);
+            holder.imageViewRetweet.setColor(Color.GRAY);
         }
 
 
@@ -213,9 +196,9 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         @BindView(R.id.textview_user_name)
         TextView textViewUserName;
         @BindView(R.id.imageview_retweet)
-        ImageView imageViewRetweet;
+        IconicsImageView imageViewRetweet;
         @BindView(R.id.imageview_fav)
-        ImageView imageViewFav;
+        IconicsImageView imageViewFav;
         @BindView(R.id.textview_retweet_count)
         TextView textViewRetweetCount;
         @BindView(R.id.textview_fav_count)
@@ -252,7 +235,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                     break;
                 default:
                     mTimeLineClickListener.onItemClick(v, getAdapterPosition());
-
             }
         }
 
