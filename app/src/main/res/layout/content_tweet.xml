@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/edittext_tweet">
 
-
         <com.mikepenz.iconics.view.IconicsImageView
             android:id="@+id/imageview_place_icon"
             android:layout_width="24dp"
@@ -51,7 +50,7 @@
     <RelativeLayout
         android:id="@+id/relativelayout_tweet_footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:elevation="5dp"
         android:orientation="horizontal"
@@ -59,19 +58,21 @@
 
         <com.mikepenz.iconics.view.IconicsImageView
             android:id="@+id/imageview_location"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
             android:visibility="invisible"
             app:iiv_color="@color/grey"
             app:iiv_icon="faw_map-marker"
-            app:iiv_size="38dp" />
+            app:iiv_size="32dp" />
 
         <Button
             android:id="@+id/button_tweet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
             android:text="Tweet"
             android:visibility="invisible" />
 
@@ -79,16 +80,12 @@
             android:id="@+id/textview_tweet_char"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/button_tweet"
             android:gravity="center"
             android:text="@string/tweet_char"
             android:textColor="@color/md_black_1000"
             android:visibility="invisible" />
-
-
     </RelativeLayout>
-
-
 </RelativeLayout>
 

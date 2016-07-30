@@ -70,9 +70,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
-
         new LoginPresenter(this, twitter);
-
 
         return view;
     }
@@ -83,6 +81,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         if (internet) {
             mPresenter.login();
             loginButton.setVisibility(View.GONE);
+            mWebView.setBackgroundColor(getActivity().getResources().getColor(R.color.grey));
             mWebView.setVisibility(View.VISIBLE);
             mWebView.getSettings().setSaveFormData(false);
             mWebView.getSettings().setJavaScriptEnabled(true);
