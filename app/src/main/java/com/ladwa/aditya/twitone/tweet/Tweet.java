@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -63,7 +62,8 @@ import twitter4j.GeoLocation;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
 
-public class Tweet extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class Tweet extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, TweetPresenter.View {
 
     private static final int LOCATION_REQUEST_CODE = 10;
     @BindView(R.id.fab_tweet_activity)
@@ -183,70 +183,6 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
         super.onStop();
     }
 
-    @OnClick(R.id.imageview_location)
-    public void onClickLocation() {
-        if (click) {
-            mImageViewLocation.setColor(getResources().getColor(R.color.md_blue_700));
-            click = false;
-            location = true;
-            getUserLocation();
-
-        } else {
-            mImageViewLocation.setColor(getResources().getColor(R.color.grey));
-            click = true;
-            location = false;
-            unSetLocation();
-        }
-    }
-
-    @OnClick(R.id.button_tweet)
-    public void onClickTweet() {
-        int length = mEditTextTweet.getText().length();
-        if (length > 0 && length <= 140) {
-            StatusUpdate statusUpdate = new StatusUpdate(mEditTextTweet.getText().toString());
-            if (location) {
-                statusUpdate.setPlaceId(locality);
-                statusUpdate.setLocation(new GeoLocation(latitude, longitude));
-            }
-
-            if (isReplay) {
-                statusUpdate.setInReplyToStatusId(inReplaytoId);
-            }
-
-            TwitterRemoteDataSource.getInstance().updateStatus(statusUpdate)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.newThread())
-                    .subscribe(new Subscriber<Status>() {
-                        @Override
-                        public void onCompleted() {
-                            Toast.makeText(Tweet.this, "Tweet sent...", Toast.LENGTH_SHORT).show();
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Timber.d(e.toString());
-                            Toast.makeText(Tweet.this, "Error sending tweet...", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onNext(Status status) {
-                            Timber.d("Updated status -" + status.getText());
-
-                        }
-                    });
-
-
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(mEditTextTweet.getWindowToken(), 0);
-            onBackPressed();
-        } else if (length == 0) {
-            Toast.makeText(this, "Type something...", Toast.LENGTH_SHORT).show();
-        } else if (length > 140) {
-            Toast.makeText(this, "You can tweet 140 character only", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
     private void unSetLocation() {
         Animation fadeIn = AnimationUtils.loadAnimation(Tweet.this, android.R.anim.fade_out);
@@ -350,7 +286,45 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
                 });
     }
 
-    private void getUserLocation() {
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (location)
+            getUserLocation();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast.makeText(this, R.string.location_suspended, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Timber.d("Location Connection Failed");
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_REQUEST_CODE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getUserLocation();
+                } else {
+                    Toast.makeText(this, "Location needed to show Local Trends", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void setPresenter(TweetPresenter.Presenter presenter) {
+
+    }
+
+    @Override
+    public void getUserLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
@@ -411,34 +385,70 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
         }
     }
 
+
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        if (location)
+    @OnClick(R.id.imageview_location)
+    public void onClickLocation() {
+        if (click) {
+            mImageViewLocation.setColor(getResources().getColor(R.color.md_blue_700));
+            click = false;
+            location = true;
             getUserLocation();
+
+        } else {
+            mImageViewLocation.setColor(getResources().getColor(R.color.grey));
+            click = true;
+            location = false;
+            unSetLocation();
+        }
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-        Toast.makeText(this, R.string.location_suspended, Toast.LENGTH_SHORT).show();
-    }
+    @OnClick(R.id.button_tweet)
+    public void onClickTweet() {
+        int length = mEditTextTweet.getText().length();
+        if (length > 0 && length <= 140) {
+            StatusUpdate statusUpdate = new StatusUpdate(mEditTextTweet.getText().toString());
+            if (location) {
+                statusUpdate.setPlaceId(locality);
+                statusUpdate.setLocation(new GeoLocation(latitude, longitude));
+            }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Timber.d("Location Connection Failed");
-    }
+            if (isReplay) {
+                statusUpdate.setInReplyToStatusId(inReplaytoId);
+            }
+
+            TwitterRemoteDataSource.getInstance().updateStatus(statusUpdate)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(new Subscriber<Status>() {
+                        @Override
+                        public void onCompleted() {
+                            Toast.makeText(Tweet.this, "Tweet sent...", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Timber.d(e.toString());
+                            Toast.makeText(Tweet.this, "Error sending tweet...", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onNext(Status status) {
+                            Timber.d("Updated status -" + status.getText());
+
+                        }
+                    });
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case LOCATION_REQUEST_CODE:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getUserLocation();
-                } else {
-                    Toast.makeText(this, "Location needed to show Local Trends", Toast.LENGTH_SHORT).show();
-                }
-                break;
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mEditTextTweet.getWindowToken(), 0);
+            onBackPressed();
+        } else if (length == 0) {
+            Toast.makeText(this, "Type something...", Toast.LENGTH_SHORT).show();
+        } else if (length > 140) {
+            Toast.makeText(this, "You can tweet 140 character only", Toast.LENGTH_SHORT).show();
         }
     }
 
