@@ -424,9 +424,7 @@ public class MainScreenFragment extends Fragment
         Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
         Matcher split = mentionPattern.matcher(mTweets.get(position).getTweet());
 
-        String mention = "";
         String concat = "";
-
         while (split.find()) {
 
             for (int i = 0; i < split.groupCount(); i++) {
