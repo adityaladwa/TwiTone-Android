@@ -1,5 +1,6 @@
 package com.ladwa.aditya.twitone.tweetdetail;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
+import com.ladwa.aditya.twitone.imageviewer.ImageViewer;
 import com.ladwa.aditya.twitone.util.AnimationUtil;
 import com.ladwa.aditya.twitone.util.Utility;
 import com.mikepenz.iconics.view.IconicsImageView;
@@ -38,7 +40,7 @@ import timber.log.Timber;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TweetDetailFragment extends Fragment implements TweetDetailPresenter.View {
+public class TweetDetailFragment extends Fragment implements TweetDetailPresenter.View, View.OnClickListener {
 
     @BindView(R.id.imageview_profile_pic)
     ImageView imageViewProfile;
@@ -91,6 +93,7 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
                 .crossFade()
                 .into(imageViewProfile);
 
+        imageViewMedia.setOnClickListener(this);
 
         return view;
     }
@@ -268,5 +271,12 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
             imageViewRetweet.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), ImageViewer.class);
+        intent.putExtra(getActivity().getString(R.string.extra_url), tweet.getMediaUrl());
+        startActivity(intent);
     }
 }
