@@ -1,8 +1,6 @@
 package com.ladwa.aditya.twitone.tweet;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -11,15 +9,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -28,7 +23,6 @@ import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -44,6 +38,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
+import com.ladwa.aditya.twitone.util.AnimationUtil;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.mikepenz.iconics.view.IconicsImageView;
 
@@ -251,8 +246,8 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
     @Override
     public void onBackPressed() {
         mFab.setVisibility(View.VISIBLE);
-        animateRevealHide(this, mRlContainer, R.color.md_white_1000, mFab.getWidth() / 2,
-                new OnRevealAnimationListener() {
+        AnimationUtil.animateRevealHide(this, mRlContainer, R.color.md_white_1000, mFab.getWidth() / 2,
+                new AnimationUtil.OnRevealAnimationListener() {
                     @Override
                     public void onRevealHide() {
                         backPressed();
@@ -272,8 +267,8 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
     private void animateRevealShow(final View viewRoot) {
         int cx = (viewRoot.getLeft() + viewRoot.getRight()) / 2;
         int cy = (viewRoot.getTop() + viewRoot.getBottom()) / 2;
-        animateRevealShow(this, viewRoot, mFab.getWidth() / 2, R.color.md_white_1000,
-                cx, cy, new OnRevealAnimationListener() {
+        AnimationUtil.animateRevealShow(this, viewRoot, mFab.getWidth() / 2, R.color.md_white_1000,
+                cx, cy, new AnimationUtil.OnRevealAnimationListener() {
                     @Override
                     public void onRevealHide() {
 
@@ -452,62 +447,6 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
         }
     }
 
-    public interface OnRevealAnimationListener {
-        void onRevealHide();
-
-        void onRevealShow();
-    }
-
-
-    public static void animateRevealShow(final Context ctx, final View view, final int startRadius,
-                                         @ColorRes final int color, int x, int y, final OnRevealAnimationListener listener) {
-        float finalRadius = (float) Math.hypot(view.getWidth(), view.getHeight());
-        Animator anim = ViewAnimationUtils.createCircularReveal(view, x, y, startRadius, finalRadius);
-        anim.setDuration(500);
-        anim.setStartDelay(80);
-        anim.setInterpolator(new FastOutLinearInInterpolator());
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                view.setBackgroundColor(ContextCompat.getColor(ctx, color));
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                view.setVisibility(View.VISIBLE);
-                if (listener != null) {
-                    listener.onRevealShow();
-                }
-            }
-        });
-        anim.start();
-    }
-
-    public static void animateRevealHide(final Context ctx, final View view, @ColorRes final int color,
-                                         final int finalRadius, final OnRevealAnimationListener listener) {
-        int cx = (view.getLeft() + view.getRight()) / 2;
-        int cy = (view.getTop() + view.getBottom()) / 2;
-        int initialRadius = view.getWidth();
-
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(view, cx, cy, initialRadius, finalRadius);
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                view.setBackgroundColor(ctx.getResources().getColor(color));
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                listener.onRevealHide();
-                view.setVisibility(View.INVISIBLE);
-            }
-        });
-        anim.setDuration(300);
-        anim.start();
-    }
 
     private void initViews() {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
