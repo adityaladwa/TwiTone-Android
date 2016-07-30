@@ -30,7 +30,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignBottom="@+id/imageview_profile_pic"
-            android:layout_toStartOf="@+id/textview_tweet" />
+            android:layout_toStartOf="@+id/textview_tweet"
+            android:transitionName="@string/transation_profile_pic_verified" />
 
         <TextView
             android:id="@+id/textview_user_name"

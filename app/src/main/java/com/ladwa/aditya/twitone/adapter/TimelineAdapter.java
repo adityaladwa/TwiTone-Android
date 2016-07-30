@@ -53,6 +53,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         void onLongClick(View view, int position);
 
         void onClickMedia(View view, int position);
+
+        void onClickTweetText(View view, int position);
     }
 
 
@@ -215,6 +217,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             imageViewRetweet.setOnClickListener(this);
             imageViewMedia.setOnClickListener(this);
             imageViewReplay.setOnClickListener(this);
+            textViewTweet.setOnClickListener(this);
         }
 
 
@@ -232,6 +235,9 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                     break;
                 case R.id.imageview_replay:
                     mTimeLineClickListener.onClickedReplay(v, getAdapterPosition());
+                    break;
+                case R.id.textview_tweet:
+                    mTimeLineClickListener.onClickTweetText(v, getAdapterPosition());
                     break;
                 default:
                     mTimeLineClickListener.onItemClick(v, getAdapterPosition());

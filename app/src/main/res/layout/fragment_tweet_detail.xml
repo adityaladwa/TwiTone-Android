@@ -27,6 +27,7 @@
 
         <ImageView
             android:id="@+id/imageview_verified"
+            android:transitionName="@string/transation_profile_pic_verified"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignBottom="@+id/imageview_profile_pic"

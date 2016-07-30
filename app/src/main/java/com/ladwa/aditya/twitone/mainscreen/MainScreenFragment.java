@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
@@ -414,9 +416,17 @@ public class MainScreenFragment extends Fragment
     @Override
     public void onItemClick(View view, int position) {
         //Start detail tweet view activity
+
+        ImageView imageViewProfile = (ImageView) view.findViewById(R.id.imageview_profile_pic);
+        ImageView imageViewVerified = (ImageView) view.findViewById(R.id.imageview_verified);
+
         Intent intent = new Intent(getActivity(), TweetDetail.class);
-        intent.putExtra("extra_tweet", mTweets.get(position));
-        startActivity(intent);
+        intent.putExtra(getActivity().getString(R.string.extra_tweet_parcle), mTweets.get(position));
+        Pair<View, String> p1 = Pair.create((View) imageViewProfile, imageViewProfile.getTransitionName());
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1);
+
+        startActivity(intent, options.toBundle());
     }
 
     @Override
@@ -495,6 +505,13 @@ public class MainScreenFragment extends Fragment
         Intent intent = new Intent(getActivity(), ImageViewer.class);
         intent.putExtra(getActivity().getString(R.string.extra_url), mTweets.get(position).getMediaUrl());
         startActivity(intent);
+    }
+
+    @Override
+    public void onClickTweetText(View view, int position) {
+//        Intent intent = new Intent(getActivity(), TweetDetail.class);
+//        intent.putExtra(getActivity().getString(R.string.extra_tweet_parcle), mTweets.get(position));
+//        startActivity(intent);
     }
 
     @Override

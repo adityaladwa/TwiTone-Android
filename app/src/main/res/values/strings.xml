@@ -74,5 +74,7 @@
     <string name="extra_replay">extra_replay</string>
     <string name="extra_is_replay">extra_is_replay</string>
     <string name="transation_profile_pic">profile_pic</string>
+    <string name="extra_tweet_parcle">extra_tweet_parcle</string>
+    <string name="transation_profile_pic_verified">profile_pic_verified</string>
 
 </resources>
