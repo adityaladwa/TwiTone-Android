@@ -29,7 +29,7 @@ public class WidgetCollectionRemoteFactory implements RemoteViewsService.RemoteV
 
     @Override
     public void onCreate() {
-        mCursor = mContext.getContentResolver().query(TwitterContract.Tweet.CONTENT_URI, null, null, null, TwitterContract.Tweet.COLUMN_ID);
+        mCursor = mContext.getContentResolver().query(TwitterContract.Tweet.CONTENT_URI, null, null, null, TwitterContract.Tweet.COLUMN_ID + " DESC ");
     }
 
     @Override

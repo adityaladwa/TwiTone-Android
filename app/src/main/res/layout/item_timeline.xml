@@ -76,6 +76,7 @@
 
 
         <ImageView
+            android:background="@color/md_white_1000"
             android:id="@+id/imageview_media"
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -116,7 +117,7 @@
             android:maxWidth="20dp"
             app:iiv_color="@android:color/darker_gray"
             app:iiv_icon="faw_reply"
-            app:iiv_size="38dp" />
+            app:iiv_size="25dp" />
 
 
         <ImageView

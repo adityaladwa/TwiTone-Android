@@ -19,8 +19,8 @@ import timber.log.Timber;
  * Created by Aditya on 25-Jul-16.
  */
 public class WidgetCollectionProvider extends AppWidgetProvider {
-    public static final String CLICK_ACTION = "com.ladwa.aditya.twitone.CLICK_ACTION";
-    public static final String EXTRA_ITEM = "com.ladwa.aditya.twitone.EXTRA_ITEM";
+    public static final String CLICK_ACTION = "CLICK_ACTION";
+    public static final String EXTRA_ITEM = "EXTRA_ITEM";
 
 
     @Override
@@ -38,11 +38,9 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
         for (int i = 0; i < appWidgetIds.length; i++) {
             int id = appWidgetIds[i];
             Log.d("Collection", "yes");
-
 
             Intent intentWidget = new Intent(context, WidgetCollectionService.class);
             intentWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
@@ -58,7 +56,7 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
 
 
             PendingIntent clickPendingIntent = PendingIntent
-                    .getBroadcast(context, 0, clickIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+                    .getBroadcast(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setPendingIntentTemplate(R.id.widgetListviewCollection, clickPendingIntent);
             appWidgetManager.updateAppWidget(id, views);
         }
