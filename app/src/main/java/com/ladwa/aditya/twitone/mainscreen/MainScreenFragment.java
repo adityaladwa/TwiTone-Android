@@ -98,6 +98,8 @@ public class MainScreenFragment extends Fragment
 
     private List<Tweet> mTweets;
 
+    private FloatingActionButton mActionButton;
+
     public MainScreenFragment() {
     }
 
@@ -188,6 +190,8 @@ public class MainScreenFragment extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mActionButton = (FloatingActionButton) getActivity().findViewById(R.id.tweet_fab);
 
         //SetupDrawer
         String screenName = preferences.getString(getString(R.string.pref_screen_name), "");
@@ -379,7 +383,6 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void destroyFavouriteCallback(Tweet tweet) {
-//        Toast.makeText(getActivity(), "Unfavourite", Toast.LENGTH_SHORT).show();
         Snackbar.make(recyclerView, R.string.unfavourite, Snackbar.LENGTH_LONG)
                 .show();
         mPresenter.loadTimeLine();
@@ -387,7 +390,6 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void createRetweetCallback(Tweet tweet) {
-//        Toast.makeText(getActivity(), "Retweeted", Toast.LENGTH_SHORT).show();
         Snackbar.make(recyclerView, R.string.retweet, Snackbar.LENGTH_LONG)
                 .show();
         mPresenter.loadTimeLine();
@@ -439,8 +441,12 @@ public class MainScreenFragment extends Fragment
         Intent intent = new Intent(getActivity(), com.ladwa.aditya.twitone.tweet.Tweet.class);
         intent.putExtra(getActivity().getString(R.string.extra_id), mTweets.get(position).getId());
         intent.putExtra(getActivity().getString(R.string.extra_replay), inReplay);
+        intent.putExtra(getActivity().getString(R.string.extra_is_replay), true);
 
-        startActivity(intent);
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(getActivity(), mActionButton, mActionButton.getTransitionName());
+
+        startActivity(intent, options.toBundle());
 
     }
 

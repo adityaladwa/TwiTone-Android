@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -106,6 +107,10 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
     private double longitude;
     private Geocoder geocoder;
     private String locality;
+    private boolean isReplay;
+    private long inReplaytoId;
+    private String replayTweet;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +119,13 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        isReplay = getIntent().getBooleanExtra(getString(R.string.extra_is_replay), false);
+        inReplaytoId = getIntent().getLongExtra(getString(R.string.extra_id), 0);
+        replayTweet = getIntent().getStringExtra(getString(R.string.extra_replay));
+
+        Timber.d("Id = " + String.valueOf(inReplaytoId));
+        Timber.d("inreplay =" + replayTweet);
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -195,6 +207,10 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
             if (location) {
                 statusUpdate.setPlaceId(locality);
                 statusUpdate.setLocation(new GeoLocation(latitude, longitude));
+            }
+
+            if (isReplay) {
+                statusUpdate.setInReplyToStatusId(inReplaytoId);
             }
 
             TwitterRemoteDataSource.getInstance().updateStatus(statusUpdate)
@@ -498,6 +514,12 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
                 mEditTextTweet.startAnimation(fadeIn);
                 mEditTextTweet.setVisibility(View.VISIBLE);
 
+                if (isReplay) {
+                    mEditTextTweet.append(replayTweet);
+
+                }
+
+
                 Animation fadeOut = AnimationUtils.loadAnimation(Tweet.this, android.R.anim.fade_out);
                 fadeOut.setDuration(100);
                 mFab.startAnimation(fadeOut);
@@ -517,6 +539,7 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
                         mEditTextTweet.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(mEditTextTweet, InputMethodManager.SHOW_IMPLICIT);
+
 
                         //Scale up location Icon
                         Animation scaleUp = AnimationUtils.loadAnimation(Tweet.this, R.anim.scale_up);
