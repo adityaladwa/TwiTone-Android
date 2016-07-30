@@ -10,7 +10,7 @@ import java.util.List;
  * A Contract class for Trends
  * Created by Aditya on 22-Jul-16.
  */
-public class TrendsContract {
+public interface TrendsContract {
 
     interface View extends BaseView<Presenter> {
         void loadedTrends(List<Trend> trendList);

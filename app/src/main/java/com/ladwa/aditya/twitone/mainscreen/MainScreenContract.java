@@ -10,7 +10,7 @@ import java.util.List;
  * A contract that holds the abstraction of MainScreen
  * Created by Aditya on 27-Jun-16.
  */
-public class MainScreenContract {
+public interface MainScreenContract {
 
     interface View extends BaseView<Presenter> {
         void logout();
