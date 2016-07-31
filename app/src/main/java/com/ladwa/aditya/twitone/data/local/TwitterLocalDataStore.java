@@ -143,12 +143,11 @@ public class TwitterLocalDataStore implements TwitterDataStore {
 
 
     public static Observable<List<DirectMessage>> getDirectMessageOfUser(long id) {
-        long userId = preferences.getLong(mContext.getString(R.string.pref_userid), 0);
         return mStorIOContentResolver.get()
                 .listOfObjects(DirectMessage.class)
                 .withQuery(Query.builder().uri(TwitterContract.DirectMessage.CONTENT_URI)
-                        .where(TwitterContract.DirectMessage.COLUMN_SENDER_ID + " = ?  OR " + TwitterContract.DirectMessage.COLUMN_SENDER_ID + " = ?")
-                        .whereArgs(userId, id)
+                        .where(TwitterContract.DirectMessage.COLUMN_SENDER_ID + " = ?  OR " + TwitterContract.DirectMessage.COLUMN_RECIPIENT_ID + " = ?")
+                        .whereArgs(id, id)
                         .sortOrder(TwitterContract.DirectMessage.COLUMN_ID + " ASC ")
                         .build())
                 .prepare()
