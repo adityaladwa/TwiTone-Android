@@ -129,6 +129,12 @@ public class MessageFragment extends Fragment implements MessageContract.View,
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onRefresh() {
         if (internet) {
             mPresenter.refreshRemoteDirectMessage();
@@ -174,6 +180,7 @@ public class MessageFragment extends Fragment implements MessageContract.View,
     @Override
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(getActivity(), MessageCompose.class);
+        intent.putExtra(getActivity().getString(R.string.extra_sender_id), mDirectMessages.get(position).getSenderId());
         startActivity(intent);
     }
 }

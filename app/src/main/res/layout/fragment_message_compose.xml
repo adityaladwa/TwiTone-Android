@@ -15,24 +15,25 @@
         android:transcriptMode="alwaysScroll" />
 
     <RelativeLayout
-        android:id="@+id/llMsgCompose"
+        android:id="@+id/relative_layout_compose_message"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
         android:background="@color/md_white_1000"
         android:orientation="horizontal">
 
         <EditText
-            android:hint="@string/dm_hint"
-            android:textColorHint="@color/colorAccent"
-            android:layout_marginStart="20dp"
             android:id="@+id/edittext_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
             android:background="@android:color/transparent"
-            android:textColor="@color/md_black_1000" />
+            android:hint="@string/dm_hint"
+            android:textColor="@color/md_black_1000"
+            android:textColorHint="@color/colorAccent" />
 
 
         <com.mikepenz.iconics.view.IconicsImageView
+            android:id="@+id/button_message_send"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"

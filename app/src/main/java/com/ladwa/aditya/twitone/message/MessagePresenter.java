@@ -46,7 +46,7 @@ public class MessagePresenter implements MessageContract.Presenter {
                 .subscribe(new Subscriber<List<DirectMessage>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Loaded TimeLine");
+                        getlocalDm();
                     }
 
                     @Override
@@ -57,7 +57,31 @@ public class MessagePresenter implements MessageContract.Presenter {
                     @Override
                     public void onNext(List<DirectMessage> directMessageList) {
                         Timber.d(String.valueOf(directMessageList.size()));
+                    }
+                });
+
+
+    }
+
+    private void getlocalDm() {
+        TwitterLocalDataStore.getInstance(mContext).getDirectMessage(TwitterLocalDataStore.getLastDirectMessageId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<DirectMessage>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "Error :" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<DirectMessage> directMessageList) {
                         mView.loadDirectMessage(directMessageList);
+                        mView.stopRefreshing();
                     }
                 });
     }

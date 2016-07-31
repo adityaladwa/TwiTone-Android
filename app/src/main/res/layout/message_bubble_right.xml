@@ -10,7 +10,7 @@
     android:paddingTop="5dp">
 
     <TextView
-        android:id="@+id/lblMsgFrom"
+        android:id="@+id/textview_to_sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -19,7 +19,7 @@
         android:textStyle="italic" />
 
     <TextView
-        android:id="@+id/txtMsg"
+        android:id="@+id/textview_to_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"

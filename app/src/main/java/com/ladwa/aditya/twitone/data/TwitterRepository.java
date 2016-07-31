@@ -125,8 +125,7 @@ public class TwitterRepository implements TwitterDataStore {
                         }
                     }
                 });
-//        return mRemoteDataStore.getDirectMessage(sinceId);
-//        return mLocalDataStore.getDirectMessage(sinceId).first();
+
     }
 
     @Override
@@ -149,7 +148,6 @@ public class TwitterRepository implements TwitterDataStore {
                     }
                 });
 
-//        return mRemoteDataStore.getTrends();
     }
 
     @Override

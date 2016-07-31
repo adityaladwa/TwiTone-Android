@@ -225,7 +225,6 @@ public class MainScreenFragment extends Fragment
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-
     }
 
     @Override

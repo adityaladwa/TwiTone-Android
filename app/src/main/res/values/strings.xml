@@ -78,5 +78,6 @@
     <string name="transation_profile_pic_verified">profile_pic_verified</string>
     <string name="title_activity_message_compose">MessageCompose</string>
     <string name="dm_hint">Type your message...</string>
+    <string name="extra_sender_id">extra_sender_id</string>
 
 </resources>

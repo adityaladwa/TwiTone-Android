@@ -1,12 +1,10 @@
 package com.ladwa.aditya.twitone.messagecompose;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.ladwa.aditya.twitone.R;
-import com.mikepenz.iconics.context.IconicsContextWrapper;
 
 public class MessageCompose extends AppCompatActivity {
 
@@ -19,7 +17,6 @@ public class MessageCompose extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
 
 
 }
