@@ -87,11 +87,11 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".widget.WidgetCollectionProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_collection" />
@@ -173,6 +173,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
+        <activity
+            android:name=".messagecompose.MessageCompose"
+            android:label="@string/title_activity_message_compose"
+            android:parentActivityName=".message.Message"
+            android:theme="@style/AppThemeDark">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.message.Message" />
         </activity>
     </application>
 

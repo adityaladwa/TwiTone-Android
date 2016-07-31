@@ -76,5 +76,7 @@
     <string name="transation_profile_pic">profile_pic</string>
     <string name="extra_tweet_parcle">extra_tweet_parcle</string>
     <string name="transation_profile_pic_verified">profile_pic_verified</string>
+    <string name="title_activity_message_compose">MessageCompose</string>
+    <string name="dm_hint">Type your message...</string>
 
 </resources>

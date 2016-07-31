@@ -1,6 +1,7 @@
 package com.ladwa.aditya.twitone.message;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.adapter.DirectMessageAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
+import com.ladwa.aditya.twitone.messagecompose.MessageCompose;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 
 import java.util.ArrayList;
@@ -78,7 +80,6 @@ public class MessageFragment extends Fragment implements MessageContract.View,
         TwitoneApp.getTwitterComponent().inject(this);
 
 
-
         //Shared Preferences
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         long id = preferences.getLong(getString(R.string.pref_userid), 0);
@@ -88,7 +89,7 @@ public class MessageFragment extends Fragment implements MessageContract.View,
         //Create instance of presenter
         AccessToken accessToken = new AccessToken(token, secret);
         mTwitter.setOAuthAccessToken(accessToken);
-        new MessagePresenter(this, mLogin, id, mTwitter, repository,getActivity());
+        new MessagePresenter(this, mLogin, id, mTwitter, repository, getActivity());
 
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -172,6 +173,7 @@ public class MessageFragment extends Fragment implements MessageContract.View,
 
     @Override
     public void onItemClick(View view, int position) {
-
+        Intent intent = new Intent(getActivity(), MessageCompose.class);
+        startActivity(intent);
     }
 }
