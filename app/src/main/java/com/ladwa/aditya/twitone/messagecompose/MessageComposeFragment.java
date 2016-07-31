@@ -7,9 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 
 import com.ladwa.aditya.twitone.R;
@@ -36,7 +40,7 @@ import twitter4j.auth.AccessToken;
  * A placeholder fragment containing a simple view.
  */
 public class MessageComposeFragment extends Fragment implements MessageComposeContract.View,
-        ConnectionReceiver.ConnectionReceiverListener {
+        ConnectionReceiver.ConnectionReceiverListener, TextWatcher {
 
     @Inject
     SharedPreferences preferences;
@@ -64,6 +68,7 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
     private MessageComposeAdapter mMessageComposeAdapter;
     private long senderId;
     private long userId;
+    private boolean first = true;
 
 
     public MessageComposeFragment() {
@@ -87,6 +92,7 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         mTwitter.setOAuthAccessToken(accessToken);
 
         new MessageComposePresenter(this, repository, getActivity(), senderId);
+        mEditText.addTextChangedListener(this);
 
 
         setUpRecyclerView();
@@ -175,5 +181,34 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         internet = isConnected;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if (mEditText.length() >= 1 && first) {
+            Animation scaleUp = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
+            scaleUp.setDuration(200);
+            mSendImageView.startAnimation(scaleUp);
+            mSendImageView.setVisibility(View.VISIBLE);
+            first = false;
+        } else if (mEditText.length() < 1) {
+            Animation scaleDown = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_down);
+            scaleDown.setDuration(200);
+            mSendImageView.startAnimation(scaleDown);
+            mSendImageView.setVisibility(View.INVISIBLE);
+            first = true;
+        }
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

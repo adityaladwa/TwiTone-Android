@@ -36,6 +36,7 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:visibility="invisible"
             app:iiv_color="@color/colorPrimary"
             app:iiv_icon="gmd-send"
             app:iiv_size="30dp" />
