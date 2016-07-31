@@ -5,6 +5,7 @@ import android.content.Context;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
+import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import java.util.List;
 
@@ -35,7 +36,6 @@ public class MessageComposePresenter implements MessageComposeContract.Presenter
 
     @Override
     public void getUserDirectMessage() {
-
         TwitterLocalDataStore.getDirectMessageOfUser(mSenderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
@@ -57,6 +57,31 @@ public class MessageComposePresenter implements MessageComposeContract.Presenter
                     }
                 });
 
+    }
+
+    @Override
+    public void sendDirectMessage(long recipentId, String message) {
+        TwitterRemoteDataSource.getInstance().sendDirectMessage(recipentId, message)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<DirectMessage>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Message sent");
+
+                        getUserDirectMessage();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "Error :" + e.toString());
+                    }
+
+                    @Override
+                    public void onNext(DirectMessage directMessage) {
+
+                    }
+                });
     }
 
     @Override

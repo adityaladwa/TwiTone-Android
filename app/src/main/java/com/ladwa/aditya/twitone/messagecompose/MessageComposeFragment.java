@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
@@ -30,7 +29,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import timber.log.Timber;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
 
@@ -98,7 +96,13 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
 
     @OnClick(R.id.button_message_send)
     public void onClickSendButton() {
-        Toast.makeText(getActivity(), mEditText.getText(), Toast.LENGTH_SHORT).show();
+        String message = mEditText.getText().toString();
+        if (message.length() > 0) {
+            mPresenter.sendDirectMessage(senderId, message);
+        } else {
+            Snackbar.make(recyclerView, "Type something...", Snackbar.LENGTH_LONG)
+                    .show();
+        }
     }
 
     @Override
@@ -115,6 +119,11 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         mDirectMessages = new ArrayList<>();
         mMessageComposeAdapter = new MessageComposeAdapter(mDirectMessages, getActivity(), userId);
         recyclerView.setAdapter(mMessageComposeAdapter);
+    }
+
+    @Override
+    public void clearEditText() {
+        mEditText.setText("");
     }
 
 

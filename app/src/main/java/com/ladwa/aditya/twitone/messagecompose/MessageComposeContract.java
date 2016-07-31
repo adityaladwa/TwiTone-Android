@@ -20,11 +20,15 @@ public class MessageComposeContract {
         void showError();
 
         void setUpRecyclerView();
+
+        void clearEditText();
     }
 
 
     interface Presenter extends BasePresenter {
         void getUserDirectMessage();
+
+        void sendDirectMessage(long recipentId, String message);
 
     }
 }
