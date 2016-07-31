@@ -353,6 +353,44 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
     }
 
 
+    public Observable<DirectMessage> sendDirectMessage(final long senderId, final String text) {
+
+        return Observable.create(new Observable.OnSubscribe<DirectMessage>() {
+            @Override
+            public void call(Subscriber<? super DirectMessage> subscriber) {
+                final DirectMessage directMessage = new DirectMessage();
+                try {
+                    twitter4j.DirectMessage message = mTwitter.sendDirectMessage(senderId, text);
+
+                    directMessage.setId(message.getId());
+                    directMessage.setDateCreated(String.valueOf(message.getCreatedAt()));
+                    directMessage.setRecipient(message.getRecipient().getName());
+                    directMessage.setRecipientId(message.getRecipientId());
+                    directMessage.setRecipientScreenName(message.getRecipientScreenName());
+                    directMessage.setSender(message.getSender().getName());
+                    directMessage.setSenderId(message.getSenderId());
+                    directMessage.setSenderScreenName(message.getSenderScreenName());
+                    directMessage.setText(message.getText());
+                    directMessage.setProfileUrl(message.getSender().getOriginalProfileImageURL());
+
+                    subscriber.onNext(directMessage);
+
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+            }
+        }).doOnNext(new Action1<DirectMessage>() {
+            @Override
+            public void call(DirectMessage directMessage) {
+                TwitterLocalDataStore.saveSingleDirectMessage(directMessage);
+            }
+        });
+
+    }
+
     public Observable<Tweet> createFavourite(final long id) {
         return Observable.create(new Observable.OnSubscribe<Tweet>() {
             @Override
@@ -425,7 +463,6 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             }
         });
     }
-
 
     public Observable<Tweet> createRetweet(final long id) {
         return Observable.create(new Observable.OnSubscribe<Tweet>() {

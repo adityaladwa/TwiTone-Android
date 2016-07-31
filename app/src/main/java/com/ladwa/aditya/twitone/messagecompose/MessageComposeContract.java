@@ -18,6 +18,8 @@ public class MessageComposeContract {
         void stopRefreshing();
 
         void showError();
+
+        void setUpRecyclerView();
     }
 
 

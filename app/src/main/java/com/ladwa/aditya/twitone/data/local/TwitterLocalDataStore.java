@@ -126,7 +126,6 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                 .asRxObservable();
     }
 
-
     @Override
     public Observable<List<DirectMessage>> getDirectMessage(long sinceId) {
         long userId = preferences.getLong(mContext.getString(R.string.pref_userid), 0);
@@ -139,20 +138,6 @@ public class TwitterLocalDataStore implements TwitterDataStore {
                         .build())
                 .prepare()
                 .asRxObservable();
-    }
-
-
-    public static Observable<List<DirectMessage>> getDirectMessageOfUser(long id) {
-        return mStorIOContentResolver.get()
-                .listOfObjects(DirectMessage.class)
-                .withQuery(Query.builder().uri(TwitterContract.DirectMessage.CONTENT_URI)
-                        .where(TwitterContract.DirectMessage.COLUMN_SENDER_ID + " = ?  OR " + TwitterContract.DirectMessage.COLUMN_RECIPIENT_ID + " = ?")
-                        .whereArgs(id, id)
-                        .sortOrder(TwitterContract.DirectMessage.COLUMN_ID + " ASC ")
-                        .build())
-                .prepare()
-                .asRxObservable();
-
     }
 
     @Override
@@ -170,6 +155,18 @@ public class TwitterLocalDataStore implements TwitterDataStore {
         return null;
     }
 
+    public static Observable<List<DirectMessage>> getDirectMessageOfUser(long id) {
+        return mStorIOContentResolver.get()
+                .listOfObjects(DirectMessage.class)
+                .withQuery(Query.builder().uri(TwitterContract.DirectMessage.CONTENT_URI)
+                        .where(TwitterContract.DirectMessage.COLUMN_SENDER_ID + " = ?  OR " + TwitterContract.DirectMessage.COLUMN_RECIPIENT_ID + " = ?")
+                        .whereArgs(id, id)
+                        .sortOrder(TwitterContract.DirectMessage.COLUMN_ID + " DESC ")
+                        .build())
+                .prepare()
+                .asRxObservable();
+
+    }
 
     public static long getLastDirectMessageId() {
         Interaction interaction = mStorIOContentResolver.get().object(Interaction.class)
@@ -225,7 +222,6 @@ public class TwitterLocalDataStore implements TwitterDataStore {
         mStorIOContentResolver.put().object(tweet).prepare().executeAsBlocking();
     }
 
-
     public static void createFavouriteInteraction(Interaction interaction) {
         mStorIOContentResolver.put().object(interaction).prepare().executeAsBlocking();
 
@@ -238,7 +234,6 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     public static void destoryFavouriteInteraction(Interaction interaction) {
         mStorIOContentResolver.put().object(interaction).prepare().executeAsBlocking();
     }
-
 
     public static void saveUserInfo(User user) {
         mStorIOContentResolver.put().object(user).prepare().executeAsBlocking();
@@ -256,6 +251,10 @@ public class TwitterLocalDataStore implements TwitterDataStore {
         mStorIOContentResolver.put().objects(directMessageList).prepare().executeAsBlocking();
     }
 
+    public static void saveSingleDirectMessage(DirectMessage directMessage) {
+        mStorIOContentResolver.put().object(directMessage).prepare().executeAsBlocking();
+    }
+
     public static void deleteTrends() {
         mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.Trends.CONTENT_URI)
                 .where(TwitterContract.Trends.COLUMN_LOCAL + " = ? ")
@@ -266,7 +265,6 @@ public class TwitterLocalDataStore implements TwitterDataStore {
     public static void saveTrend(List<Trend> trendList) {
         mStorIOContentResolver.put().objects(trendList).prepare().executeAsBlocking();
     }
-
 
     public static void deleteLocalTrends() {
         mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.Trends.CONTENT_URI)

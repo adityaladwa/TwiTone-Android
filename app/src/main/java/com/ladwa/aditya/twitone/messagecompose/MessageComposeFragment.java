@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
@@ -17,6 +19,7 @@ import com.ladwa.aditya.twitone.adapter.MessageComposeAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
+import com.mikepenz.iconics.view.IconicsImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +28,17 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+import timber.log.Timber;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MessageComposeFragment extends Fragment implements MessageComposeContract.View, ConnectionReceiver.ConnectionReceiverListener {
+public class MessageComposeFragment extends Fragment implements MessageComposeContract.View,
+        ConnectionReceiver.ConnectionReceiverListener {
 
     @Inject
     SharedPreferences preferences;
@@ -45,6 +51,12 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
     @BindView(R.id.recyclerview_message)
     RecyclerView recyclerView;
 
+    @BindView(R.id.edittext_message)
+    EditText mEditText;
+
+    @BindView(R.id.button_message_send)
+    IconicsImageView mSendImageView;
+
 
     private MessageComposeContract.Presenter mPresenter;
     private Unbinder unbinder;
@@ -53,6 +65,7 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
     private boolean internet;
     private MessageComposeAdapter mMessageComposeAdapter;
     private long senderId;
+    private long userId;
 
 
     public MessageComposeFragment() {
@@ -63,12 +76,11 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message_compose, container, false);
 
-        senderId = getActivity().getIntent().getLongExtra(getString(R.string.extra_sender_id), 0);
-
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
 
-        long id = preferences.getLong(getString(R.string.pref_userid), 0);
+        senderId = getActivity().getIntent().getLongExtra(getString(R.string.extra_sender_id), 0);
+        userId = preferences.getLong(getString(R.string.pref_userid), 0);
         String token = preferences.getString(getString(R.string.pref_access_token), "");
         String secret = preferences.getString(getString(R.string.pref_access_secret), "");
 
@@ -76,11 +88,23 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         AccessToken accessToken = new AccessToken(token, secret);
         mTwitter.setOAuthAccessToken(accessToken);
 
-        new MessageComposePresenter(this, repository, getActivity(),senderId);
+        new MessageComposePresenter(this, repository, getActivity(), senderId);
 
 
+        setUpRecyclerView();
+
+        return view;
+    }
+
+    @OnClick(R.id.button_message_send)
+    public void onClickSendButton() {
+        Toast.makeText(getActivity(), mEditText.getText(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setUpRecyclerView() {
         linearLayoutManager = new LinearLayoutManager(getActivity());
-
+        linearLayoutManager.setReverseLayout(true);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
@@ -89,11 +113,8 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         recyclerView.setLayoutManager(linearLayoutManager);
 
         mDirectMessages = new ArrayList<>();
-        mMessageComposeAdapter = new MessageComposeAdapter(mDirectMessages, getActivity(), id);
+        mMessageComposeAdapter = new MessageComposeAdapter(mDirectMessages, getActivity(), userId);
         recyclerView.setAdapter(mMessageComposeAdapter);
-
-
-        return view;
     }
 
 
@@ -124,7 +145,6 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         mDirectMessages.clear();
         mDirectMessages.addAll(directMessageList);
         mMessageComposeAdapter.notifyDataSetChanged();
-
     }
 
     @Override
