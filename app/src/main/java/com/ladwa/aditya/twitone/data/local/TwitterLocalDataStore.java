@@ -132,7 +132,7 @@ public class TwitterLocalDataStore implements TwitterDataStore {
         return mStorIOContentResolver.get()
                 .listOfObjects(DirectMessage.class)
                 .withQuery(Query.builder().uri(TwitterContract.DirectMessage.CONTENT_URI)
-                        .where(TwitterContract.DirectMessage.COLUMN_SENDER_ID + " != ? GROUP BY " + TwitterContract.DirectMessage.COLUMN_SENDER_ID)
+                        .where(TwitterContract.DirectMessage.COLUMN_SENDER_ID + " != ? GROUP BY " + TwitterContract.DirectMessage.COLUMN_RECIPIENT_ID + " , " + TwitterContract.DirectMessage.COLUMN_SENDER_ID)
                         .whereArgs(userId)
                         .sortOrder(TwitterContract.DirectMessage.COLUMN_ID + " DESC")
                         .build())

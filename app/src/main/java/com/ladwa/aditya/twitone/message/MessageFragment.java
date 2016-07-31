@@ -79,7 +79,6 @@ public class MessageFragment extends Fragment implements MessageContract.View,
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
 
-
         //Shared Preferences
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         long id = preferences.getLong(getString(R.string.pref_userid), 0);
@@ -181,6 +180,7 @@ public class MessageFragment extends Fragment implements MessageContract.View,
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(getActivity(), MessageCompose.class);
         intent.putExtra(getActivity().getString(R.string.extra_sender_id), mDirectMessages.get(position).getSenderId());
+        intent.putExtra(getActivity().getString(R.string.extra_sender_name), mDirectMessages.get(position).getSender());
         startActivity(intent);
     }
 }

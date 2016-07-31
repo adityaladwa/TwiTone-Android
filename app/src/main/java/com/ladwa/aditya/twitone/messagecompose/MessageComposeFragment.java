@@ -49,7 +49,6 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
     @Inject
     TwitterRepository repository;
 
-
     @BindView(R.id.recyclerview_message)
     RecyclerView recyclerView;
 
@@ -69,6 +68,7 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
     private long senderId;
     private long userId;
     private boolean first = true;
+    private String senderName;
 
 
     public MessageComposeFragment() {
@@ -82,7 +82,9 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
 
+        internet = ConnectionReceiver.isConnected();
         senderId = getActivity().getIntent().getLongExtra(getString(R.string.extra_sender_id), 0);
+        senderName = getActivity().getIntent().getStringExtra(getString(R.string.extra_sender_name));
         userId = preferences.getLong(getString(R.string.pref_userid), 0);
         String token = preferences.getString(getString(R.string.pref_access_token), "");
         String secret = preferences.getString(getString(R.string.pref_access_secret), "");
@@ -94,7 +96,6 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         new MessageComposePresenter(this, repository, getActivity(), senderId);
         mEditText.addTextChangedListener(this);
 
-
         setUpRecyclerView();
 
         return view;
@@ -104,7 +105,12 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
     public void onClickSendButton() {
         String message = mEditText.getText().toString();
         if (message.length() > 0) {
-            mPresenter.sendDirectMessage(senderId, message);
+            if (internet) {
+                mPresenter.sendDirectMessage(senderId, message);
+            } else {
+                Snackbar.make(recyclerView, R.string.check_internet, Snackbar.LENGTH_LONG)
+                        .show();
+            }
         } else {
             Snackbar.make(recyclerView, "Type something...", Snackbar.LENGTH_LONG)
                     .show();

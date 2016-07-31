@@ -18,7 +18,7 @@ public class AnimationUtil {
                                          @ColorRes final int color, int x, int y, final OnRevealAnimationListener listener) {
         float finalRadius = (float) Math.hypot(view.getWidth(), view.getHeight());
         Animator anim = ViewAnimationUtils.createCircularReveal(view, x, y, startRadius, finalRadius);
-        anim.setDuration(500);
+        anim.setDuration(300);
         anim.setStartDelay(80);
         anim.setInterpolator(new FastOutLinearInInterpolator());
         anim.addListener(new AnimatorListenerAdapter() {

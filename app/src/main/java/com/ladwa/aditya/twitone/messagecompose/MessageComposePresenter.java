@@ -68,8 +68,8 @@ public class MessageComposePresenter implements MessageComposeContract.Presenter
                     @Override
                     public void onCompleted() {
                         Timber.d("Message sent");
-
                         getUserDirectMessage();
+                        mView.clearEditText();
                     }
 
                     @Override

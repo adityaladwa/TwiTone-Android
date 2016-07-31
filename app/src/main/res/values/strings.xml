@@ -79,5 +79,6 @@
     <string name="title_activity_message_compose">MessageCompose</string>
     <string name="dm_hint">Type your message...</string>
     <string name="extra_sender_id">extra_sender_id</string>
+    <string name="extra_sender_name">extra_sender_name</string>
 
 </resources>

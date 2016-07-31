@@ -62,8 +62,7 @@
         <activity
             android:name=".imageviewer.ImageViewer"
             android:label="@string/title_activity_image_viewer"
-            android:parentActivityName=".mainscreen.MainScreen"
-            android:theme="@style/AppThemeDark">
+            android:parentActivityName=".mainscreen.MainScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
@@ -72,11 +71,27 @@
             android:name=".tweet.Tweet"
             android:label="@string/title_activity_tweet"
             android:parentActivityName=".mainscreen.MainScreen"
-            android:theme="@style/AppThemeDark"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
+
+        <activity
+            android:name=".tweetdetail.TweetDetail"
+            android:label="@string/title_activity_tweet_detail"
+            android:parentActivityName=".mainscreen.MainScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
+        <activity
+            android:name=".messagecompose.MessageCompose"
+            android:label="@string/title_activity_message_compose"
+            android:parentActivityName=".message.Message">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.message.Message" />
         </activity>
 
         <!-- Recievers -->
@@ -165,24 +180,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".tweetdetail.TweetDetail"
-            android:label="@string/title_activity_tweet_detail"
-            android:parentActivityName=".mainscreen.MainScreen"
-            android:theme="@style/AppThemeDark">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
-        </activity>
-        <activity
-            android:name=".messagecompose.MessageCompose"
-            android:label="@string/title_activity_message_compose"
-            android:parentActivityName=".message.Message"
-            android:theme="@style/AppThemeDark">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.message.Message" />
-        </activity>
     </application>
 
 </manifest>

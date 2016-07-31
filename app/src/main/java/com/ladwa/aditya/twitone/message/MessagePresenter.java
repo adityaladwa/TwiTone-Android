@@ -70,7 +70,7 @@ public class MessagePresenter implements MessageContract.Presenter {
                 .subscribe(new Subscriber<List<DirectMessage>>() {
                     @Override
                     public void onCompleted() {
-
+                        Timber.d("loaded from local data store ");
                     }
 
                     @Override
