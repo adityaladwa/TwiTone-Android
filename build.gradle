@@ -109,9 +109,7 @@ ext.deps = [
         storIOContentAnnotation : "com.pushtorefresh.storio:content-resolver-annotations:$ext.storIOVersion",
         storIOSqlProcessor      : "com.pushtorefresh.storio:sqlite-annotations-processor:$ext.storIOVersion",
         storIOContentProcessor  : "com.pushtorefresh.storio:content-resolver-annotations-processor:$ext.storIOVersion",
-        stetho                  : "com.facebook.stetho:stetho:$ext.stethoVersion",
-        ultimateRecyclerView    : "com.hkm.ui:ultimaterecyclerview:$ext.ultimateRecyclerViewVersion"
-
+        stetho                  : "com.facebook.stetho:stetho:$ext.stethoVersion"
 
 ]
 

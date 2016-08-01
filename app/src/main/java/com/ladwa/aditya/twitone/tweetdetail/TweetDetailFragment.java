@@ -73,6 +73,7 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
     RelativeLayout mRlContainer;
 
     private Tweet tweet;
+    private Animation fadeIn, scaleUp;
 
 
     public TweetDetailFragment() {
@@ -92,6 +93,20 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(imageViewProfile);
+
+        fadeIn = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in);
+        fadeIn.setDuration(300);
+
+        scaleUp = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
+        scaleUp.setDuration(300);
+
+        //Set visibility of  Media if available
+        if (tweet.getMediaUrl() != null) {
+            imageViewMedia.setVisibility(View.VISIBLE);
+        } else {
+            imageViewMedia.setVisibility(View.GONE);
+            materialProgressBar.setVisibility(View.GONE);
+        }
 
         imageViewMedia.setOnClickListener(this);
 
@@ -159,12 +174,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
 
     private void initViews() {
 
-        Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in);
-        fadeIn.setDuration(300);
-
-        Animation scaleUp = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
-        scaleUp.setDuration(300);
-        //Load Media if available
         if (tweet.getMediaUrl() != null) {
 
             imageViewMedia.startAnimation(scaleUp);
