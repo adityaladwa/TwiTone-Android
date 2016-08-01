@@ -34,13 +34,14 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import timber.log.Timber;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TweetDetailFragment extends Fragment implements TweetDetailPresenter.View, View.OnClickListener {
+public class TweetDetailFragment extends Fragment implements TweetDetailPresenter.View {
 
     @BindView(R.id.imageview_profile_pic)
     ImageView imageViewProfile;
@@ -68,6 +69,8 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
     TextView textViewFavCount;
     @BindView(R.id.imageview_replay)
     ImageView imageViewReplay;
+    @BindView(R.id.imageview_share)
+    IconicsImageView imageViewShare;
 
     @BindView(R.id.relative_layout_tweet_detail)
     RelativeLayout mRlContainer;
@@ -108,9 +111,24 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
             materialProgressBar.setVisibility(View.GONE);
         }
 
-        imageViewMedia.setOnClickListener(this);
 
         return view;
+    }
+
+    @OnClick(R.id.imageview_media)
+    public void onClickImage() {
+        Intent intent = new Intent(getActivity(), ImageViewer.class);
+        intent.putExtra(getActivity().getString(R.string.extra_url), tweet.getMediaUrl());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.imageview_share)
+    public void onClickShare() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, tweet.getTweet());
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
     private void setUpEnterAnimation() {
@@ -280,12 +298,10 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
             imageViewRetweet.setVisibility(View.VISIBLE);
         }
 
+        imageViewShare.setAnimation(fadeIn);
+        imageViewShare.setVisibility(View.VISIBLE);
+
     }
 
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(getActivity(), ImageViewer.class);
-        intent.putExtra(getActivity().getString(R.string.extra_url), tweet.getMediaUrl());
-        startActivity(intent);
-    }
+
 }
