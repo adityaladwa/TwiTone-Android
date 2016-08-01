@@ -13,7 +13,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.ladwa.aditya.twitone.data.DaggerTwitterComponent;
 import com.ladwa.aditya.twitone.data.TwitterComponent;
 import com.ladwa.aditya.twitone.data.remote.TwitterModule;
-import com.ladwa.aditya.twitone.util.ConnectionReceiver;
+import com.ladwa.aditya.twitone.util.ReleaseTree;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.leakcanary.LeakCanary;
@@ -43,6 +43,9 @@ public class TwitoneApp extends MultiDexApplication {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
+        } else {
+            Timber.plant(new ReleaseTree());
+
         }
 
         //Stetho
@@ -72,7 +75,6 @@ public class TwitoneApp extends MultiDexApplication {
     public static synchronized TwitoneApp getInstance() {
         return smTwitoneApp;
     }
-
 
 
     public static TwitterComponent getTwitterComponent() {

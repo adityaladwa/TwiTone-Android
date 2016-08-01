@@ -33,7 +33,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -124,7 +123,7 @@ public class LocalTrendsFragment extends Fragment implements TrendsContract.View
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] selection = {"1"};
-        Timber.d("Loader Created");
+//        Timber.d("Loader Created");
         return new CursorLoader(getActivity(), TwitterContract.Trends.CONTENT_URI, null,
                 TwitterContract.Trends.COLUMN_LOCAL + " = ? ", selection, null);
     }
@@ -151,7 +150,7 @@ public class LocalTrendsFragment extends Fragment implements TrendsContract.View
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        Timber.d("Loader restart");
+//        Timber.d("Loader restart");
     }
 
     @Override

@@ -20,7 +20,6 @@ import java.util.List;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * A {@link SyncAdapter} class to Sync data
@@ -50,17 +49,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .subscribe(new Subscriber<List<Tweet>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Sync is performed");
+//                        Timber.d("Sync is performed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override
                     public void onNext(List<Tweet> tweetList) {
-                        Timber.d("Synced tweets " + tweetList.size());
+//                        Timber.d("Synced tweets " + tweetList.size());
                         if (tweetList.size() > 0) {
                             NotificationUtil.showNotification(mContext, tweetList.size(), tweetList.get(0).getTweet(), tweetList);
                         }

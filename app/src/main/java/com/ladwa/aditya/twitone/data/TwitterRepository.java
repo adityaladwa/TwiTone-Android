@@ -15,7 +15,6 @@ import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
-import timber.log.Timber;
 
 /**
  * A Twitter Repository that provides both local and Remote Data store
@@ -68,7 +67,7 @@ public class TwitterRepository implements TwitterDataStore {
                     @Override
                     public Boolean call(List<Tweet> tweetList) {
                         if (tweetList == null) {
-                            Timber.d("Null");
+//                            Timber.d("Null");
                             return false;
                         } else {
                             if (tweetList.size() == 0)
@@ -93,7 +92,7 @@ public class TwitterRepository implements TwitterDataStore {
                     @Override
                     public Boolean call(List<Interaction> interactionList) {
                         if (interactionList == null) {
-                            Timber.d("Null");
+//                            Timber.d("Null");
                             return false;
                         } else {
                             if (interactionList.size() == 0)
@@ -114,7 +113,7 @@ public class TwitterRepository implements TwitterDataStore {
                     @Override
                     public Boolean call(List<DirectMessage> directMessageList) {
                         if (directMessageList == null) {
-                            Timber.d("Null");
+//                            Timber.d("Null");
                             return false;
                         } else {
                             if (directMessageList.size() == 0)
@@ -136,7 +135,7 @@ public class TwitterRepository implements TwitterDataStore {
                     @Override
                     public Boolean call(List<Trend> trendList) {
                         if (trendList == null) {
-                            Timber.d("Null");
+//                            Timber.d("Null");
                             return false;
                         } else {
                             if (trendList.size() == 0)

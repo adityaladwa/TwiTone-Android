@@ -39,7 +39,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import timber.log.Timber;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
 
@@ -155,10 +154,10 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
         swipeContainer.setOnRefreshListener(this);
 
 
-        if (tablet)
-            Timber.d("Tablet");
-        else
-            Timber.d("Phone");
+//        if (tablet)
+//            Timber.d("Tablet");
+//        else
+//            Timber.d("Phone");
 
         return view;
     }
@@ -211,7 +210,7 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
             finalPos = newSize - oldSize;
         }
 
-        Timber.d("Final pos = " + String.valueOf(finalPos));
+//        Timber.d("Final pos = " + String.valueOf(finalPos));
         mInteractions.clear();
         mInteractions.addAll(interactionList);
         mInteractionAdapter.notifyDataSetChanged();
@@ -254,14 +253,14 @@ public class InteractionsFragment extends Fragment implements InteractionsContra
             pos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
         else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
             pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
-            Timber.d("Scroll pos= " + position[0]);
+//            Timber.d("Scroll pos= " + position[0]);
         } else if (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
             position = new int[3];
             pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
-            Timber.d("Scroll pos= " + position[0]);
+//            Timber.d("Scroll pos= " + position[0]);
         } else if (tablet && orientation == Configuration.ORIENTATION_PORTRAIT) {
             pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
-            Timber.d("Scroll pos asd= " + position[0]);
+//            Timber.d("Scroll pos asd= " + position[0]);
         }
 
         if (getActivity() != null) {

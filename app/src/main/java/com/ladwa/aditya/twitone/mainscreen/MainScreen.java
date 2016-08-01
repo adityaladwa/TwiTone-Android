@@ -1,9 +1,11 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
 import android.accounts.Account;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -42,7 +44,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 /**
  * This is The Launcher Activity of the App
@@ -79,6 +80,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         SyncAdapter.initializeSyncAdapter(this);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @OnClick(R.id.tweet_fab)
     public void onClickTweetButton() {
         //On click tweet button
@@ -120,7 +122,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.leak_canary_icon)
+                .withHeaderBackground(R.drawable.bg_message_to)
                 .addProfiles(profileDrawerItem).build();
 
         result = new DrawerBuilder()
@@ -185,13 +187,13 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
     @Override
     public void setProfile(String screenName) {
-        Timber.d("Profile set");
+//        Timber.d("Profile set");
         setupDrawer(screenName);
     }
 
     @Override
     public void updateProfile(User user) {
-        Timber.d(user.getName() + user.getScreenName());
+//        Timber.d(user.getName() + user.getScreenName());
         profileDrawerItem.withName(user.getName()).withEmail(user.getScreenName()).withIcon(user.getProfileUrl());
         ImageView headerBackgroundView = headerResult.getHeaderBackgroundView();
         Glide.with(this).load(user.getBannerUrl()).into(headerBackgroundView);

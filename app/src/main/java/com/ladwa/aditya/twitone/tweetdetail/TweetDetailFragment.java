@@ -71,7 +71,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
     ImageView imageViewReplay;
     @BindView(R.id.imageview_share)
     IconicsImageView imageViewShare;
-
     @BindView(R.id.relative_layout_tweet_detail)
     RelativeLayout mRlContainer;
 

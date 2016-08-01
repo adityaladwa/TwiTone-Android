@@ -21,7 +21,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * Created by Aditya on 20-Jul-16.
@@ -121,7 +120,7 @@ public class InteractionAdapter extends RecyclerView.Adapter<InteractionAdapter.
 
     public void setmInteractionClickListener(InteractionClickListener mInteractionClickListener) {
         this.mInteractionClickListener = mInteractionClickListener;
-        Timber.d("Click listener is set");
+//        Timber.d("Click listener is set");
 
     }
 

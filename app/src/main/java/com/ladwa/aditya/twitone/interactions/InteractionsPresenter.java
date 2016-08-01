@@ -10,7 +10,6 @@ import java.util.List;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 import twitter4j.Twitter;
 
 /**
@@ -58,17 +57,17 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
                 .subscribe(new Subscriber<List<Interaction>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Loaded Mention");
+//                        Timber.d("Loaded Mention");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                     }
 
                     @Override
                     public void onNext(List<Interaction> interactionList) {
-                        Timber.d(String.valueOf(interactionList.size()));
+//                        Timber.d(String.valueOf(interactionList.size()));
                         mView.loadInteractions(interactionList);
                     }
                 });
@@ -90,14 +89,14 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                         mView.stopRefreshing();
                         mView.showError();
                     }
 
                     @Override
                     public void onNext(List<Interaction> interactionList) {
-                        Timber.d("Loaded TimeLine from remote =" + String.valueOf(interactionList.size()));
+//                        Timber.d("Loaded TimeLine from remote =" + String.valueOf(interactionList.size()));
 
                     }
                 });
@@ -112,13 +111,13 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
                 .subscribe(new Subscriber<Interaction>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Created Favourite");
+//                        Timber.d("Created Favourite");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mView.showError();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override
@@ -136,14 +135,14 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
                 .subscribe(new Subscriber<Interaction>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Destoryed Favourite");
+//                        Timber.d("Destoryed Favourite");
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mView.showError();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override
@@ -161,14 +160,14 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
                 .subscribe(new Subscriber<Interaction>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Created Retweet");
+//                        Timber.d("Created Retweet");
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mView.showError();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override

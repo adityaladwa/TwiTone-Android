@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-import timber.log.Timber;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -106,7 +105,7 @@ public class ImageViewerFragment extends Fragment {
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             STORAGE_REQUEST_CODE);
 
-                    Timber.d("No permission");
+//                    Timber.d("No permission");
                     break;
                 }
 

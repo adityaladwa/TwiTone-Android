@@ -10,7 +10,6 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
@@ -62,7 +61,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error retriveing access token");
+//                        Timber.e(e, "Error retriveing access token");
                         mView.onError("Cant recieve Request token! Try again after 2 minutes");
                     }
 
@@ -96,13 +95,13 @@ public class LoginPresenter implements LoginContract.Presenter {
                 .subscribe(new Subscriber<AccessToken>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Completed getting access token");
+//                        Timber.d("Completed getting access token");
                         mView.onSuccess("Login Completed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                         mView.onError("Error recieving Access Token! Try again After sometime");
                     }
 
@@ -118,12 +117,12 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void subscribe() {
-        Timber.d("Login Presenter Started");
+//        Timber.d("Login Presenter Started");
     }
 
     @Override
     public void unsubscribe() {
-        Timber.d("Unsubscribed");
+//        Timber.d("Unsubscribed");
         if (requestSubscription != null && !requestSubscription.isUnsubscribed())
             requestSubscription.unsubscribe();
         if (accessSubscription != null && !accessSubscription.isUnsubscribed())

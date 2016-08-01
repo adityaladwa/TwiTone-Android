@@ -1,5 +1,6 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
+import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -55,7 +56,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import timber.log.Timber;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
 
@@ -172,10 +172,10 @@ public class MainScreenFragment extends Fragment
         swipeContainer.setOnRefreshListener(this);
 
 
-        if (tablet)
-            Timber.d("Tablet");
-        else
-            Timber.d("Phone");
+//        if (tablet)
+////            Timber.d("Tablet");
+//        else
+////            Timber.d("Phone");
 
         return view;
     }
@@ -229,10 +229,11 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void logout() {
+
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(getString(R.string.pref_login), false);
         editor.apply();
-
+        startActivity(new Intent(getActivity(), LoginActivity.class));
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             //noinspection deprecation
             CookieManager.getInstance().removeAllCookie();
@@ -240,7 +241,7 @@ public class MainScreenFragment extends Fragment
             CookieManager.getInstance().removeAllCookies(null);
         }
         mTwitter.setOAuthAccessToken(null);
-        startActivity(new Intent(getActivity(), LoginActivity.class));
+
         getActivity().finish();
     }
 
@@ -262,7 +263,7 @@ public class MainScreenFragment extends Fragment
             finalPos = newSize - oldSize;
         }
 
-        Timber.d("Final pos = " + String.valueOf(finalPos));
+//        Timber.d("Final pos = " + String.valueOf(finalPos));
         mTweets.clear();
         mTweets.addAll(tweetList);
         mTimelineAdapter.notifyDataSetChanged();
@@ -294,14 +295,14 @@ public class MainScreenFragment extends Fragment
             pos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
         else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
             pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
-            Timber.d("Scroll pos= " + position[0]);
+//            Timber.d("Scroll pos= " + position[0]);
         } else if (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
             position = new int[3];
             pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
-            Timber.d("Scroll pos= " + position[0]);
+//            Timber.d("Scroll pos= " + position[0]);
         } else if (tablet && orientation == Configuration.ORIENTATION_PORTRAIT) {
             pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
-            Timber.d("Scroll pos asd= " + position[0]);
+//            Timber.d("Scroll pos asd= " + position[0]);
         }
 
 
@@ -342,8 +343,7 @@ public class MainScreenFragment extends Fragment
                         .setSmallIcon(R.drawable.ic_user_type_verified)
                         .setContentTitle(tweets + getActivity().getString(R.string.new_tweets))
                         .setAutoCancel(true)
-                        .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                        .setLights(Color.RED, 3000, 3000)
+                        .setVibrate(new long[]{1000, 1000})
                         .setDefaults(NotificationCompat.DEFAULT_SOUND)
                         .setContentText(mTweets.get(0).getTweet());
 
@@ -412,6 +412,7 @@ public class MainScreenFragment extends Fragment
 
     }
 
+
     @Override
     public void onItemClick(View view, int position) {
         //Start detail tweet view activity
@@ -428,6 +429,7 @@ public class MainScreenFragment extends Fragment
         startActivity(intent, options.toBundle());
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClickedReplay(View view, int position) {
         Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
@@ -436,12 +438,12 @@ public class MainScreenFragment extends Fragment
         String concat = "";
         while (split.find()) {
             for (int i = 0; i < split.groupCount(); i++) {
-                Timber.d(split.group(i));
+//                Timber.d(split.group(i));
                 concat += split.group(i) + " ";
             }
 
         }
-        Timber.d(concat);
+//        Timber.d(concat);
         String inReplay = "@" + mTweets.get(position).getScreenName() + " " + concat;
 
         Intent intent = new Intent(getActivity(), com.ladwa.aditya.twitone.tweet.Tweet.class);
@@ -515,7 +517,7 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        Timber.d("Internet changed");
+//        Timber.d("Internet changed");
         internet = isConnected;
     }
 

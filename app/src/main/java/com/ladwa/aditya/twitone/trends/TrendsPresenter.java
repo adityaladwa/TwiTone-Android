@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * A Presenter for Trends
@@ -65,7 +64,7 @@ public class TrendsPresenter implements TrendsContract.Presenter {
                 .subscribe(new Subscriber<List<Trend>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Loaded Trends");
+//                        Timber.d("Loaded Trends");
                         mView.stopRefreshing();
                     }
 
@@ -73,20 +72,20 @@ public class TrendsPresenter implements TrendsContract.Presenter {
                     public void onError(Throwable e) {
                         mView.showError();
                         mView.stopRefreshing();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override
                     public void onNext(List<Trend> trendList) {
                         mView.loadedTrends(trendList);
-                        Timber.d("Loaded trends =" + trendList.size());
+//                        Timber.d("Loaded trends =" + trendList.size());
                     }
                 });
     }
 
     @Override
     public void loadLocalTrends() {
-        Timber.d(mTAG);
+//        Timber.d(mTAG);
         double latitude = Double.valueOf(preferences.getString(mContext.getString(R.string.pref_user_location_latitude), "0"));
         double longitude = Double.valueOf(preferences.getString(mContext.getString(R.string.pref_user_location_longitude), "0"));
         mTwitterRepository.getLocalTrends(latitude, longitude)
@@ -95,7 +94,7 @@ public class TrendsPresenter implements TrendsContract.Presenter {
                 .subscribe(new Subscriber<List<Trend>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Loaded Local Trends");
+//                        Timber.d("Loaded Local Trends");
                         mView.stopRefreshing();
                     }
 
@@ -103,13 +102,13 @@ public class TrendsPresenter implements TrendsContract.Presenter {
                     public void onError(Throwable e) {
                         mView.showError();
                         mView.stopRefreshing();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override
                     public void onNext(List<Trend> trendList) {
                         mView.loadedTrends(trendList);
-                        Timber.d("Loaded Local trends =" + trendList.size());
+//                        Timber.d("Loaded Local trends =" + trendList.size());
                     }
                 });
 
@@ -123,7 +122,7 @@ public class TrendsPresenter implements TrendsContract.Presenter {
                 .subscribe(new Subscriber<List<Trend>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Loaded Trends from remote");
+//                        Timber.d("Loaded Trends from remote");
                         mView.stopRefreshing();
                     }
 
@@ -131,13 +130,13 @@ public class TrendsPresenter implements TrendsContract.Presenter {
                     public void onError(Throwable e) {
                         mView.showError();
                         mView.stopRefreshing();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override
                     public void onNext(List<Trend> trendList) {
                         mView.loadedTrends(trendList);
-                        Timber.d("Loaded trends from remote =" + trendList.size());
+//                        Timber.d("Loaded trends from remote =" + trendList.size());
                     }
                 });
     }
@@ -152,7 +151,7 @@ public class TrendsPresenter implements TrendsContract.Presenter {
                 .subscribe(new Subscriber<List<Trend>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Loaded Trends from remote");
+//                        Timber.d("Loaded Trends from remote");
                         mView.stopRefreshing();
                     }
 
@@ -160,13 +159,13 @@ public class TrendsPresenter implements TrendsContract.Presenter {
                     public void onError(Throwable e) {
                         mView.showError();
                         mView.stopRefreshing();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override
                     public void onNext(List<Trend> trendList) {
                         mView.loadedTrends(trendList);
-                        Timber.d("Loaded trends from remote =" + trendList.size());
+//                        Timber.d("Loaded trends from remote =" + trendList.size());
                     }
                 });
     }

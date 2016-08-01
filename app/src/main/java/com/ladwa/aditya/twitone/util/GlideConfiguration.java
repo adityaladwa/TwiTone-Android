@@ -20,8 +20,7 @@ public class GlideConfiguration implements GlideModule {
 
         ActivityManager activityManager =
                 (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        builder.setDecodeFormat(activityManager.isLowRamDevice() ?
-                DecodeFormat.PREFER_RGB_565 : DecodeFormat.PREFER_ARGB_8888);
+        builder.setDecodeFormat( DecodeFormat.PREFER_ARGB_8888);
     }
 
     @Override

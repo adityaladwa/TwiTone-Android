@@ -28,7 +28,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import timber.log.Timber;
 
 public class Trends extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -102,7 +101,7 @@ public class Trends extends AppCompatActivity implements GoogleApiClient.Connect
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_REQUEST_CODE);
 
-            Timber.d("No permission");
+//            Timber.d("No permission");
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);

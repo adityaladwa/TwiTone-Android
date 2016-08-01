@@ -13,14 +13,12 @@ import com.ladwa.aditya.twitone.util.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
-import timber.log.Timber;
 import twitter4j.GeoLocation;
 import twitter4j.Location;
 import twitter4j.MediaEntity;
@@ -75,7 +73,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             @Override
             public void call(Subscriber<? super com.ladwa.aditya.twitone.data.local.models.User> subscriber) {
                 try {
-                    Timber.d(String.valueOf(userID));
+//                    Timber.d(String.valueOf(userID));
                     User user = mTwitter.showUser(userID);
                     localUser.setId(user.getId());
                     localUser.setName(user.getName());
@@ -121,7 +119,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                         for (MediaEntity m : mediaEntities) {
                             String mediaURLHttps = m.getMediaURLHttps();
                             String type = m.getType();
-                            if (Objects.equals(type, "photo")) {
+                            if (type.equals("photo")) {
                                 tweet.setMediaUrl(mediaURLHttps);
                             }
                         }
@@ -224,7 +222,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     ResponseList<twitter4j.DirectMessage> directMessages = mTwitter.getDirectMessages(p);
                     ResponseList<twitter4j.DirectMessage> sentMessages = mTwitter.getSentDirectMessages(p);
                     directMessages.addAll(sentMessages);
-                    Timber.d(String.valueOf(directMessages.size()));
+//                    Timber.d(String.valueOf(directMessages.size()));
                     for (twitter4j.DirectMessage message : directMessages) {
                         DirectMessage directMessage = new DirectMessage();
 
@@ -314,7 +312,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                 try {
                     ResponseList<Location> closestTrends = mTwitter.getClosestTrends(new GeoLocation(latitude, longitude));
                     for (Location loc : closestTrends) {
-                        Timber.d(loc.getName() + "--" + loc.getWoeid());
+//                        Timber.d(loc.getName() + "--" + loc.getWoeid());
                     }
 
                     placeTrends = mTwitter.getPlaceTrends(closestTrends.get(0).getWoeid());

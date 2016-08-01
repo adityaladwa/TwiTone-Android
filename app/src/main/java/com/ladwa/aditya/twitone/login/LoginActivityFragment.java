@@ -29,7 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-import timber.log.Timber;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -122,7 +121,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
             editor.putString(getString(R.string.pref_screen_name), accessToken.getScreenName());
             editor.apply();
             Log.d(TAG, "Saved Credential to Shared Pref");
-            Timber.d("Saved credential");
+//            Timber.d("Saved credential");
         } else {
             Log.d(TAG, "Access token is null");
         }
@@ -157,7 +156,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        Timber.d("Internet changed");
+//        Timber.d("Internet changed");
         internet = isConnected;
     }
 
@@ -179,7 +178,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 //                mSmoothProgressBar.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.GONE);
             } else {
-                Timber.d("URI error or URI is null");
+//                Timber.d("URI error or URI is null");
             }
 
             return true;
