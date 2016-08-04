@@ -1,7 +1,7 @@
 package com.ladwa.aditya.twitone.messagecompose;
 
 import android.content.Context;
-
+import android.util.Log;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
@@ -19,6 +19,7 @@ import rx.schedulers.Schedulers;
  */
 public class MessageComposePresenter implements MessageComposeContract.Presenter {
 
+    private static final String TAG = MessageComposePresenter.class.getSimpleName();
     private MessageComposeContract.View mView;
     private TwitterRepository mTwitterRepository;
     private long mSenderId;
@@ -46,7 +47,7 @@ public class MessageComposePresenter implements MessageComposeContract.Presenter
 
                     @Override
                     public void onError(Throwable e) {
-//                        Timber.e(e, "Error :" + e.toString());
+                        Log.e(TAG, "Error :" + e.toString());
                     }
 
                     @Override

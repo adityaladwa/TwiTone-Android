@@ -1,6 +1,7 @@
 package com.ladwa.aditya.twitone.adapter;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +30,12 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
     private Context mContext;
     private DirectMessage mDirectMessage;
     private DirectMessageClickListener messageClickListener;
+    private long id;
 
     public DirectMessageAdapter(List<DirectMessage> mDirectMessageList, Context mContext) {
         this.mDirectMessageList = mDirectMessageList;
         this.mContext = mContext;
+        id = PreferenceManager.getDefaultSharedPreferences(mContext).getLong(mContext.getString(R.string.pref_userid), 0);
     }
 
     public interface DirectMessageClickListener {
@@ -50,12 +53,11 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         mDirectMessage = mDirectMessageList.get(position);
 
+
         holder.textViewText.setText(mDirectMessage.getText());
         holder.textViewUserName.setText(mDirectMessage.getSender());
         holder.textViewScreenName.setText(String.format(mContext.getString(R.string.user_name), mDirectMessage.getSenderScreenName()));
         holder.textViewDate.setText(Utility.parseDate(mDirectMessage.getDateCreated()));
-
-
         Glide.with(mContext)
                 .load(mDirectMessage.getProfileUrl())
                 .fitCenter()
@@ -63,6 +65,8 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(holder.imageViewProfile);
+
+
     }
 
     @Override
