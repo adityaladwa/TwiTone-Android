@@ -10,7 +10,7 @@ android {
         release {
             keyAlias 'Aditya'
             keyPassword 'wnarltw'
-            storeFile file('E:/Aditya/WorkSpace/Android_Studio/Twitone-Android/app/keystore.jks')
+            storeFile file('keystore.jks')
             storePassword 'wnarltw'
         }
     }
