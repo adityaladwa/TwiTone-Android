@@ -13,7 +13,6 @@ import java.util.List;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 import twitter4j.Twitter;
 
 /**
@@ -63,12 +62,12 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Completed set user");
+//                        Timber.d("Completed set user");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                     }
 
                     @Override
@@ -87,19 +86,19 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                 .subscribe(new Subscriber<List<Tweet>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Loaded TimeLine");
+//                        Timber.d("Loaded TimeLine");
                         mView.stopRefreshing();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                         mView.stopRefreshing();
                     }
 
                     @Override
                     public void onNext(List<Tweet> tweetList) {
-                        Timber.d(String.valueOf(tweetList.size()));
+//                        Timber.d(String.valueOf(tweetList.size()));
                         mView.loadTimeline(tweetList);
                     }
                 });
@@ -119,14 +118,14 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                         mView.stopRefreshing();
                         mView.showError();
                     }
 
                     @Override
                     public void onNext(List<Tweet> tweetList) {
-                        Timber.d("Loaded TimeLine from remote =" + String.valueOf(tweetList.size()));
+//                        Timber.d("Loaded TimeLine from remote =" + String.valueOf(tweetList.size()));
                         mView.showNotification(tweetList.size());
                     }
                 });
@@ -140,13 +139,13 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                 .subscribe(new Subscriber<Tweet>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Created Favourite");
+//                        Timber.d("Created Favourite");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mView.showError();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override
@@ -164,13 +163,13 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                 .subscribe(new Subscriber<Tweet>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Destoryed Favourite");
+//                        Timber.d("Destoryed Favourite");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mView.showError();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override
@@ -188,13 +187,13 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
                 .subscribe(new Subscriber<Tweet>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Created Retweet");
+//                        Timber.d("Created Retweet");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mView.showError();
-                        Timber.d(e.toString());
+//                        Timber.d(e.toString());
                     }
 
                     @Override

@@ -36,7 +36,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-import timber.log.Timber;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -138,14 +137,14 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
         transition.addListener(new Transition.TransitionListener() {
             @Override
             public void onTransitionStart(Transition transition) {
-                Timber.d("startAnim");
+//                Timber.d("startAnim");
             }
 
             @Override
             public void onTransitionEnd(Transition transition) {
                 transition.removeListener(this);
                 animateRevealShow(imageViewProfile);
-                Timber.d("endAnim");
+//                Timber.d("endAnim");
             }
 
             @Override

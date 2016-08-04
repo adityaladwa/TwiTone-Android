@@ -12,7 +12,6 @@ import java.util.List;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 import twitter4j.Twitter;
 
 /**
@@ -51,12 +50,12 @@ public class MessagePresenter implements MessageContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                     }
 
                     @Override
                     public void onNext(List<DirectMessage> directMessageList) {
-                        Timber.d(String.valueOf(directMessageList.size()));
+//                        Timber.d(String.valueOf(directMessageList.size()));
                     }
                 });
 
@@ -70,12 +69,12 @@ public class MessagePresenter implements MessageContract.Presenter {
                 .subscribe(new Subscriber<List<DirectMessage>>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("loaded from local data store ");
+//                        Timber.d("loaded from local data store ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                     }
 
                     @Override
@@ -100,14 +99,14 @@ public class MessagePresenter implements MessageContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                         mView.stopRefreshing();
                         mView.showError();
                     }
 
                     @Override
                     public void onNext(List<DirectMessage> directMessageList) {
-                        Timber.d("Loaded TimeLine from remote =" + String.valueOf(directMessageList.size()));
+//                        Timber.d("Loaded TimeLine from remote =" + String.valueOf(directMessageList.size()));
 
                     }
                 });

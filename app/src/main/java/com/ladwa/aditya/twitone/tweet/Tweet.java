@@ -52,7 +52,6 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 import twitter4j.GeoLocation;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
@@ -119,8 +118,8 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
         inReplaytoId = getIntent().getLongExtra(getString(R.string.extra_id), 0);
         replayTweet = getIntent().getStringExtra(getString(R.string.extra_replay));
 
-        Timber.d("Id = " + String.valueOf(inReplaytoId));
-        Timber.d("inreplay =" + replayTweet);
+//        Timber.d("Id = " + String.valueOf(inReplaytoId));
+//        Timber.d("inreplay =" + replayTweet);
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -209,14 +208,14 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
         transition.addListener(new Transition.TransitionListener() {
             @Override
             public void onTransitionStart(Transition transition) {
-                Timber.d("startAnim");
+//                Timber.d("startAnim");
             }
 
             @Override
             public void onTransitionEnd(Transition transition) {
                 transition.removeListener(this);
                 animateRevealShow(mRlContainer);
-                Timber.d("endAnim");
+//                Timber.d("endAnim");
             }
 
             @Override
@@ -295,7 +294,7 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Timber.d("Location Connection Failed");
+//        Timber.d("Location Connection Failed");
     }
 
 
@@ -326,7 +325,7 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_REQUEST_CODE);
 
-            Timber.d("No permission");
+//            Timber.d("No permission");
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -335,7 +334,7 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
             latitude = mLastLocation.getLatitude();
             longitude = mLastLocation.getLongitude();
             List<Address> fromLocation = null;
-            Timber.d("Location " + latitude + "-" + longitude);
+//            Timber.d("Location " + latitude + "-" + longitude);
             geocoder = new Geocoder(this, Locale.getDefault());
             try {
                 fromLocation = geocoder.getFromLocation(latitude, longitude, 1);
@@ -425,13 +424,13 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
 
                         @Override
                         public void onError(Throwable e) {
-                            Timber.d(e.toString());
+//                            Timber.d(e.toString());
                             Toast.makeText(Tweet.this, "Error sending tweet...", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onNext(Status status) {
-                            Timber.d("Updated status -" + status.getText());
+//                            Timber.d("Updated status -" + status.getText());
 
                         }
                     });

@@ -12,7 +12,6 @@ import java.util.List;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * A Presenter Class for Compose Message module
@@ -47,7 +46,7 @@ public class MessageComposePresenter implements MessageComposeContract.Presenter
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                     }
 
                     @Override
@@ -67,14 +66,14 @@ public class MessageComposePresenter implements MessageComposeContract.Presenter
                 .subscribe(new Subscriber<DirectMessage>() {
                     @Override
                     public void onCompleted() {
-                        Timber.d("Message sent");
+//                        Timber.d("Message sent");
                         getUserDirectMessage();
                         mView.clearEditText();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e(e, "Error :" + e.toString());
+//                        Timber.e(e, "Error :" + e.toString());
                     }
 
                     @Override
