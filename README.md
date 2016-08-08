@@ -32,7 +32,7 @@
 ----------------------------------------------------------------------------------------------------
 
 
-![Phone Screenshot](screenshot/1.png?width=180&height=320)
+![Phone Screenshot](screenshot/1.png?raw=true)
 ![Phone Screenshot](screenshot/2.png?raw=true)
 ![Phone Screenshot](screenshot/3.png?raw=true)
 ![Phone Screenshot](screenshot/4.png?raw=true)
