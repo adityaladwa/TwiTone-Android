@@ -37,7 +37,7 @@
 ![Phone Screenshot](screenshot/3.png)
 ![Phone Screenshot](screenshot/4.png)
 ![Phone Screenshot](screenshot/5.png)
-
+<img src="screenshot/4.png" width="180" height="320" />
 ![Tablet Screenshot](screenshot/6.png)
 ![Tablet Screenshot](screenshot/7.png)
 
