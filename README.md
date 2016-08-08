@@ -32,12 +32,12 @@
 ----------------------------------------------------------------------------------------------------
 
 
-![Phone Screenshot](screenshot/1.png)
-![Phone Screenshot](screenshot/2.png)
-![Phone Screenshot](screenshot/3.png)
-![Phone Screenshot](screenshot/4.png)
-![Phone Screenshot](screenshot/5.png)
+![Phone Screenshot](screenshot/1.png =180x320)
+![Phone Screenshot](screenshot/2.png =180x320)
+![Phone Screenshot](screenshot/3.png =180x320)
+![Phone Screenshot](screenshot/4.png =180x320)
+![Phone Screenshot](screenshot/5.png =180x320)
 
-![Tablet Screenshot](screenshot/6.png)
-![Tablet Screenshot](screenshot/7.png)
+![Tablet Screenshot](screenshot/6.png =180x320)
+![Tablet Screenshot](screenshot/7.png =180x320)
 
