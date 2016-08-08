@@ -52,5 +52,7 @@ public interface MainScreenContract {
 
         void createRetweet(long id);
 
+        void deleteLocalData();
+
     }
 }

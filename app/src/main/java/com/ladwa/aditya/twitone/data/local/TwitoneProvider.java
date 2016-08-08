@@ -299,6 +299,18 @@ public class TwitoneProvider extends ContentProvider {
         final SQLiteDatabase db = mTwitterDbHelper.getWritableDatabase();
         int rowsDeleted;
         switch (sUriMatcher.match(uri)) {
+            case USER_DIR:
+                rowsDeleted = db.delete(TwitterContract.User.TABLE_NAME, selection, selectionArgs);
+                break;
+            case INTERACTION_DIR:
+                rowsDeleted = db.delete(TwitterContract.Interaction.TABLE_NAME, selection, selectionArgs);
+                break;
+            case TWEET_DIR:
+                rowsDeleted = db.delete(TwitterContract.Tweet.TABLE_NAME, selection, selectionArgs);
+                break;
+            case DIRECT_MESSAGE_DIR:
+                rowsDeleted = db.delete(TwitterContract.DirectMessage.TABLE_NAME, selection, selectionArgs);
+                break;
             case TRENDS_DIR:
                 rowsDeleted = db.delete(TwitterContract.Trends.TABLE_NAME, selection, selectionArgs);
                 break;

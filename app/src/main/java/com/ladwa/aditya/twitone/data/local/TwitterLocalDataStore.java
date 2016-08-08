@@ -38,7 +38,6 @@ import com.pushtorefresh.storio.contentresolver.queries.Query;
 import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
-import com.pushtorefresh.storio.sqlite.queries.RawQuery;
 
 import java.util.List;
 
@@ -282,6 +281,31 @@ public class TwitterLocalDataStore implements TwitterDataStore {
         mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.Trends.CONTENT_URI)
                 .where(TwitterContract.Trends.COLUMN_LOCAL + " = ? ")
                 .whereArgs(1)
+                .build()).prepare().executeAsBlocking();
+    }
+
+    public static void deleteTimeLine() {
+        mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.Tweet.CONTENT_URI)
+                .build()).prepare().executeAsBlocking();
+    }
+
+    public static void deleteMessage() {
+        mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.DirectMessage.CONTENT_URI)
+                .build()).prepare().executeAsBlocking();
+    }
+
+    public static void deleteInteraction() {
+        mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.Interaction.CONTENT_URI)
+                .build()).prepare().executeAsBlocking();
+    }
+
+    public static void deleteUser() {
+        mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.User.CONTENT_URI)
+                .build()).prepare().executeAsBlocking();
+    }
+
+    public static void deleteAllTrends() {
+        mStorIOContentResolver.delete().byQuery(DeleteQuery.builder().uri(TwitterContract.Trends.CONTENT_URI)
                 .build()).prepare().executeAsBlocking();
     }
 

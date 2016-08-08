@@ -38,6 +38,7 @@ import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
+import com.ladwa.aditya.twitone.data.sync.SyncAdapter;
 import com.ladwa.aditya.twitone.imageviewer.ImageViewer;
 import com.ladwa.aditya.twitone.login.LoginActivity;
 import com.ladwa.aditya.twitone.tweetdetail.TweetDetail;
@@ -56,6 +57,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import timber.log.Timber;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
 
@@ -113,7 +115,6 @@ public class MainScreenFragment extends Fragment
         //Check if tablet or phone
         tablet = Utility.isTablet(getActivity());
 
-
         //Shared Preferences
         mLogin = preferences.getBoolean(getString(R.string.pref_login), false);
         long id = preferences.getLong(getString(R.string.pref_userid), 0);
@@ -123,7 +124,7 @@ public class MainScreenFragment extends Fragment
         //Create instance of presenter
         AccessToken accessToken = new AccessToken(token, secret);
         mTwitter.setOAuthAccessToken(accessToken);
-        new MainScreenPresenter(this, mLogin, id, mTwitter, repository);
+        new MainScreenPresenter(this, mLogin, id, repository);
 
         TwitterLocalDataStore.getInstance(getActivity());
 
@@ -172,10 +173,10 @@ public class MainScreenFragment extends Fragment
         swipeContainer.setOnRefreshListener(this);
 
 
-//        if (tablet)
-////            Timber.d("Tablet");
-//        else
-////            Timber.d("Phone");
+        if (tablet)
+            Timber.d("Tablet");
+        else
+            Timber.d("Phone");
 
         return view;
     }
@@ -229,7 +230,6 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void logout() {
-
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(getString(R.string.pref_login), false);
         editor.apply();
@@ -241,6 +241,10 @@ public class MainScreenFragment extends Fragment
             CookieManager.getInstance().removeAllCookies(null);
         }
         mTwitter.setOAuthAccessToken(null);
+        //Delete all data from database
+        mPresenter.deleteLocalData();
+
+        SyncAdapter.removeUserAccount(getActivity());
 
         getActivity().finish();
     }

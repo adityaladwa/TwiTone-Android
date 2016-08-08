@@ -116,4 +116,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
     }
+
+    public static void removeUserAccount(Context context) {
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+
+        accountManager.removeAccount(new Account(ACCOUNT, ACCOUNT_TYPE), null, null);
+
+    }
 }

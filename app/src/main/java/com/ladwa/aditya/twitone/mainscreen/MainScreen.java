@@ -56,7 +56,6 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private Drawer result;
     private PrimaryDrawerItem timeline;
     private Tracker mTracker;
-    private Account mAccount;
     @BindView(R.id.tweet_fab)
     FloatingActionButton mTweetButton;
 
