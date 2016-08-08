@@ -113,7 +113,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                 .withIcon(GoogleMaterial.Icon.gmd_question_answer).withIdentifier(3).withName(R.string.drawer_message);
         final PrimaryDrawerItem trends = new PrimaryDrawerItem()
                 .withIcon(GoogleMaterial.Icon.gmd_trending_up).withIdentifier(4).withName(R.string.drawer_trends);
-        final PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.drawer_setting);
+//        final PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.drawer_setting);
         final PrimaryDrawerItem logOut = new PrimaryDrawerItem().withIdentifier(6).withName(R.string.drawer_logout);
 
         profileDrawerItem = new ProfileDrawerItem()
@@ -127,7 +127,6 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
 
         result = new DrawerBuilder()
                 .withActivity(this)
-
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
@@ -136,7 +135,6 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                         message,
                         trends,
                         new DividerDrawerItem(),
-                        settings,
                         logOut
                 )
                 .withOnDrawerItemClickListener(this)
@@ -158,7 +156,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
             case 4:
                 startActivity(new Intent(MainScreen.this, Trends.class));
                 break;
-            case 7:
+            case 6:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
                 builder.setTitle(R.string.logout_dialog_title);
                 builder.setMessage(R.string.logout_dialog_message);
