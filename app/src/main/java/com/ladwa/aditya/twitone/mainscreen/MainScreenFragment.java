@@ -344,7 +344,7 @@ public class MainScreenFragment extends Fragment
     public void showNotification(int tweets) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getActivity())
-                        .setSmallIcon(R.drawable.ic_user_type_verified)
+                        .setSmallIcon(R.drawable.ic_notify)
                         .setContentTitle(tweets + getActivity().getString(R.string.new_tweets))
                         .setAutoCancel(true)
                         .setVibrate(new long[]{1000, 1000})

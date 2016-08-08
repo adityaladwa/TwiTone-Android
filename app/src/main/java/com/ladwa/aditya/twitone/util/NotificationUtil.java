@@ -22,7 +22,7 @@ public class NotificationUtil {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_user_type_verified)
+                        .setSmallIcon(R.drawable.ic_notify)
                         .setContentTitle(size + context.getString(R.string.new_tweets))
                         .setAutoCancel(true)
                         .setDefaults(NotificationCompat.DEFAULT_ALL)
