@@ -124,7 +124,7 @@ dependencies {
     compile deps.twitter4jAsync
 
     //Timber
-//    compile deps.timber
+   compile deps.timber
 
     //Leak Canary
     debugCompile deps.leakCanary

@@ -11,8 +11,10 @@ import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 import java.util.List;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 import twitter4j.Twitter;
 
 /**
@@ -27,6 +29,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
     private long mUserId;
     private Twitter mTwitter;
     private TwitterRepository mTwitterRepository;
+    private Subscription loadUserSub, loadTimeLineSub;
 
 
     public MainScreenPresenter(@NonNull MainScreenContract.View mView, @NonNull Boolean mLogin, long userId, Twitter twitter, TwitterRepository repository) {
@@ -43,6 +46,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
         if (!mLogin) {
             mView.logout();
         } else {
+            mView.showRefreshing();
             loadUserInfo();
             loadTimeLine();
         }
@@ -50,13 +54,17 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void unsubscribe() {
+        if (loadUserSub != null && loadUserSub.isUnsubscribed())
+            loadUserSub.unsubscribe();
+        if (loadTimeLineSub != null && loadTimeLineSub.isUnsubscribed())
+            loadTimeLineSub.unsubscribe();
 
     }
 
     @Override
     public void loadUserInfo() {
 
-        mTwitterRepository.getUserInfo(mUserId)
+        loadUserSub = mTwitterRepository.getUserInfo(mUserId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<User>() {
@@ -80,25 +88,25 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void loadTimeLine() {
-        mTwitterRepository.getTimeLine(TwitterLocalDataStore.getLastTweetId())
+        loadTimeLineSub = mTwitterRepository.getTimeLine(TwitterLocalDataStore.getLastTweetId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Tweet>>() {
                     @Override
                     public void onCompleted() {
-//                        Timber.d("Loaded TimeLine");
+                        Timber.d("Loaded TimeLine");
                         mView.stopRefreshing();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-//                        Timber.e(e, "Error :" + e.toString());
+                        Timber.e(e, "Error :" + e.toString());
                         mView.stopRefreshing();
                     }
 
                     @Override
                     public void onNext(List<Tweet> tweetList) {
-//                        Timber.d(String.valueOf(tweetList.size()));
+                        Timber.d(String.valueOf(tweetList.size()));
                         mView.loadTimeline(tweetList);
                     }
                 });
