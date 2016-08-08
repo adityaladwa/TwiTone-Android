@@ -2,6 +2,7 @@ package com.ladwa.aditya.twitone.messagecompose;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -85,6 +86,7 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         internet = ConnectionReceiver.isConnected();
         senderId = getActivity().getIntent().getLongExtra(getString(R.string.extra_sender_id), 0);
         senderName = getActivity().getIntent().getStringExtra(getString(R.string.extra_sender_name));
+        getActivity().setTitle(senderName);
         userId = preferences.getLong(getString(R.string.pref_userid), 0);
         String token = preferences.getString(getString(R.string.pref_access_token), "");
         String secret = preferences.getString(getString(R.string.pref_access_secret), "");
@@ -99,6 +101,12 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         setUpRecyclerView();
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 
     @OnClick(R.id.button_message_send)
@@ -166,6 +174,8 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         mDirectMessages.clear();
         mDirectMessages.addAll(directMessageList);
         mMessageComposeAdapter.notifyDataSetChanged();
+
+
     }
 
     @Override
