@@ -34,6 +34,7 @@ public class TwitoneApp extends MultiDexApplication {
         super.onCreate();
         smTwitoneApp = this;
         refWatcher = LeakCanary.install(this);
+		
         mTwitterComponent = DaggerTwitterComponent.builder()
                 .appModule(new AppModule(this))
                 .twitterModule(new TwitterModule())
