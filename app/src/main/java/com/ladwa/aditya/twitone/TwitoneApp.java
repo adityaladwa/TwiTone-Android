@@ -40,12 +40,6 @@ public class TwitoneApp extends MultiDexApplication {
                 .twitterModule(new TwitterModule())
                 .build();
 
-//        if (BuildConfig.DEBUG) {
-//            Timber.plant(new Timber.DebugTree());
-//        } else {
-//            Timber.plant(new ReleaseTree());
-//
-//        }
 
         //Stetho
         Stetho.initializeWithDefaults(this);

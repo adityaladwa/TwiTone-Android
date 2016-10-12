@@ -50,23 +50,12 @@ import rx.Observable;
 public class TwitterLocalDataStore implements TwitterDataStore {
     private static TwitterLocalDataStore INSTANCE;
     private static StorIOContentResolver mStorIOContentResolver;
-    private static StorIOSQLite mStorIOSQLite;
     private static SharedPreferences preferences;
     private static Context mContext;
 
     private TwitterLocalDataStore(@NonNull Context context) {
         mContext = context;
-        TwitterDbHelper mTwitterDbHelper = new TwitterDbHelper(context);
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        mStorIOSQLite = DefaultStorIOSQLite.builder()
-                .sqliteOpenHelper(mTwitterDbHelper)
-                .addTypeMapping(DirectMessage.class, SQLiteTypeMapping.<DirectMessage>builder()
-                        .putResolver(new DirectMessageStorIOSQLitePutResolver())
-                        .getResolver(new DirectMessageStorIOSQLiteGetResolver())
-                        .deleteResolver(new DirectMessageStorIOSQLiteDeleteResolver())
-                        .build())
-                .build();
 
         mStorIOContentResolver = DefaultStorIOContentResolver.builder()
                 .contentResolver(context.getContentResolver())
