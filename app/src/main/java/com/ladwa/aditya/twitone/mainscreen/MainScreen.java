@@ -1,6 +1,5 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
-import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;

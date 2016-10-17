@@ -9,4 +9,6 @@
     <dimen name="timeline_bottom_margin">15dp</dimen>
     <dimen name="timeline_tweet_text_start_margin">10dp</dimen>
     <dimen name="timeline_count_start_margin">7dp</dimen>
+    <dimen name="trend_padding_left">15dp</dimen>
+    <dimen name="trending_padding_end">0dp</dimen>
 </resources>
