@@ -121,7 +121,7 @@
         android:layout_below="@+id/imageview_media"
         android:layout_marginBottom="@dimen/timeline_bottom_margin"
         android:layout_marginStart="@dimen/timeline_count_start_margin"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/timeline_textview_fav_count_margin_top"
         android:layout_toEndOf="@id/imageview_fav"
         android:fontFamily="sans-serif-smallcaps"
         android:textSize="20sp"
@@ -151,8 +151,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
         android:layout_alignStart="@+id/textview_tweet"
+        android:layout_marginTop="@dimen/timeline_textview_margin_top"
         android:fontFamily="sans-serif-smallcaps"
         android:textStyle="bold"
         tools:text="Name" />
@@ -163,7 +163,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/textview_tweet"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="7dp"
+        android:layout_marginEnd="@dimen/timeline_textview_time_margin_end"
         android:fontFamily="sans-serif-smallcaps"
         tools:text="15h" />
 
@@ -173,8 +173,8 @@
         android:layout_height="@dimen/profile_pic_size"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginStart="@dimen/timeline_profile_pic_margin_start"
+        android:layout_marginTop="@dimen/timeline_profile_pic_margin_top"
         android:contentDescription="@string/profile_image"
         android:transitionName="@string/transation_profile_pic"
         card:civ_border="false"

@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center_vertical"
-        android:paddingEnd="@dimen/trending_padding_end"
+        android:paddingEnd="@dimen/trend_padding_end"
         android:paddingStart="@dimen/trend_padding_left"
         android:textSize="20sp"
         android:textStyle="bold"

@@ -100,6 +100,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            holder.materialProgressBar.setVisibility(View.GONE);
                             return false;
                         }
 
@@ -135,14 +136,6 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         Linkify.addLinks(holder.textViewTweet, urlPattern, null, null, filter);
 
 
-        if (mTweet.getVerified() == 1) {
-            Glide.with(mContext)
-                    .load(R.drawable.ic_user_type_verified)
-                    .into(holder.imageViewVerified);
-        } else {
-            holder.imageViewVerified.setVisibility(View.GONE);
-        }
-
         if (mTweet.getFav() == 1) {
             holder.imageViewFav.setColor(Color.RED);
         } else {
@@ -162,7 +155,26 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        if (mTweet.getVerified() == 1) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.ic_user_type_verified)
+                                    .into(holder.imageViewVerified);
+                        } else {
+                            holder.imageViewVerified.setVisibility(View.GONE);
+                        }
+                        return false;
+                    }
+                })
                 .into(holder.imageViewProfile);
+
 
     }
 
