@@ -5,10 +5,11 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="profile_pic_size">50dp</dimen>
     <dimen name="margine_profile_pic">4dp</dimen>
-    <dimen name="timeline_top_margin">25dp</dimen>
+    <dimen name="timeline_top_margin">15dp</dimen>
     <dimen name="timeline_bottom_margin">15dp</dimen>
     <dimen name="timeline_tweet_text_start_margin">10dp</dimen>
     <dimen name="timeline_count_start_margin">7dp</dimen>
     <dimen name="trend_padding_left">15dp</dimen>
     <dimen name="trending_padding_end">0dp</dimen>
+    <dimen name="timeline_tweet_top_margin">30dp</dimen>
 </resources>
