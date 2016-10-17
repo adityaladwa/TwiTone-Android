@@ -14,7 +14,8 @@
     <dimen name="timeline_tweet_top_margin">30dp</dimen>
 
     <dimen name="trend_padding_left">15dp</dimen>
-    <dimen name="trend_padding_end">0dp</dimen>
+    <dimen name="trend_padding_end">15dp</dimen>
+
     <dimen name="timeline_profile_pic_margin_top">11dp</dimen>
     <dimen name="timeline_profile_pic_margin_start">7dp</dimen>
     <dimen name="timeline_textview_time_margin_end">7dp</dimen>

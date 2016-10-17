@@ -35,7 +35,6 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
  */
 public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHolder> {
 
-
     private List<Tweet> mTweetList;
     private Context mContext;
     private Tweet mTweet;
