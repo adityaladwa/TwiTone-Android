@@ -28,17 +28,6 @@
         tools:text="Name" />
 
     <TextView
-        android:id="@+id/textview_screen_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="@dimen/timeline_top_margin"
-        android:layout_toEndOf="@id/textview_user_name"
-        android:fontFamily="sans-serif-smallcaps"
-        android:lines="1"
-        android:text="\@" />
-
-    <TextView
         android:id="@+id/textview_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -169,6 +158,25 @@
         android:transitionName="@string/transation_profile_pic"
         card:civ_border="false"
         card:civ_shadow="false" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@id/imageview_replay"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="@dimen/profile_pic_size"
+        android:background="@color/grey" />
+
+    <TextView
+        android:textSize="12sp"
+        android:id="@+id/textview_screen_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textview_user_name"
+        android:layout_below="@+id/textview_user_name"
+        android:fontFamily="sans-serif-smallcaps"
+        android:lines="1"
+        tools:text="\@" />
 </RelativeLayout>
 
 
