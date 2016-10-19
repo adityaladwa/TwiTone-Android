@@ -77,7 +77,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
         </activity>
-
         <activity
             android:name=".tweetdetail.TweetDetail"
             android:label="@string/title_activity_tweet_detail"

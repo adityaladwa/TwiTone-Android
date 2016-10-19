@@ -16,4 +16,28 @@
 #   public *;
 #}
 
+-libraryjars libs
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+
+-keepattributes InnerClasses,Signature
+
+-keepnames class com.ladwa.aditya.twitone.** { *;}
+
+-keep interface android.support.v7.** { *; }
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v4.** { *; }
+-keep class android.support.v4.** { *; }
+
+-keep interface com.ladwa.aditya.twitone.data.**
+-keep interface com.ladwa.aditya.twitone.mainscreen.**
+-keep class com.ladwa.aditya.twitone.mainscreen.**
+
+-keep class twitter4j.** { *; }
+-keep interface twitter4j.conf.**
+
 -dontwarn com.google.auto.value.**
+-dontwarn autovalue.shaded.**
+-dontwarn twitter4j.**
+-dontwarn rx.internal.util.unsafe.**

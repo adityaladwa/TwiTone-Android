@@ -37,9 +37,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true     // Minify enabled to true for shrink resources to work
-            shrinkResources true
-            // Remove unused resources from project and other libraries. Greatly reduce apk size
+            minifyEnabled false     // Minify enabled to true for shrink resources to work
+            shrinkResources false   // Remove unused resources from project and other libraries. Greatly reduce apk size
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -48,7 +47,7 @@ android {
     lintOptions {
         abortOnError false
     }
-    
+
     //Resolve Conflicts
     packagingOptions {
         exclude 'LICENSE.txt'
@@ -124,7 +123,7 @@ dependencies {
     compile deps.twitter4jAsync
 
     //Timber
-   compile deps.timber
+    compile deps.timber
 
     //Leak Canary
     debugCompile deps.leakCanary
