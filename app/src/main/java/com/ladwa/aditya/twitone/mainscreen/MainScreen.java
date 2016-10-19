@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.analytics.HitBuilders;
@@ -111,7 +112,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                 .withIcon(GoogleMaterial.Icon.gmd_question_answer).withIdentifier(3).withName(R.string.drawer_message);
         final PrimaryDrawerItem trends = new PrimaryDrawerItem()
                 .withIcon(GoogleMaterial.Icon.gmd_trending_up).withIdentifier(4).withName(R.string.drawer_trends);
-//        final PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.drawer_setting);
+        final PrimaryDrawerItem settings = new PrimaryDrawerItem().withIdentifier(5).withName(R.string.drawer_setting);
         final PrimaryDrawerItem logOut = new PrimaryDrawerItem().withIdentifier(6).withName(R.string.drawer_logout);
 
         profileDrawerItem = new ProfileDrawerItem()
@@ -133,6 +134,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                         message,
                         trends,
                         new DividerDrawerItem(),
+                        settings,
                         logOut
                 )
                 .withOnDrawerItemClickListener(this)
@@ -155,6 +157,9 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                 startActivity(new Intent(MainScreen.this, Trends.class));
                 break;
             case 6:
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                break;
+            case 7:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
                 builder.setTitle(R.string.logout_dialog_title);
                 builder.setMessage(R.string.logout_dialog_message);

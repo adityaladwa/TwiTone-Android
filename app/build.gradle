@@ -15,7 +15,7 @@ android {
         }
     }
     compileSdkVersion 24
-    buildToolsVersion '24.0.1'
+    buildToolsVersion '24.0.2'
     defaultConfig {
         applicationId "com.ladwa.aditya.twitone"
         minSdkVersion 21
@@ -37,10 +37,10 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false     // Minify enabled to true for shrink resources to work
-            shrinkResources false
+            minifyEnabled true     // Minify enabled to true for shrink resources to work
+            shrinkResources true
             // Remove unused resources from project and other libraries. Greatly reduce apk size
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
