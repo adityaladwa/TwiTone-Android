@@ -132,7 +132,7 @@
         android:layout_height="1dp"
         android:layout_below="@id/imageview_replay"
         android:layout_marginEnd="10dp"
-        android:layout_marginStart="@dimen/profile_pic_size"
+        android:layout_alignStart="@id/textview_user_name"
         android:background="@color/grey" />
 
     <TextView
