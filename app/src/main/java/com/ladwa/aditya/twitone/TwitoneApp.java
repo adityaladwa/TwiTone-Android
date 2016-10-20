@@ -2,6 +2,7 @@ package com.ladwa.aditya.twitone;
 
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 import android.widget.ImageView;
 
@@ -28,17 +29,19 @@ public class TwitoneApp extends MultiDexApplication {
     private static RefWatcher refWatcher;
     private static TwitoneApp smTwitoneApp;
     private static Tracker mTracker;
+    private static final String TAG = TwitoneApp.class.getSimpleName();
 
     @Override
     public void onCreate() {
         super.onCreate();
         smTwitoneApp = this;
         refWatcher = LeakCanary.install(this);
-		
+
         mTwitterComponent = DaggerTwitterComponent.builder()
                 .appModule(new AppModule(this))
                 .twitterModule(new TwitterModule())
                 .build();
+
 
 
         //Stetho

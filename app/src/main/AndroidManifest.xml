@@ -180,6 +180,15 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".mainscreen.MainScreen"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+        </activity>
     </application>
 
 </manifest>

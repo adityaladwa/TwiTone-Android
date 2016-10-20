@@ -25,6 +25,8 @@ import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.data.sync.SyncAdapter;
 import com.ladwa.aditya.twitone.interactions.Interactions;
 import com.ladwa.aditya.twitone.message.Message;
+import com.ladwa.aditya.twitone.settings.SettingsActivity;
+import com.ladwa.aditya.twitone.settings.SettingsRepository;
 import com.ladwa.aditya.twitone.trends.Trends;
 import com.ladwa.aditya.twitone.tweet.Tweet;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
@@ -56,6 +58,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private Drawer result;
     private PrimaryDrawerItem timeline;
     private Tracker mTracker;
+    private String mTheme;
     @BindView(R.id.tweet_fab)
     FloatingActionButton mTweetButton;
 
@@ -64,6 +67,11 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
+        String theme = SettingsRepository.getInstance().getTheme();
+
+        if (theme.equals(getResources().getStringArray(R.array.pref_theme_value)[0]))
+            setTheme(R.style.AppTheme);
+        else setTheme(R.style.AppThemeDark);
         setContentView(R.layout.activity_main_screen);
         ButterKnife.bind(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -157,6 +165,7 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
                 startActivity(new Intent(MainScreen.this, Trends.class));
                 break;
             case 6:
+                startActivity(new Intent(MainScreen.this, SettingsActivity.class));
                 Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
                 break;
             case 7:
