@@ -183,8 +183,7 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".mainscreen.MainScreen"
-            android:theme="@style/AppTheme">
+            android:parentActivityName=".mainscreen.MainScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
