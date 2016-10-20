@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.ladwa.aditya.twitone.settings.SettingsRepository;
 
 /**
+ * A Base Activity that all other activites extend
  * Created by Aditya on 20-Oct-16.
  */
 

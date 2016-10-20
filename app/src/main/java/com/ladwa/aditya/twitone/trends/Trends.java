@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.ladwa.aditya.twitone.BaseActivity;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 
@@ -29,7 +30,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 
-public class Trends extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class Trends extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     @Inject
     SharedPreferences preferences;
