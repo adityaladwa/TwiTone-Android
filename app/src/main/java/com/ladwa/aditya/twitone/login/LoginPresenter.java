@@ -16,8 +16,10 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 /**
+ * LoginPersenter implements {@link com.ladwa.aditya.twitone.login.LoginContract.Presenter}
  * Created by Aditya on 25-Jun-16.
  */
+
 public class LoginPresenter implements LoginContract.Presenter {
 
     private final static String TAG = LoginPresenter.class.getSimpleName();
@@ -34,8 +36,6 @@ public class LoginPresenter implements LoginContract.Presenter {
         mView.setPresenter(this);
 
     }
-
-
 
 
     @Override
@@ -63,24 +63,11 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     }
 
+
     @Override
     public void getAccessToken(final String verifier) {
 
-
-        accessSubscription = Observable.create(new Observable.OnSubscribe<AccessToken>() {
-            @Override
-            public void call(Subscriber<? super AccessToken> subscriber) {
-                try {
-                    AccessToken accessToken = mTwitter.getOAuthAccessToken(mRequestToken, verifier);
-                    subscriber.onNext(accessToken);
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                    subscriber.onError(e);
-                } finally {
-                    subscriber.onCompleted();
-                }
-            }
-        }).observeOn(AndroidSchedulers.mainThread())
+        accessSubscription = getAccessTokenObservable(verifier).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<AccessToken>() {
                     @Override
@@ -122,6 +109,25 @@ public class LoginPresenter implements LoginContract.Presenter {
             }
         });
     }
+
+    @Override
+    public Observable<AccessToken> getAccessTokenObservable(final String verifier) {
+        return Observable.create(new Observable.OnSubscribe<AccessToken>() {
+            @Override
+            public void call(Subscriber<? super AccessToken> subscriber) {
+                try {
+                    AccessToken accessToken = mTwitter.getOAuthAccessToken(mRequestToken, verifier);
+                    subscriber.onNext(accessToken);
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+            }
+        });
+    }
+
 
     @Override
     public void subscribe() {

@@ -2,7 +2,6 @@ package com.ladwa.aditya.twitone.login;
 
 import com.ladwa.aditya.twitone.util.RxSchedulersOverrideRule;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,10 +12,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.android.plugins.RxAndroidPlugins;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import twitter4j.AsyncTwitter;
+import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import static org.mockito.Mockito.verify;
@@ -43,7 +42,7 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void testShouldScheduleAccessTokenFromBackgroundThread() {
+    public void testShouldScheduleRequestTokenFromBackgroundThread() {
         Observable<RequestToken> requestTokenObservable = (Observable<RequestToken>) mock(Observable.class);
 
         when(mLoginPresenter.getRequestTokenObservable()).thenReturn(requestTokenObservable);
@@ -58,5 +57,21 @@ public class LoginPresenterTest {
         verify(requestTokenObservable).subscribe(Matchers.<Subscriber<RequestToken>>any());
     }
 
+    @Test
+    public void testShouldScheduleAccessTokenFromBackgroundThread() {
+        Observable<AccessToken> accessTokenObservable = (Observable<AccessToken>) mock(Observable.class);
+
+        when(mLoginPresenter.getAccessTokenObservable(mock(String.class))).thenReturn(accessTokenObservable);
+        when(accessTokenObservable.subscribeOn(Schedulers.newThread())).thenReturn(accessTokenObservable);
+        when(accessTokenObservable.observeOn(AndroidSchedulers.mainThread())).thenReturn(accessTokenObservable);
+
+        mLoginPresenter.getAccessToken(mock(String.class));
+
+        verify(mLoginPresenter).getAccessTokenObservable(mock(String.class));
+        verify(accessTokenObservable).subscribeOn(Schedulers.io());
+        verify(accessTokenObservable).observeOn(AndroidSchedulers.mainThread());
+        verify(accessTokenObservable).subscribe(Matchers.<Subscriber<AccessToken>>any());
+
+    }
 
 }
