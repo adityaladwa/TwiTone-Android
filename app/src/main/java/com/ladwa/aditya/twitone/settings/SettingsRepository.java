@@ -42,8 +42,6 @@ public class SettingsRepository implements SettingsStore {
     @Override
     public void setTheme(Context context) {
         String theme = getTheme();
-
-
         if (theme.equals(context.getResources().getStringArray(R.array.pref_theme_value)[0]))
             context.setTheme(R.style.AppTheme);
         else context.setTheme(R.style.AppThemeDark);

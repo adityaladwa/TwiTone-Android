@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceScreen
-        android:persistent="false"
-        android:title="Appearance">
+    <PreferenceCategory android:title="Appearance">
         <ListPreference
             android:defaultValue="Dark"
-            android:dialogTitle="Select your Theme"
+            android:dialogTitle="Select your theme"
             android:entries="@array/pref_theme_entries"
             android:entryValues="@array/pref_theme_value"
             android:key="pref_theme"
+            android:summary="Choose your theme"
             android:title="Theme" />
-    </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Sync">
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/pref_sync_entries"
+            android:entryValues="@array/pref_sync_values"
+            android:key="pref_sync"
+            android:summary="Time to sync"
+            android:title="Sync Duration" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="Support">
+        <Preference
+            android:summary="Check my blog for latest posts"
+            android:title="Blog">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://adityaladwa.wordpress.com" />
+        </Preference>
+    </PreferenceCategory>
 </PreferenceScreen>

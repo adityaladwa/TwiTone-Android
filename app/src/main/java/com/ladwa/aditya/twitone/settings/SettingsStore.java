@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.settings;
 import android.content.Context;
 
 /**
+ * An Interface that defines various setting that a yser can change
  * Created by Aditya on 20-Oct-16.
  */
 

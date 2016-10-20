@@ -9,14 +9,6 @@
 
     <string name="action_settings">Settings</string>
 
-    //Preference
-    <string name="pref_login">pref_login</string>
-    <string name="pref_access_token">pref_access_token</string>
-    <string name="pref_access_secret">pref_access_secret</string>
-    <string name="pref_userid">pref_userid</string>
-    <string name="pref_screen_name">pref_screen_name</string>
-    <string name="pref_user_location_latitude">pref_user_location_latitude</string>
-    <string name="pref_user_location_longitude">pref_user_location_longitude</string>
 
 
     //Utility Strings
@@ -82,13 +74,5 @@
     <string name="extra_sender_name">extra_sender_name</string>
     <string name="title_activity_settings">Settings</string>
 
-    <string-array name="pref_theme_entries">
-        <item>Light</item>
-        <item>Dark</item>
-    </string-array>
 
-    <string-array name="pref_theme_value">
-        <item>Light</item>
-        <item>Dark</item>
-    </string-array>
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    //Preference
+    <string name="pref_login">pref_login</string>
+    <string name="pref_access_token">pref_access_token</string>
+    <string name="pref_access_secret">pref_access_secret</string>
+    <string name="pref_userid">pref_userid</string>
+    <string name="pref_screen_name">pref_screen_name</string>
+    <string name="pref_user_location_latitude">pref_user_location_latitude</string>
+    <string name="pref_user_location_longitude">pref_user_location_longitude</string>
+
+
+    <string-array name="pref_theme_entries">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="pref_theme_value">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="pref_sync_entries">
+        <item>1 hour</item>
+        <item>2 hour</item>
+        <item>4 hour</item>
+        <item>8 hour</item>
+    </string-array>
+
+    <string-array name="pref_sync_values">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+    </string-array>
+
+</resources>
