@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.login;
 import com.ladwa.aditya.twitone.BasePresenter;
 import com.ladwa.aditya.twitone.BaseView;
 
+import rx.Observable;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
@@ -26,5 +27,7 @@ public interface LoginContract {
         void login();
 
         void getAccessToken(String verifier);
+
+        Observable<RequestToken> getRequestTokenObservable();
     }
 }

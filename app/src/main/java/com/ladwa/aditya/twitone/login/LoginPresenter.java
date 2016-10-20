@@ -36,22 +36,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
 
-    public Observable<RequestToken> getRequestTokenObservable() {
-        return Observable.create(new Observable.OnSubscribe<RequestToken>() {
-            @Override
-            public void call(Subscriber<? super RequestToken> subscriber) {
-                try {
-                    mRequestToken = mTwitter.getOAuthRequestToken(Constants.OAUTH_CALLBACK_URL);
-                    subscriber.onNext(mRequestToken);
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                    subscriber.onError(e);
-                } finally {
-                    subscriber.onCompleted();
-                }
-            }
-        });
-    }
+
 
     @Override
     public void login() {
@@ -118,6 +103,24 @@ public class LoginPresenter implements LoginContract.Presenter {
                 });
 
 
+    }
+
+    @Override
+    public Observable<RequestToken> getRequestTokenObservable() {
+        return Observable.create(new Observable.OnSubscribe<RequestToken>() {
+            @Override
+            public void call(Subscriber<? super RequestToken> subscriber) {
+                try {
+                    mRequestToken = mTwitter.getOAuthRequestToken(Constants.OAUTH_CALLBACK_URL);
+                    subscriber.onNext(mRequestToken);
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+            }
+        });
     }
 
     @Override
