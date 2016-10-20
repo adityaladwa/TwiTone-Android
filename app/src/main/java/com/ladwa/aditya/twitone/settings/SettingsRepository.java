@@ -1,7 +1,9 @@
 package com.ladwa.aditya.twitone.settings;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 
 import javax.inject.Inject;
@@ -22,6 +24,10 @@ public class SettingsRepository implements SettingsStore {
         TwitoneApp.getTwitterComponent().inject(this);
     }
 
+    public static void destroyInstance() {
+        INSTANCE = null;
+    }
+
     public static SettingsRepository getInstance() {
         if (INSTANCE == null)
             INSTANCE = new SettingsRepository();
@@ -31,5 +37,15 @@ public class SettingsRepository implements SettingsStore {
     @Override
     public String getTheme() {
         return mSharedPreferences.getString("pref_theme", "string");
+    }
+
+    @Override
+    public void setTheme(Context context) {
+        String theme = getTheme();
+
+
+        if (theme.equals(context.getResources().getStringArray(R.array.pref_theme_value)[0]))
+            context.setTheme(R.style.AppTheme);
+        else context.setTheme(R.style.AppThemeDark);
     }
 }

@@ -10,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.ladwa.aditya.twitone.BaseActivity;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.local.models.User;
@@ -50,7 +50,7 @@ import butterknife.OnClick;
 /**
  * This is The Launcher Activity of the App
  */
-public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItemClickListener, MainScreenFragment.DrawerCallback {
+public class MainScreen extends BaseActivity implements Drawer.OnDrawerItemClickListener, MainScreenFragment.DrawerCallback {
 
     private Toolbar toolbar;
     private AccountHeader headerResult;
@@ -58,7 +58,6 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     private Drawer result;
     private PrimaryDrawerItem timeline;
     private Tracker mTracker;
-    private String mTheme;
     @BindView(R.id.tweet_fab)
     FloatingActionButton mTweetButton;
 
@@ -67,11 +66,6 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory(getLayoutInflater(), new IconicsLayoutInflater(getDelegate()));
         super.onCreate(savedInstanceState);
-        String theme = SettingsRepository.getInstance().getTheme();
-
-        if (theme.equals(getResources().getStringArray(R.array.pref_theme_value)[0]))
-            setTheme(R.style.AppTheme);
-        else setTheme(R.style.AppThemeDark);
         setContentView(R.layout.activity_main_screen);
         ButterKnife.bind(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -210,5 +204,9 @@ public class MainScreen extends AppCompatActivity implements Drawer.OnDrawerItem
         headerResult.updateProfile(profileDrawerItem);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SettingsRepository.destroyInstance();
+    }
 }

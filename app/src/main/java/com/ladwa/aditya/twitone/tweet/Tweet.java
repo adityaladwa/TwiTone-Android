@@ -15,7 +15,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,6 +35,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.ladwa.aditya.twitone.BaseActivity;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 import com.ladwa.aditya.twitone.util.AnimationUtil;
@@ -56,7 +56,7 @@ import twitter4j.GeoLocation;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
 
-public class Tweet extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+public class Tweet extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, TweetPresenter.View {
 
     private static final int LOCATION_REQUEST_CODE = 10;
@@ -118,8 +118,6 @@ public class Tweet extends AppCompatActivity implements GoogleApiClient.Connecti
         inReplaytoId = getIntent().getLongExtra(getString(R.string.extra_id), 0);
         replayTweet = getIntent().getStringExtra(getString(R.string.extra_replay));
 
-//        Timber.d("Id = " + String.valueOf(inReplaytoId));
-//        Timber.d("inreplay =" + replayTweet);
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)

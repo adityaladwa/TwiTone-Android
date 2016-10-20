@@ -5,9 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.ladwa.aditya.twitone.BaseActivity;
 import com.ladwa.aditya.twitone.R;
 
-public class TweetDetail extends AppCompatActivity {
+public class TweetDetail extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
