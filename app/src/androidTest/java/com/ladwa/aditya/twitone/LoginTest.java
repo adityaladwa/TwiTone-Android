@@ -26,7 +26,6 @@ public class LoginTest {
 
     @Test
     public void clickLoginButton_LoginUser() throws Exception {
-
         onView(withId(R.id.twitter_login_button)).perform(click());
     }
 
