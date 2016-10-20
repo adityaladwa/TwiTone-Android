@@ -46,4 +46,15 @@ public class SettingsRepository implements SettingsStore {
             context.setTheme(R.style.AppTheme);
         else context.setTheme(R.style.AppThemeDark);
     }
+
+    @Override
+    public boolean isNotificationEnabled(Context context) {
+        return mSharedPreferences.getBoolean(context.getString(R.string.pref_notification), true);
+    }
+
+    @Override
+    public int getSyncDuration(Context context) {
+        return 0;
+    }
+
 }

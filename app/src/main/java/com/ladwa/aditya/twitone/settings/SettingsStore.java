@@ -11,4 +11,8 @@ public interface SettingsStore {
     String getTheme();
 
     void setTheme(Context context);
+
+    boolean isNotificationEnabled(Context context);
+
+    int getSyncDuration(Context context);
 }

@@ -41,6 +41,7 @@ import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.data.sync.SyncAdapter;
 import com.ladwa.aditya.twitone.imageviewer.ImageViewer;
 import com.ladwa.aditya.twitone.login.LoginActivity;
+import com.ladwa.aditya.twitone.settings.SettingsRepository;
 import com.ladwa.aditya.twitone.tweetdetail.TweetDetail;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.ladwa.aditya.twitone.util.Utility;
@@ -342,6 +343,8 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void showNotification(int tweets) {
+        if (!SettingsRepository.getInstance().isNotificationEnabled(getActivity()))
+            return;
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getActivity())
                         .setSmallIcon(R.drawable.ic_notify)

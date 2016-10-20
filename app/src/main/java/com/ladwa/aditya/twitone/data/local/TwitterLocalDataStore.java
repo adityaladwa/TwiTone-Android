@@ -11,9 +11,6 @@ import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOContentResolverDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOContentResolverGetResolver;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOContentResolverPutResolver;
-import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOSQLiteDeleteResolver;
-import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOSQLiteGetResolver;
-import com.ladwa.aditya.twitone.data.local.models.DirectMessageStorIOSQLitePutResolver;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverDeleteResolver;
 import com.ladwa.aditya.twitone.data.local.models.InteractionStorIOContentResolverGetResolver;
@@ -35,9 +32,6 @@ import com.pushtorefresh.storio.contentresolver.StorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.impl.DefaultStorIOContentResolver;
 import com.pushtorefresh.storio.contentresolver.queries.DeleteQuery;
 import com.pushtorefresh.storio.contentresolver.queries.Query;
-import com.pushtorefresh.storio.sqlite.SQLiteTypeMapping;
-import com.pushtorefresh.storio.sqlite.StorIOSQLite;
-import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
 
 import java.util.List;
 

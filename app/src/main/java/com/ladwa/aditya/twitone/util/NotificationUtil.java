@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.mainscreen.MainScreen;
+import com.ladwa.aditya.twitone.settings.SettingsRepository;
 
 import java.util.List;
 
@@ -17,9 +18,12 @@ import java.util.List;
  * Created by Aditya on 23-Jul-16.
  */
 public class NotificationUtil {
+    private final static String TAG = NotificationUtil.class.getSimpleName();
 
     public static void showNotification(Context context, int size, String title, List<Tweet> tweetList) {
 
+        if (SettingsRepository.getInstance().isNotificationEnabled(context))
+            return;
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_notify)

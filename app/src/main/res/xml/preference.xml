@@ -20,6 +20,13 @@
             android:summary="Time to sync"
             android:title="Sync Duration" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pref_notification"
+            android:summaryOff="Notifications are disabled"
+            android:summaryOn="You will receive notifications"
+            android:title="Notifications" />
+
     </PreferenceCategory>
 
 
