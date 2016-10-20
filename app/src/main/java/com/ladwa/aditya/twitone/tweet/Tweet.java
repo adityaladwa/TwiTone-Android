@@ -200,7 +200,8 @@ public class Tweet extends BaseActivity implements GoogleApiClient.ConnectionCal
 
     private void setUpEnterAnimation() {
 
-        Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.changebounds_with_arcmotion);
+        Transition transition = TransitionInflater.from(this)
+                .inflateTransition(R.transition.changebounds_with_arcmotion);
         transition.setDuration(300);
         getWindow().setSharedElementEnterTransition(transition);
         transition.addListener(new Transition.TransitionListener() {
