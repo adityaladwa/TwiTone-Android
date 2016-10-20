@@ -18,4 +18,10 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SettingsRepository.getInstance().setTheme(this);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SettingsRepository.destroyInstance();
+    }
 }

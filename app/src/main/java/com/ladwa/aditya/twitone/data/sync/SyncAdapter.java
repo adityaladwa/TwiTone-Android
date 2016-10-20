@@ -59,7 +59,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
                     @Override
                     public void onNext(List<Tweet> tweetList) {
-//                        Timber.d("Synced tweets " + tweetList.size());
                         if (tweetList.size() > 0) {
                             NotificationUtil.showNotification(mContext, tweetList.size(), tweetList.get(0).getTweet(), tweetList);
                         }
