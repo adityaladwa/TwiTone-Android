@@ -169,6 +169,7 @@ public class MainScreen extends BaseActivity implements Drawer.OnDrawerItemClick
             case 6:
                 startActivity(new Intent(MainScreen.this, SettingsActivity.class));
                 Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             case 7:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
