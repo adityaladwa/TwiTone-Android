@@ -24,7 +24,6 @@ import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -71,11 +70,13 @@ public class LoginPresenterTest {
         Subscription subscription = mock(Subscription.class);
         RequestToken token = mock(RequestToken.class);
 
+        mLoginPresenter.subscribe();
+
         when(mLoginPresenter.getRequestTokenObservable()).thenReturn(requestTokenObservable);
         when(requestTokenObservable.subscribeOn(Schedulers.newThread())).thenReturn(requestTokenObservable);
         when(requestTokenObservable.observeOn(AndroidSchedulers.mainThread())).thenReturn(requestTokenObservable);
         when(requestTokenObservable.subscribe(requestTokenCaptor.capture())).thenReturn(subscription);
-
+        when(subscription.isUnsubscribed()).thenReturn(false);
 
         mLoginPresenter.login();
 
@@ -88,6 +89,9 @@ public class LoginPresenterTest {
         requestTokenCaptor.getValue().onNext(token);
         requestTokenCaptor.getValue().onCompleted();
         requestTokenCaptor.getValue().onError(mock(Throwable.class));
+
+        mLoginPresenter.unsubscribe();
+        verify(subscription).isUnsubscribed();
 
     }
 
@@ -102,6 +106,7 @@ public class LoginPresenterTest {
         when(accessTokenObservable.subscribeOn(Schedulers.newThread())).thenReturn(accessTokenObservable);
         when(accessTokenObservable.observeOn(AndroidSchedulers.mainThread())).thenReturn(accessTokenObservable);
         when(accessTokenObservable.subscribe(accessTokenCaptor.capture())).thenReturn(subscription);
+        when(subscription.isUnsubscribed()).thenReturn(false);
 
         mLoginPresenter.getAccessToken(mock(String.class));
 
@@ -114,6 +119,9 @@ public class LoginPresenterTest {
         accessTokenCaptor.getValue().onNext(token);
         accessTokenCaptor.getValue().onCompleted();
         accessTokenCaptor.getValue().onError(mock(Throwable.class));
+
+        mLoginPresenter.unsubscribe();
+        verify(subscription).isUnsubscribed();
 
     }
 
