@@ -34,7 +34,6 @@ public class LoginPresenter implements LoginContract.Presenter {
         mView = view;
         mTwitter = twitter;
         mView.setPresenter(this);
-
     }
 
 
@@ -70,13 +69,11 @@ public class LoginPresenter implements LoginContract.Presenter {
                 .subscribe(new Subscriber<AccessToken>() {
                     @Override
                     public void onCompleted() {
-//                        Timber.d("Completed getting access token");
                         mView.onSuccess("Login Completed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-//                        Timber.e(e, "Error :" + e.toString());
                         mView.onError("Error recieving Access Token! Try again After sometime");
                     }
 

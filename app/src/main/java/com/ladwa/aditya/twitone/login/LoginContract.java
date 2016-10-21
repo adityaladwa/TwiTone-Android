@@ -8,6 +8,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 /**
+ *
  * Created by Aditya on 24-Jun-16.
  */
 public interface LoginContract {
