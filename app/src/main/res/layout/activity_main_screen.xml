@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -30,6 +31,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:transitionName="transition_reveal"
-        app:backgroundTint="@color/md_white_1000" />
+        app:backgroundTint="@color/md_white_1000"
+        app:layout_behavior="com.ladwa.aditya.twitone.util.ScrollAwareFabBehaviour"
+        app:rippleColor="@color/accent" />
 
 </android.support.design.widget.CoordinatorLayout>

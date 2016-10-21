@@ -79,6 +79,14 @@ public class MainScreen extends BaseActivity implements Drawer.OnDrawerItemClick
 
         //Setup Account for Sync
         SyncAdapter.initializeSyncAdapter(this);
+
+        animateFab();
+    }
+
+    private void animateFab() {
+        mTweetButton.setScaleX(0);
+        mTweetButton.setScaleY(0);
+        mTweetButton.animate().scaleX(1).scaleY(1).start();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
