@@ -46,12 +46,10 @@ public class LoginPresenter implements LoginContract.Presenter {
                 .subscribe(new Subscriber<RequestToken>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-//                        Timber.e(e, "Error retriveing access token");
                         mView.onError("Cant recieve Request token! Try again after 2 minutes");
                     }
 
@@ -131,12 +129,10 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void subscribe() {
-//        Timber.d("Login Presenter Started");
     }
 
     @Override
     public void unsubscribe() {
-//        Timber.d("Unsubscribed");
         if (requestSubscription != null && !requestSubscription.isUnsubscribed())
             requestSubscription.unsubscribe();
         if (accessSubscription != null && !accessSubscription.isUnsubscribed())

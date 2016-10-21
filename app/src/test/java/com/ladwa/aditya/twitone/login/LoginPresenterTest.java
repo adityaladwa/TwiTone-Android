@@ -10,12 +10,10 @@ import org.mockito.Matchers;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.List;
-
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
@@ -48,17 +46,20 @@ public class LoginPresenterTest {
     public void testShouldScheduleRequestTokenFromBackgroundThread() {
         Observable<RequestToken> requestTokenObservable = (Observable<RequestToken>) mock(Observable.class);
 
+        Subscription subscription = mock(Subscription.class);
+
         when(mLoginPresenter.getRequestTokenObservable()).thenReturn(requestTokenObservable);
         when(requestTokenObservable.subscribeOn(Schedulers.newThread())).thenReturn(requestTokenObservable);
         when(requestTokenObservable.observeOn(AndroidSchedulers.mainThread())).thenReturn(requestTokenObservable);
-
+        when(requestTokenObservable.subscribe()).thenReturn(subscription);
 
         mLoginPresenter.login();
 
         verify(mLoginPresenter).getRequestTokenObservable();
         verify(requestTokenObservable).subscribeOn(Schedulers.io());
         verify(requestTokenObservable).observeOn(AndroidSchedulers.mainThread());
-
+        verify(requestTokenObservable).subscribe(Matchers.<Subscriber<RequestToken>>any());
+        verify(subscription);
 
     }
 
@@ -77,24 +78,7 @@ public class LoginPresenterTest {
         verify(accessTokenObservable).observeOn(AndroidSchedulers.mainThread());
         verify(accessTokenObservable).subscribe(Matchers.<Subscriber<AccessToken>>any());
 
-
     }
 
-    @Test
-    public void testRxTester() {
-        Observable<RequestToken> requestTokenObservable = (Observable<RequestToken>) mock(Observable.class);
-        TestSubscriber<RequestToken> testSubscriber = new TestSubscriber<>();
-
-        when(mLoginPresenter.getRequestTokenObservable()).thenReturn(requestTokenObservable);
-        requestTokenObservable.subscribe(testSubscriber);
-
-
-        List<RequestToken> onNextEvents = testSubscriber.getOnNextEvents();
-        testSubscriber.assertNoErrors();
-        testSubscriber.assertReceivedOnNext(onNextEvents);
-        testSubscriber.onCompleted();
-        testSubscriber.assertCompleted();
-
-    }
 
 }
