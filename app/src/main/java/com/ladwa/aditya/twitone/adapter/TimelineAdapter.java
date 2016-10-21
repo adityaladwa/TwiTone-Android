@@ -2,6 +2,7 @@ package com.ladwa.aditya.twitone.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
 import android.util.Patterns;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
@@ -39,6 +41,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     private Context mContext;
     private Tweet mTweet;
     private TimeLineClickListener mTimeLineClickListener;
+
+    private ColorDrawable mColorDrawablePlaceholder = new ColorDrawable(0xFFFF6666);
 
     public interface TimeLineClickListener {
         void onItemClick(View view, int position);
@@ -95,7 +99,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                     .fitCenter()
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .crossFade()
+                    .dontAnimate()
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -153,7 +157,9 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                 .fitCenter()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .crossFade()
+                .placeholder(mColorDrawablePlaceholder)
+                .priority(Priority.IMMEDIATE)
+                .dontAnimate()
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
