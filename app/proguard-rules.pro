@@ -37,6 +37,10 @@
 -keep class twitter4j.** { *; }
 -keep interface twitter4j.conf.**
 
+#Glide
+-keepnames class * implements com.bumptech.glide.module.GlideModule
+
+
 -dontwarn com.google.auto.value.**
 -dontwarn autovalue.shaded.**
 -dontwarn twitter4j.**
