@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.customeview.ChatBubbleTextView;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 
 import java.util.List;
@@ -114,7 +115,7 @@ public class MessageComposeAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView textViewSender;
 
         @BindView(R.id.textview_to_message)
-        TextView textViewMessage;
+        ChatBubbleTextView textViewMessage;
 
         public ViewHolderRight(View itemView) {
             super(itemView);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="end"
@@ -14,23 +15,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="reciever"
         android:textColor="@color/colorPrimaryLight"
         android:textSize="12sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        tools:text="reciever" />
 
-    <TextView
+    <com.ladwa.aditya.twitone.customeview.ChatBubbleTextView
         android:id="@+id/textview_to_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:background="@drawable/bg_message_to"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
-        android:text="This is a message"
-        android:textColor="@color/md_black_1000"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="This is a message" />
 
 </LinearLayout>

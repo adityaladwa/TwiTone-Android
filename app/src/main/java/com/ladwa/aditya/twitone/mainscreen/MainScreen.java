@@ -131,7 +131,7 @@ public class MainScreen extends BaseActivity implements Drawer.OnDrawerItemClick
 
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.bg_message_to)
+                .withHeaderBackground(R.drawable.bg_message_to_dark)
                 .addProfiles(profileDrawerItem).build();
 
         result = new DrawerBuilder()

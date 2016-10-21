@@ -1,6 +1,7 @@
 package com.ladwa.aditya.twitone.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
     private DirectMessage mDirectMessage;
     private DirectMessageClickListener messageClickListener;
     private long id;
+    private ColorDrawable mColorDrawablePlaceholder = new ColorDrawable(0xFFFF6666);
 
     public DirectMessageAdapter(List<DirectMessage> mDirectMessageList, Context mContext) {
         this.mDirectMessageList = mDirectMessageList;
@@ -60,10 +62,10 @@ public class DirectMessageAdapter extends RecyclerView.Adapter<DirectMessageAdap
         holder.textViewDate.setText(Utility.parseDate(mDirectMessage.getDateCreated()));
         Glide.with(mContext)
                 .load(mDirectMessage.getProfileUrl())
-                .fitCenter()
                 .centerCrop()
+                .placeholder(mColorDrawablePlaceholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .crossFade()
+                .dontAnimate()
                 .into(holder.imageViewProfile);
 
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ChatBubble">
+        <attr name="bubble_background" format="integer|reference" />
+        <attr name="bubble_text_color" format="color|reference" />
+    </declare-styleable>
+</resources>

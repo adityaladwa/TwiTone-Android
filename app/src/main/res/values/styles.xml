@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowContentTransitions">true</item>
 
+        //Custome style for Chat bubble depending on the theme selected by user
+        <item name="bubble_background">@drawable/bg_message_to_light</item>
+        <item name="bubble_text_color">@color/md_black_1000</item>
+
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
@@ -28,12 +32,15 @@
         <item name="material_drawer_header_selection_text">
             @color/material_drawer_dark_header_selection_text
         </item>
+
+
+        //Custome style for Chat bubble depending on the theme selected by user
+        <item name="bubble_background">@drawable/bg_message_to_dark</item>
+        <item name="bubble_text_color">@color/md_black_1000</item>
+
+
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
