@@ -38,6 +38,10 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({Observable.class, AndroidSchedulers.class, RequestToken.class, Log.class})
 public class LoginPresenterTest {
     private LoginPresenter mLoginPresenter;
+    private Observable<RequestToken> requestTokenObservable;
+    private Subscription subscription;
+
+    private Observable<AccessToken> accessTokenObservable;
 
     @Mock
     private LoginContract.View view;
@@ -63,23 +67,26 @@ public class LoginPresenterTest {
 
     }
 
-    @Test
-    public void testShouldScheduleRequestTokenFromBackgroundThread() {
-        Observable<RequestToken> requestTokenObservable = (Observable<RequestToken>) mock(Observable.class);
-
-        Subscription subscription = mock(Subscription.class);
-        RequestToken token = mock(RequestToken.class);
-
-        mLoginPresenter.subscribe();
+    private void setUpRequestTokenObservable() {
+        requestTokenObservable = (Observable<RequestToken>) mock(Observable.class);
+        subscription = mock(Subscription.class);
 
         when(mLoginPresenter.getRequestTokenObservable()).thenReturn(requestTokenObservable);
         when(requestTokenObservable.subscribeOn(Schedulers.newThread())).thenReturn(requestTokenObservable);
         when(requestTokenObservable.observeOn(AndroidSchedulers.mainThread())).thenReturn(requestTokenObservable);
         when(requestTokenObservable.subscribe(requestTokenCaptor.capture())).thenReturn(subscription);
         when(subscription.isUnsubscribed()).thenReturn(false);
+    }
+
+    @Test
+    public void testShouldScheduleRequestTokenFromBackgroundThread() {
+        RequestToken token = mock(RequestToken.class);
+
+        mLoginPresenter.subscribe();
+
+        setUpRequestTokenObservable();
 
         mLoginPresenter.login();
-
 
         verify(mLoginPresenter).getRequestTokenObservable();
         verify(requestTokenObservable).subscribeOn(Schedulers.io());
@@ -95,18 +102,22 @@ public class LoginPresenterTest {
 
     }
 
-    @Test
-    public void testShouldScheduleAccessTokenFromBackgroundThread() {
-        Observable<AccessToken> accessTokenObservable = (Observable<AccessToken>) mock(Observable.class);
-        Subscription subscription = mock(Subscription.class);
-        AccessToken token = mock(AccessToken.class);
-
+    private void setUpAccessTokenObservable() {
+        accessTokenObservable = (Observable<AccessToken>) mock(Observable.class);
+        subscription = mock(Subscription.class);
 
         when(mLoginPresenter.getAccessTokenObservable(mock(String.class))).thenReturn(accessTokenObservable);
         when(accessTokenObservable.subscribeOn(Schedulers.newThread())).thenReturn(accessTokenObservable);
         when(accessTokenObservable.observeOn(AndroidSchedulers.mainThread())).thenReturn(accessTokenObservable);
         when(accessTokenObservable.subscribe(accessTokenCaptor.capture())).thenReturn(subscription);
         when(subscription.isUnsubscribed()).thenReturn(false);
+    }
+
+    @Test
+    public void testShouldScheduleAccessTokenFromBackgroundThread() {
+        AccessToken token = mock(AccessToken.class);
+
+        setUpAccessTokenObservable();
 
         mLoginPresenter.getAccessToken(mock(String.class));
 
@@ -119,11 +130,9 @@ public class LoginPresenterTest {
         accessTokenCaptor.getValue().onNext(token);
         accessTokenCaptor.getValue().onCompleted();
         accessTokenCaptor.getValue().onError(mock(Throwable.class));
-
         mLoginPresenter.unsubscribe();
         verify(subscription).isUnsubscribed();
 
     }
-
 
 }
