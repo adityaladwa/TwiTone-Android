@@ -6,7 +6,7 @@
             android:dialogTitle="Select your theme"
             android:entries="@array/pref_theme_entries"
             android:entryValues="@array/pref_theme_value"
-            android:key="pref_theme"
+            android:key="@string/pref_theme_key"
             android:summary="Choose your theme"
             android:title="Theme" />
     </PreferenceCategory>

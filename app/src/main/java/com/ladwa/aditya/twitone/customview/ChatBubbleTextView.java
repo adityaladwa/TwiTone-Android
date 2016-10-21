@@ -1,16 +1,16 @@
-package com.ladwa.aditya.twitone.customeview;
+package com.ladwa.aditya.twitone.customview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.ladwa.aditya.twitone.R;
 
 /**
+ *
  * Created by Aditya on 21-Oct-16.
  */
 

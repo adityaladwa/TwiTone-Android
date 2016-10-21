@@ -15,12 +15,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:textColor="@color/colorPrimaryLight"
+        android:textColor="@color/colorAccent"
         android:textSize="12sp"
         android:textStyle="italic"
         tools:text="reciever" />
 
-    <com.ladwa.aditya.twitone.customeview.ChatBubbleTextView
+    <com.ladwa.aditya.twitone.customview.ChatBubbleTextView
         android:id="@+id/textview_to_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

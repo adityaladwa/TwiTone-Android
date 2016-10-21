@@ -144,6 +144,8 @@ dependencies {
     androidTestCompile deps.annotation
     androidTestCompile deps.espressoWeb
 
+    compile 'com.jakewharton:process-phoenix:1.1.0'
+
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'org.powermock:powermock-api-mockito:1.5.6'
     testCompile 'org.powermock:powermock-module-junit4:1.6.2'

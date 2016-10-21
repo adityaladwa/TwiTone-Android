@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ladwa.aditya.twitone.R;
-import com.ladwa.aditya.twitone.customeview.ChatBubbleTextView;
+import com.ladwa.aditya.twitone.customview.ChatBubbleTextView;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 
 import java.util.List;

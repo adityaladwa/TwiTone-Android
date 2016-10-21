@@ -13,10 +13,12 @@ import com.ladwa.aditya.twitone.settings.SettingsRepository;
 
 public class BaseActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SettingsRepository.getInstance().setTheme(this);
+
     }
 
     @Override
