@@ -214,8 +214,8 @@ public class MainScreen extends BaseActivity implements Drawer.OnDrawerItemClick
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         SettingsRepository.destroyInstance();
     }
 }

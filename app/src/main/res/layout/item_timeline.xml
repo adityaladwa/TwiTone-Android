@@ -157,7 +157,7 @@
         android:textStyle="bold"
         tools:text="Name" />
 
-    <TextView
+    <com.ladwa.aditya.twitone.customview.ChatBubbleTextView
         android:id="@+id/textview_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
