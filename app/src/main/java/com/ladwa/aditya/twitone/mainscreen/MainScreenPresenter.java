@@ -1,6 +1,5 @@
 package com.ladwa.aditya.twitone.mainscreen;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.ladwa.aditya.twitone.data.TwitterRepository;
@@ -28,7 +27,6 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
     private long mUserId;
     private TwitterRepository mTwitterRepository;
     private Subscription loadUserSub, loadTimeLineSub;
-
 
     public MainScreenPresenter(@NonNull MainScreenContract.View mView, @NonNull Boolean mLogin, long userId, TwitterRepository repository) {
         this.mView = mView;

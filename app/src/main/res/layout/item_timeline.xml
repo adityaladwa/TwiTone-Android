@@ -130,9 +130,9 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
+        android:layout_alignStart="@id/textview_user_name"
         android:layout_below="@id/imageview_replay"
         android:layout_marginEnd="10dp"
-        android:layout_alignStart="@id/textview_user_name"
         android:background="@color/grey" />
 
     <TextView
@@ -157,7 +157,7 @@
         android:textStyle="bold"
         tools:text="Name" />
 
-    <com.ladwa.aditya.twitone.customview.ChatBubbleTextView
+    <TextView
         android:id="@+id/textview_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
