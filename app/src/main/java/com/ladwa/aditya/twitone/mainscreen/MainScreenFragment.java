@@ -300,14 +300,11 @@ public class MainScreenFragment extends Fragment
             pos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
         else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
             pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
-//            Timber.d("Scroll pos= " + position[0]);
         } else if (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
             position = new int[3];
             pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
-//            Timber.d("Scroll pos= " + position[0]);
         } else if (tablet && orientation == Configuration.ORIENTATION_PORTRAIT) {
             pos = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(position)[0];
-//            Timber.d("Scroll pos asd= " + position[0]);
         }
 
 
