@@ -37,6 +37,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.ladwa.aditya.twitone.BaseActivity;
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 import com.ladwa.aditya.twitone.util.AnimationUtil;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
@@ -105,6 +106,7 @@ public class Tweet extends BaseActivity implements GoogleApiClient.ConnectionCal
     private long inReplaytoId;
     private String replayTweet;
 
+    TwitterRemoteDataSource mTwitterRemoteDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +120,7 @@ public class Tweet extends BaseActivity implements GoogleApiClient.ConnectionCal
         inReplaytoId = getIntent().getLongExtra(getString(R.string.extra_id), 0);
         replayTweet = getIntent().getStringExtra(getString(R.string.extra_replay));
 
-
+        TwitoneApp.getTwitterComponent().inject(this);
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -411,7 +413,7 @@ public class Tweet extends BaseActivity implements GoogleApiClient.ConnectionCal
                 statusUpdate.setInReplyToStatusId(inReplaytoId);
             }
 
-            TwitterRemoteDataSource.getInstance().updateStatus(statusUpdate)
+            mTwitterRemoteDataSource.updateStatus(statusUpdate)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(new Subscriber<Status>() {

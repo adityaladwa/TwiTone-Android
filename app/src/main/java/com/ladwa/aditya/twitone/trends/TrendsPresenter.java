@@ -28,6 +28,9 @@ public class TrendsPresenter implements TrendsContract.Presenter {
     @Inject
     SharedPreferences preferences;
 
+    @Inject
+    TwitterRemoteDataSource mTwitterRemoteDataSource;
+
     private TrendsContract.View mView;
     private TwitterRepository mTwitterRepository;
     private String mTAG;
@@ -116,7 +119,7 @@ public class TrendsPresenter implements TrendsContract.Presenter {
 
     @Override
     public void refreshRemoteTrends() {
-        TwitterRemoteDataSource.getInstance().getTrends()
+        mTwitterRemoteDataSource.getTrends()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Trend>>() {
@@ -145,7 +148,7 @@ public class TrendsPresenter implements TrendsContract.Presenter {
     public void refreshRemoteLocalTrends() {
         double latitude = Double.valueOf(preferences.getString(mContext.getString(R.string.pref_user_location_latitude), "0"));
         double longitude = Double.valueOf(preferences.getString(mContext.getString(R.string.pref_user_location_longitude), "0"));
-        TwitterRemoteDataSource.getInstance().getLocalTrends(latitude, longitude)
+        mTwitterRemoteDataSource.getLocalTrends(latitude, longitude)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Trend>>() {

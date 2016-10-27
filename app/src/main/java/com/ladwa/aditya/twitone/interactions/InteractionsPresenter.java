@@ -1,11 +1,14 @@
 package com.ladwa.aditya.twitone.interactions;
 
+import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Interaction;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,6 +27,9 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
     private Twitter mTwitter;
     private TwitterRepository mTwitterRepository;
 
+    @Inject
+    TwitterLocalDataStore mTwitterLocalDataStore;
+
 
     public InteractionsPresenter(InteractionsContract.View mView, Boolean mLogin, long mUserId, Twitter mTwitter, TwitterRepository repository) {
         this.mView = mView;
@@ -32,15 +38,13 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
         this.mTwitter = mTwitter;
         this.mTwitterRepository = repository;
         mView.setPresenter(this);
-
+        TwitoneApp.getTwitterComponent().inject(this);
     }
 
     @Override
     public void subscribe() {
         if (mLogin)
             loadInteractions();
-
-
     }
 
     @Override
@@ -51,7 +55,7 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
     @Override
     public void loadInteractions() {
 
-        mTwitterRepository.getInteraction(TwitterLocalDataStore.getLastInteractionId())
+        mTwitterRepository.getInteraction(mTwitterLocalDataStore.getLastInteractionId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Interaction>>() {
@@ -77,7 +81,7 @@ public class InteractionsPresenter implements InteractionsContract.Presenter {
 
     @Override
     public void refreshRemoteInteraction() {
-        TwitterRemoteDataSource.getInstance().getInteraction(TwitterLocalDataStore.getLastInteractionId())
+        mTwitterRepository.getInteraction(mTwitterLocalDataStore.getLastInteractionId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Interaction>>() {

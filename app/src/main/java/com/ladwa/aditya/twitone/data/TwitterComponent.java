@@ -5,6 +5,7 @@ import com.ladwa.aditya.twitone.data.remote.TwitterModule;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 import com.ladwa.aditya.twitone.data.sync.SyncAdapter;
 import com.ladwa.aditya.twitone.interactions.InteractionsFragment;
+import com.ladwa.aditya.twitone.interactions.InteractionsPresenter;
 import com.ladwa.aditya.twitone.login.LoginActivityFragment;
 import com.ladwa.aditya.twitone.mainscreen.MainScreenFragment;
 import com.ladwa.aditya.twitone.message.MessageFragment;
@@ -14,6 +15,7 @@ import com.ladwa.aditya.twitone.trends.LocalTrendsFragment;
 import com.ladwa.aditya.twitone.trends.Trends;
 import com.ladwa.aditya.twitone.trends.TrendsFragment;
 import com.ladwa.aditya.twitone.trends.TrendsPresenter;
+import com.ladwa.aditya.twitone.tweet.Tweet;
 
 import javax.inject.Singleton;
 
@@ -51,5 +53,9 @@ public interface TwitterComponent {
     void inject(MessageComposeFragment fragment);
 
     void inject(SyncAdapter syncAdapter);
+
+    void inject(InteractionsPresenter presenter);
+
+    void inject(Tweet tweet);
 
 }
