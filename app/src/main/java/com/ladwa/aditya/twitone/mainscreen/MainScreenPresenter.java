@@ -2,6 +2,7 @@ package com.ladwa.aditya.twitone.mainscreen;
 
 import android.support.annotation.NonNull;
 
+import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
@@ -44,6 +45,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
         this.mLogin = mLogin;
         this.mUserId = userId;
         mView.setPresenter(this);
+        TwitoneApp.getTwitterComponent().inject(this);
     }
 
     @Override

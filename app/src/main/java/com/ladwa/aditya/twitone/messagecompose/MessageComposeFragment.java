@@ -95,7 +95,7 @@ public class MessageComposeFragment extends Fragment implements MessageComposeCo
         AccessToken accessToken = new AccessToken(token, secret);
         mTwitter.setOAuthAccessToken(accessToken);
 
-        new MessageComposePresenter(this, repository, getActivity(), senderId);
+        new MessageComposePresenter(this, getActivity(), senderId);
         mEditText.addTextChangedListener(this);
 
         setUpRecyclerView();
