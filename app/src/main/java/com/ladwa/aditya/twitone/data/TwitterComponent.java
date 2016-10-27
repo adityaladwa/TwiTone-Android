@@ -10,7 +10,9 @@ import com.ladwa.aditya.twitone.login.LoginActivityFragment;
 import com.ladwa.aditya.twitone.mainscreen.MainScreenFragment;
 import com.ladwa.aditya.twitone.mainscreen.MainScreenPresenter;
 import com.ladwa.aditya.twitone.message.MessageFragment;
+import com.ladwa.aditya.twitone.message.MessagePresenter;
 import com.ladwa.aditya.twitone.messagecompose.MessageComposeFragment;
+import com.ladwa.aditya.twitone.messagecompose.MessageComposePresenter;
 import com.ladwa.aditya.twitone.settings.SettingsRepository;
 import com.ladwa.aditya.twitone.trends.LocalTrendsFragment;
 import com.ladwa.aditya.twitone.trends.Trends;
@@ -45,6 +47,8 @@ public interface TwitterComponent {
 
     void inject(MessageFragment fragment);
 
+    void inject(MessagePresenter presenter);
+
     void inject(TrendsFragment fragment);
 
     void inject(LocalTrendsFragment fragment);
@@ -54,6 +58,7 @@ public interface TwitterComponent {
     void inject(Trends activity);
 
     void inject(MessageComposeFragment fragment);
+    void inject(MessageComposePresenter presenter);
 
     void inject(SyncAdapter syncAdapter);
 

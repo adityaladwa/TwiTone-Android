@@ -88,7 +88,7 @@ public class MessageFragment extends Fragment implements MessageContract.View,
         //Create instance of presenter
         AccessToken accessToken = new AccessToken(token, secret);
         mTwitter.setOAuthAccessToken(accessToken);
-        new MessagePresenter(this, mLogin, id, mTwitter, repository, getActivity());
+        new MessagePresenter(this, mLogin, id, mTwitter, getActivity());
 
 
         linearLayoutManager = new LinearLayoutManager(getActivity());

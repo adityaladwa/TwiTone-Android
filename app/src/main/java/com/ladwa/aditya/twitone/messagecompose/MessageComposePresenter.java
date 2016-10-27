@@ -2,12 +2,15 @@ package com.ladwa.aditya.twitone.messagecompose;
 
 import android.content.Context;
 import android.util.Log;
-import com.ladwa.aditya.twitone.data.TwitterRepository;
+
+import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,22 +24,27 @@ public class MessageComposePresenter implements MessageComposeContract.Presenter
 
     private static final String TAG = MessageComposePresenter.class.getSimpleName();
     private MessageComposeContract.View mView;
-    private TwitterRepository mTwitterRepository;
     private long mSenderId;
     private Context mContext;
 
+    @Inject
+    TwitterLocalDataStore mTwitterLocalDataStore;
 
-    public MessageComposePresenter(MessageComposeContract.View mView, TwitterRepository mTwitterRepository, Context mContext, long senderid) {
+    @Inject
+    TwitterRemoteDataSource mTwitterRemoteDataSource;
+
+
+    public MessageComposePresenter(MessageComposeContract.View mView, Context mContext, long senderid) {
         this.mView = mView;
-        this.mTwitterRepository = mTwitterRepository;
         this.mContext = mContext;
         this.mSenderId = senderid;
         mView.setPresenter(this);
+        TwitoneApp.getTwitterComponent().inject(this);
     }
 
     @Override
     public void getUserDirectMessage() {
-        TwitterLocalDataStore.getDirectMessageOfUser(mSenderId)
+        mTwitterLocalDataStore.getDirectMessageOfUser(mSenderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<DirectMessage>>() {
@@ -61,7 +69,7 @@ public class MessageComposePresenter implements MessageComposeContract.Presenter
 
     @Override
     public void sendDirectMessage(long recipentId, String message) {
-        TwitterRemoteDataSource.getInstance().sendDirectMessage(recipentId, message)
+        mTwitterRemoteDataSource.sendDirectMessage(recipentId, message)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<DirectMessage>() {

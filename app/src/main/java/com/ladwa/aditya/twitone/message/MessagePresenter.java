@@ -2,12 +2,15 @@ package com.ladwa.aditya.twitone.message;
 
 import android.content.Context;
 
+import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,22 +27,29 @@ public class MessagePresenter implements MessageContract.Presenter {
     private Boolean mLogin;
     private long mUserId;
     private Twitter mTwitter;
-    private TwitterRepository mTwitterRepository;
+    @Inject
+    TwitterRepository mTwitterRepository;
+
+    @Inject
+    TwitterRemoteDataSource mTwitterRemoteDataSource;
+
+    @Inject
+    TwitterLocalDataStore mTwitterLocalDataStore;
     private Context mContext;
 
-    public MessagePresenter(MessageContract.View mView, Boolean mLogin, long mUserId, Twitter mTwitter, TwitterRepository mTwitterRepository, Context context) {
+    public MessagePresenter(MessageContract.View mView, Boolean mLogin, long mUserId, Twitter mTwitter, Context context) {
         this.mView = mView;
         this.mLogin = mLogin;
         this.mUserId = mUserId;
         this.mTwitter = mTwitter;
-        this.mTwitterRepository = mTwitterRepository;
         this.mContext = context;
         mView.setPresenter(this);
+        TwitoneApp.getTwitterComponent().inject(this);
     }
 
     @Override
     public void loadDirectMessage() {
-        mTwitterRepository.getDirectMessage(TwitterLocalDataStore.getLastDirectMessageId())
+        mTwitterRepository.getDirectMessage(mTwitterLocalDataStore.getLastDirectMessageId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<DirectMessage>>() {
@@ -63,7 +73,7 @@ public class MessagePresenter implements MessageContract.Presenter {
     }
 
     private void getlocalDm() {
-        TwitterLocalDataStore.getInstance(mContext).getDirectMessage(TwitterLocalDataStore.getLastDirectMessageId())
+        mTwitterLocalDataStore.getDirectMessage(mTwitterLocalDataStore.getLastDirectMessageId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<DirectMessage>>() {
@@ -87,7 +97,7 @@ public class MessagePresenter implements MessageContract.Presenter {
 
     @Override
     public void refreshRemoteDirectMessage() {
-        TwitterRemoteDataSource.getInstance().getDirectMessage(TwitterLocalDataStore.getLastDirectMessageId())
+        mTwitterRemoteDataSource.getDirectMessage(mTwitterLocalDataStore.getLastDirectMessageId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<DirectMessage>>() {
