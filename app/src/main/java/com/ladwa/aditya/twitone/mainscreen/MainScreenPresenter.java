@@ -10,6 +10,8 @@ import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -25,14 +27,22 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
     private MainScreenContract.View mView;
     private Boolean mLogin;
     private long mUserId;
-    private TwitterRepository mTwitterRepository;
+    @Inject
+    TwitterRepository mTwitterRepository;
+
+    @Inject
+    TwitterLocalDataStore mTwitterLocalDataStore;
+
+    @Inject
+    TwitterRemoteDataSource mTwitterRemoteDataSource;
+
     private Subscription loadUserSub, loadTimeLineSub;
 
-    public MainScreenPresenter(@NonNull MainScreenContract.View mView, @NonNull Boolean mLogin, long userId, TwitterRepository repository) {
+
+    public MainScreenPresenter(@NonNull MainScreenContract.View mView, @NonNull Boolean mLogin, long userId) {
         this.mView = mView;
         this.mLogin = mLogin;
         this.mUserId = userId;
-        this.mTwitterRepository = repository;
         mView.setPresenter(this);
     }
 
@@ -83,7 +93,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void loadTimeLine() {
-        loadTimeLineSub = mTwitterRepository.getTimeLine(TwitterLocalDataStore.getLastTweetId())
+        loadTimeLineSub = mTwitterRepository.getTimeLine(mTwitterLocalDataStore.getLastTweetId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Tweet>>() {
@@ -109,7 +119,7 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void refreshRemoteTimeline() {
-        TwitterRemoteDataSource.getInstance().getTimeLine(TwitterLocalDataStore.getLastTweetId())
+        mTwitterRemoteDataSource.getTimeLine(mTwitterLocalDataStore.getLastTweetId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Tweet>>() {
@@ -208,11 +218,11 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
 
     @Override
     public void deleteLocalData() {
-        TwitterLocalDataStore.deleteUser();
-        TwitterLocalDataStore.deleteTimeLine();
-        TwitterLocalDataStore.deleteInteraction();
-        TwitterLocalDataStore.deleteMessage();
-        TwitterLocalDataStore.deleteAllTrends();
+        mTwitterLocalDataStore.deleteUser();
+        mTwitterLocalDataStore.deleteTimeLine();
+        mTwitterLocalDataStore.deleteInteraction();
+        mTwitterLocalDataStore.deleteMessage();
+        mTwitterLocalDataStore.deleteAllTrends();
 
     }
 }

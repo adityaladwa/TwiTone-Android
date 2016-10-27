@@ -125,7 +125,7 @@ public class MainScreenFragment extends Fragment
         //Create instance of presenter
         AccessToken accessToken = new AccessToken(token, secret);
         mTwitter.setOAuthAccessToken(accessToken);
-        new MainScreenPresenter(this, mLogin, id, repository);
+        new MainScreenPresenter(this, mLogin, id);
 
 
         Configuration config = getActivity().getResources().getConfiguration();

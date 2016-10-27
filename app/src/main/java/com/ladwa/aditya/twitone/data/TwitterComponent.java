@@ -8,6 +8,7 @@ import com.ladwa.aditya.twitone.interactions.InteractionsFragment;
 import com.ladwa.aditya.twitone.interactions.InteractionsPresenter;
 import com.ladwa.aditya.twitone.login.LoginActivityFragment;
 import com.ladwa.aditya.twitone.mainscreen.MainScreenFragment;
+import com.ladwa.aditya.twitone.mainscreen.MainScreenPresenter;
 import com.ladwa.aditya.twitone.message.MessageFragment;
 import com.ladwa.aditya.twitone.messagecompose.MessageComposeFragment;
 import com.ladwa.aditya.twitone.settings.SettingsRepository;
@@ -35,6 +36,8 @@ public interface TwitterComponent {
     void inject(SettingsRepository repository);
 
     void inject(MainScreenFragment fragment);
+
+    void inject(MainScreenPresenter presenter);
 
     void inject(TwitterRemoteDataSource twitterRemoteDataSource);
 
