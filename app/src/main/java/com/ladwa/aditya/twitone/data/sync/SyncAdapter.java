@@ -10,12 +10,15 @@ import android.content.SyncResult;
 import android.os.Bundle;
 
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.TwitoneApp;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.remote.TwitterRemoteDataSource;
 import com.ladwa.aditya.twitone.util.NotificationUtil;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -31,19 +34,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String ACCOUNT = "Twitone";
     public static final int SYNC_INTERVAL = 60 * 180;
 
+    @Inject
+    TwitterLocalDataStore mTwitterLocalDataStore;
+
+    @Inject
+    TwitterRemoteDataSource mTwitterRemoteDataSource;
+
     private Context mContext;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        TwitoneApp.getTwitterComponent().inject(this);
         this.mContext = context;
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        TwitterLocalDataStore.getInstance(mContext);
-        long lastTweetId = TwitterLocalDataStore.getLastTweetId();
+        long lastTweetId = mTwitterLocalDataStore.getLastTweetId();
 
-        TwitterRemoteDataSource.getInstance().getTimeLine(lastTweetId)
+        mTwitterRemoteDataSource.getTimeLine(lastTweetId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<List<Tweet>>() {

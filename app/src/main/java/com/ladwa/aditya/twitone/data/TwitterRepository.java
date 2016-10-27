@@ -13,6 +13,8 @@ import com.ladwa.aditya.twitone.util.Utility;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -22,12 +24,12 @@ import rx.functions.Func1;
  */
 public class TwitterRepository implements TwitterDataStore {
 
-    private static TwitterRepository INSTANCE = null;
     private final TwitterLocalDataStore mLocalDataStore;
     private final TwitterRemoteDataSource mRemoteDataStore;
 
 
-    private TwitterRepository(@NonNull TwitterLocalDataStore local, @NonNull TwitterRemoteDataSource remote) {
+    @Inject
+    public TwitterRepository(@NonNull TwitterLocalDataStore local, @NonNull TwitterRemoteDataSource remote) {
         this.mLocalDataStore = local;
         this.mRemoteDataStore = remote;
     }
@@ -36,15 +38,6 @@ public class TwitterRepository implements TwitterDataStore {
         return mRemoteDataStore;
     }
 
-    public static TwitterRepository getInstance(TwitterLocalDataStore local, TwitterRemoteDataSource remote) {
-        if (INSTANCE == null)
-            INSTANCE = new TwitterRepository(local, remote);
-        return INSTANCE;
-    }
-
-    public static void destoryInstance() {
-        INSTANCE = null;
-    }
 
     @Override
     public Observable<User> getUserInfo(final long userID) {

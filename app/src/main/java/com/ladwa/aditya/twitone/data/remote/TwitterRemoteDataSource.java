@@ -39,14 +39,15 @@ import twitter4j.auth.AccessToken;
  */
 public class TwitterRemoteDataSource implements TwitterDataStore {
 
-    private static TwitterRemoteDataSource INSTANCE = null;
     @Inject
     public Twitter mTwitter;
     @Inject
     SharedPreferences preferences;
     long id;
+    @Inject
+    TwitterLocalDataStore mTwitterLocalDataStore;
 
-    private TwitterRemoteDataSource() {
+    public TwitterRemoteDataSource() {
         TwitoneApp.getTwitterComponent().inject(this);
         id = preferences.getLong(TwitoneApp.getInstance().getString(R.string.pref_userid), 0);
         String token = preferences.getString(TwitoneApp.getInstance().getString(R.string.pref_access_token), "");
@@ -55,18 +56,9 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         mTwitter.setOAuthAccessToken(accessToken);
     }
 
-    public static TwitterRemoteDataSource getInstance() {
-        if (INSTANCE == null)
-            INSTANCE = new TwitterRemoteDataSource();
-        return INSTANCE;
-    }
-
-    public static void destoryInstance() {
-        INSTANCE = null;
-    }
 
 
-    @Override
+        @Override
     public Observable<com.ladwa.aditya.twitone.data.local.models.User> getUserInfo(final long userID) {
         final com.ladwa.aditya.twitone.data.local.models.User localUser = new com.ladwa.aditya.twitone.data.local.models.User();
         return Observable.create(new Observable.OnSubscribe<com.ladwa.aditya.twitone.data.local.models.User>() {
@@ -95,7 +87,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<com.ladwa.aditya.twitone.data.local.models.User>() {
             @Override
             public void call(com.ladwa.aditya.twitone.data.local.models.User user) {
-                TwitterLocalDataStore.saveUserInfo(user);
+                mTwitterLocalDataStore.saveUserInfo(user);
             }
         });
     }
@@ -152,7 +144,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<List<Tweet>>() {
             @Override
             public void call(List<Tweet> tweets) {
-                TwitterLocalDataStore.saveTimeLine(tweets);
+                mTwitterLocalDataStore.saveTimeLine(tweets);
             }
         });
     }
@@ -202,7 +194,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<List<Interaction>>() {
             @Override
             public void call(List<Interaction> interactions) {
-                TwitterLocalDataStore.saveInteraction(interactions);
+                mTwitterLocalDataStore.saveInteraction(interactions);
             }
         });
     }
@@ -254,7 +246,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<List<DirectMessage>>() {
             @Override
             public void call(List<DirectMessage> directMessageList) {
-                TwitterLocalDataStore.saveDirectMessage(directMessageList);
+                mTwitterLocalDataStore.saveDirectMessage(directMessageList);
             }
         });
 
@@ -292,12 +284,12 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             @Override
             public void call(List<com.ladwa.aditya.twitone.data.local.models.Trend> trendList) {
                 //Delete Old trends first
-                TwitterLocalDataStore.deleteTrends();
+                mTwitterLocalDataStore.deleteTrends();
             }
         }).doOnNext(new Action1<List<com.ladwa.aditya.twitone.data.local.models.Trend>>() {
             @Override
             public void call(List<com.ladwa.aditya.twitone.data.local.models.Trend> trendList) {
-                TwitterLocalDataStore.saveTrend(trendList);
+                mTwitterLocalDataStore.saveTrend(trendList);
             }
         });
     }
@@ -340,12 +332,12 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
             @Override
             public void call(List<com.ladwa.aditya.twitone.data.local.models.Trend> trendList) {
                 //Delete Old trends first
-                TwitterLocalDataStore.deleteLocalTrends();
+                mTwitterLocalDataStore.deleteLocalTrends();
             }
         }).doOnNext(new Action1<List<com.ladwa.aditya.twitone.data.local.models.Trend>>() {
             @Override
             public void call(List<com.ladwa.aditya.twitone.data.local.models.Trend> trendList) {
-                TwitterLocalDataStore.saveLocalTrend(trendList);
+                mTwitterLocalDataStore.saveLocalTrend(trendList);
             }
         });
     }
@@ -383,7 +375,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<DirectMessage>() {
             @Override
             public void call(DirectMessage directMessage) {
-                TwitterLocalDataStore.saveSingleDirectMessage(directMessage);
+                mTwitterLocalDataStore.saveSingleDirectMessage(directMessage);
             }
         });
 
@@ -421,7 +413,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<Tweet>() {
             @Override
             public void call(Tweet tweet) {
-                TwitterLocalDataStore.createFavourite(tweet);
+                mTwitterLocalDataStore.createFavourite(tweet);
             }
         });
     }
@@ -457,7 +449,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<Tweet>() {
             @Override
             public void call(Tweet tweet) {
-                TwitterLocalDataStore.destoryFavourite(tweet);
+                mTwitterLocalDataStore.destoryFavourite(tweet);
             }
         });
     }
@@ -493,7 +485,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<Tweet>() {
             @Override
             public void call(Tweet tweet) {
-                TwitterLocalDataStore.createRetweet(tweet);
+                mTwitterLocalDataStore.createRetweet(tweet);
             }
         });
     }
@@ -530,7 +522,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<Interaction>() {
             @Override
             public void call(Interaction interaction) {
-                TwitterLocalDataStore.createFavouriteInteraction(interaction);
+                mTwitterLocalDataStore.createFavouriteInteraction(interaction);
             }
         });
     }
@@ -566,7 +558,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<Interaction>() {
             @Override
             public void call(Interaction interaction) {
-                TwitterLocalDataStore.destoryFavouriteInteraction(interaction);
+                mTwitterLocalDataStore.destoryFavouriteInteraction(interaction);
             }
         });
     }
@@ -602,7 +594,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
         }).doOnNext(new Action1<Interaction>() {
             @Override
             public void call(Interaction interaction) {
-                TwitterLocalDataStore.createRetweetInteraction(interaction);
+                mTwitterLocalDataStore.createRetweetInteraction(interaction);
             }
         });
     }

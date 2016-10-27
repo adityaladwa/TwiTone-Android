@@ -127,7 +127,6 @@ public class MainScreenFragment extends Fragment
         mTwitter.setOAuthAccessToken(accessToken);
         new MainScreenPresenter(this, mLogin, id, repository);
 
-        TwitterLocalDataStore.getInstance(getActivity());
 
         Configuration config = getActivity().getResources().getConfiguration();
         orientation = config.orientation;

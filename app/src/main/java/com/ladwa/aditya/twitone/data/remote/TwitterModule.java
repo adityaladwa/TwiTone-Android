@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterLocalDataStore;
 import com.ladwa.aditya.twitone.util.Constants;
 
@@ -52,22 +51,17 @@ public class TwitterModule {
         return new AsyncTwitterFactory(configuration).getInstance();
     }
 
-    @Provides
-    @Singleton
-    TwitterRepository providesTwitterRepository(Application context) {
-        return TwitterRepository.getInstance(TwitterLocalDataStore.getInstance(context), TwitterRemoteDataSource.getInstance());
-    }
 
     @Provides
     @Singleton
     TwitterRemoteDataSource providesTwitterRemoteDataSource() {
-        return TwitterRemoteDataSource.getInstance();
+        return new TwitterRemoteDataSource();
     }
 
     @Provides
     @Singleton
     TwitterLocalDataStore providesTwitterLocalDataStore(Application context) {
-        return TwitterLocalDataStore.getInstance(context);
+        return new TwitterLocalDataStore(context);
     }
 
 }
