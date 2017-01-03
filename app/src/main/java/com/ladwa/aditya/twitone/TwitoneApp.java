@@ -1,5 +1,6 @@
 package com.ladwa.aditya.twitone;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -14,10 +15,15 @@ import com.google.android.gms.analytics.Tracker;
 import com.ladwa.aditya.twitone.data.DaggerTwitterComponent;
 import com.ladwa.aditya.twitone.data.TwitterComponent;
 import com.ladwa.aditya.twitone.data.remote.TwitterModule;
+import com.ladwa.aditya.twitone.injection.component.ApplicationComponent;
+import com.ladwa.aditya.twitone.injection.component.DaggerApplicationComponent;
+import com.ladwa.aditya.twitone.injection.module.ApplicationModule;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+
+import timber.log.Timber;
 
 
 /**
@@ -25,16 +31,17 @@ import com.squareup.leakcanary.RefWatcher;
  * Created by Aditya on 25-Jun-16.
  */
 public class TwitoneApp extends MultiDexApplication {
+    ApplicationComponent mApplicationComponent;
     private static TwitterComponent mTwitterComponent;
     private static RefWatcher refWatcher;
-    private static TwitoneApp smTwitoneApp;
+    private static TwitoneApp sTwitoneApp;
     private static Tracker mTracker;
     private static final String TAG = TwitoneApp.class.getSimpleName();
 
     @Override
     public void onCreate() {
         super.onCreate();
-        smTwitoneApp = this;
+        sTwitoneApp = this;
         refWatcher = LeakCanary.install(this);
 
         mTwitterComponent = DaggerTwitterComponent.builder()
@@ -42,6 +49,9 @@ public class TwitoneApp extends MultiDexApplication {
                 .twitterModule(new TwitterModule())
                 .build();
 
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
 
 
         //Stetho
@@ -69,7 +79,7 @@ public class TwitoneApp extends MultiDexApplication {
     }
 
     public static synchronized TwitoneApp getInstance() {
-        return smTwitoneApp;
+        return sTwitoneApp;
     }
 
 
@@ -83,10 +93,35 @@ public class TwitoneApp extends MultiDexApplication {
 
     public static synchronized Tracker getDefaultTracker() {
         if (mTracker == null) {
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(smTwitoneApp);
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(sTwitoneApp);
             mTracker = analytics.newTracker(R.xml.track_app);
             mTracker.enableAutoActivityTracking(true);
         }
         return mTracker;
+    }
+
+
+
+
+
+
+
+    public static TwitoneApp get(Context context) {
+        return (TwitoneApp) context.getApplicationContext();
+    }
+
+
+
+    public ApplicationComponent getComponent() {
+        if (mApplicationComponent == null) {
+            mApplicationComponent = DaggerApplicationComponent.builder()
+                    .applicationModule(new ApplicationModule(this))
+                    .build();
+        }
+        return mApplicationComponent;
+    }
+
+    public void setComponent(ApplicationComponent applicationComponent) {
+        mApplicationComponent = applicationComponent;
     }
 }
