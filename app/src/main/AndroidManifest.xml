@@ -23,12 +23,12 @@
 
         <!-- Activities -->
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleTop" />
         <activity
-            android:name=".mainscreen.MainScreen"
+            android:name=".ui.mainscreen.MainScreen"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,61 +37,61 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".interactions.Interactions"
+            android:name=".ui.interactions.Interactions"
             android:label="@string/title_activity_interactions"
-            android:parentActivityName=".mainscreen.MainScreen">
+            android:parentActivityName=".ui.mainscreen.MainScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+                android:value=".ui.mainscreen.MainScreen" />
         </activity>
         <activity
-            android:name=".message.Message"
+            android:name=".ui.message.Message"
             android:label="@string/title_activity_message"
-            android:parentActivityName=".mainscreen.MainScreen">
+            android:parentActivityName=".ui.mainscreen.MainScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+                android:value=".ui.mainscreen.MainScreen" />
         </activity>
         <activity
-            android:name=".trends.Trends"
+            android:name=".ui.trends.Trends"
             android:label="@string/title_activity_trends"
-            android:parentActivityName=".mainscreen.MainScreen">
+            android:parentActivityName=".ui.mainscreen.MainScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+                android:value=".ui.mainscreen.MainScreen" />
         </activity>
         <activity
-            android:name=".imageviewer.ImageViewer"
+            android:name=".ui.imageviewer.ImageViewer"
             android:label="@string/title_activity_image_viewer"
-            android:parentActivityName=".mainscreen.MainScreen">
+            android:parentActivityName=".ui.mainscreen.MainScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+                android:value=".ui.mainscreen.MainScreen" />
         </activity>
         <activity
-            android:name=".tweet.Tweet"
+            android:name=".ui.tweet.Tweet"
             android:label="@string/title_activity_tweet"
-            android:parentActivityName=".mainscreen.MainScreen"
+            android:parentActivityName=".ui.mainscreen.MainScreen"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+                android:value=".ui.mainscreen.MainScreen" />
         </activity>
         <activity
-            android:name=".tweetdetail.TweetDetail"
+            android:name=".ui.tweetdetail.TweetDetail"
             android:label="@string/title_activity_tweet_detail"
-            android:parentActivityName=".mainscreen.MainScreen">
+            android:parentActivityName=".ui.mainscreen.MainScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+                android:value=".ui.mainscreen.MainScreen" />
         </activity>
         <activity
-            android:name=".messagecompose.MessageCompose"
+            android:name=".ui.messagecompose.MessageCompose"
             android:label="@string/title_activity_message_compose"
-            android:parentActivityName=".message.Message">
+            android:parentActivityName=".ui.message.Message">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.message.Message" />
+                android:value=".ui.message.Message" />
         </activity>
 
         <!-- Recievers -->
@@ -102,7 +102,7 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".widget.WidgetCollectionProvider">
+        <receiver android:name=".ui.widget.WidgetCollectionProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -135,7 +135,7 @@
                 android:resource="@xml/sync" />
         </service>
         <service
-            android:name=".widget.WidgetCollectionService"
+            android:name=".ui.widget.WidgetCollectionService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
@@ -181,12 +181,12 @@
         </receiver>
 
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".mainscreen.MainScreen">
+            android:parentActivityName=".ui.mainscreen.MainScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ladwa.aditya.twitone.mainscreen.MainScreen" />
+                android:value=".ui.mainscreen.MainScreen" />
         </activity>
     </application>
 

@@ -4,7 +4,7 @@
     android:id="@+id/login_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ladwa.aditya.twitone.login.LoginActivityFragment"
+    tools:context=".ui.login.LoginActivityFragment"
     tools:showIn="@layout/activity_login">
 
 

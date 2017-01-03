@@ -4,14 +4,12 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.rule.ActivityTestRule;
 
-import com.ladwa.aditya.twitone.mainscreen.MainScreen;
+import com.ladwa.aditya.twitone.ui.mainscreen.MainScreen;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 

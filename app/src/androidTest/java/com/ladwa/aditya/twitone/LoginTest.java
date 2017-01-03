@@ -3,7 +3,7 @@ package com.ladwa.aditya.twitone;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.ladwa.aditya.twitone.login.LoginActivity;
+import com.ladwa.aditya.twitone.ui.login.LoginActivity;
 
 import org.junit.Rule;
 import org.junit.Test;

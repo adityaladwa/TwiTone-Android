@@ -31,8 +31,8 @@
 -keep class android.support.v4.** { *; }
 
 -keep interface com.ladwa.aditya.twitone.data.**
--keep interface com.ladwa.aditya.twitone.mainscreen.**
--keep class com.ladwa.aditya.twitone.mainscreen.**
+-keep interface com.ladwa.aditya.twitone.ui.mainscreen.**
+-keep class com.ladwa.aditya.twitone.ui.mainscreen.**
 
 -keep class twitter4j.** { *; }
 -keep interface twitter4j.conf.**

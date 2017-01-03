@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ladwa.aditya.twitone.imageviewer.ImageViewerFragment"
+    tools:context=".ui.imageviewer.ImageViewerFragment"
     tools:showIn="@layout/activity_image_viewer">
 
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView

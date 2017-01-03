@@ -8,8 +8,8 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
-import com.ladwa.aditya.twitone.mainscreen.MainScreen;
-import com.ladwa.aditya.twitone.settings.SettingsRepository;
+import com.ladwa.aditya.twitone.ui.mainscreen.MainScreen;
+import com.ladwa.aditya.twitone.ui.settings.SettingsRepository;
 
 import java.util.List;
 

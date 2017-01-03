@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.ladwa.aditya.twitone.settings.SettingsRepository;
+import com.ladwa.aditya.twitone.ui.settings.SettingsRepository;
 
 /**
  * A Base Activity that all other activites extend
