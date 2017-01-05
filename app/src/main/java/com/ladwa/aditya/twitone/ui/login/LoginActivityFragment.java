@@ -44,6 +44,7 @@ public class LoginActivityFragment extends BaseFragment implements LoginContract
     @BindView(R.id.login_webview) WebView mWebView;
     @BindView(R.id.progressBar) MaterialProgressBar mProgressBar;
 
+    //TODO Move shared preference logic to Presenter
     @Inject SharedPreferences preferences;
     @Inject LoginPresenter loginPresenter;
 
