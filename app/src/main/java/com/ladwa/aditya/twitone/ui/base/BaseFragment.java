@@ -40,8 +40,7 @@ public abstract class BaseFragment extends Fragment {
         if (!sComponentsMap.containsKey(mFragmentId)) {
             Timber.i("Creating new ConfigPersistentComponent id=%d", mFragmentId);
             configPersistentComponent = DaggerConfigPersistentComponent.builder()
-                    .applicationComponent(TwitoneApp.get(
-                            getActivity()).getComponent())
+                    .applicationComponent(TwitoneApp.get(getActivity()).getComponent())
                     .build();
             sComponentsMap.put(mFragmentId, configPersistentComponent);
         } else {

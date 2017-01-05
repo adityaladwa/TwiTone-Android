@@ -58,6 +58,7 @@ public interface TwitterComponent {
     void inject(Trends activity);
 
     void inject(MessageComposeFragment fragment);
+
     void inject(MessageComposePresenter presenter);
 
     void inject(SyncAdapter syncAdapter);

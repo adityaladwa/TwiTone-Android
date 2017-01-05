@@ -101,11 +101,6 @@ public class TwitoneApp extends MultiDexApplication {
     }
 
 
-
-
-
-
-
     public static TwitoneApp get(Context context) {
         return (TwitoneApp) context.getApplicationContext();
     }

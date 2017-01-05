@@ -3,7 +3,10 @@ package com.ladwa.aditya.twitone.ui.login;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.ladwa.aditya.twitone.ui.base.BasePresenter;
 import com.ladwa.aditya.twitone.util.Constants;
+
+import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -20,22 +23,33 @@ import twitter4j.auth.RequestToken;
  * Created by Aditya on 25-Jun-16.
  */
 
-public class LoginPresenter implements LoginContract.Presenter {
+
+public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
 
     private final static String TAG = LoginPresenter.class.getSimpleName();
 
-    private final LoginContract.View mView;
     private final AsyncTwitter mTwitter;
     private RequestToken mRequestToken;
     private Subscription requestSubscription, accessSubscription;
 
 
-    public LoginPresenter(@NonNull LoginContract.View view, @NonNull AsyncTwitter twitter) {
-        mView = view;
+    @Inject
+    public LoginPresenter(@NonNull AsyncTwitter twitter) {
         mTwitter = twitter;
-        mView.setPresenter(this);
     }
 
+    @Override public void attachView(LoginContract.View mvpView) {
+        super.attachView(mvpView);
+        checkViewAttached();
+    }
+
+    @Override public void detachView() {
+        super.detachView();
+        if (requestSubscription != null && !requestSubscription.isUnsubscribed())
+            requestSubscription.unsubscribe();
+        if (accessSubscription != null && !accessSubscription.isUnsubscribed())
+            accessSubscription.unsubscribe();
+    }
 
     @Override
     public void login() {
@@ -49,12 +63,12 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mView.onError("Cant recieve Request token! Try again after 2 minutes");
+                        getMvpView().onError("Cant recieve Request token! Try again after 2 minutes");
                     }
 
                     @Override
                     public void onNext(RequestToken requestToken) {
-                        mView.startOauthIntent(requestToken);
+                        getMvpView().startOauthIntent(requestToken);
                     }
                 });
 
@@ -69,17 +83,17 @@ public class LoginPresenter implements LoginContract.Presenter {
                 .subscribe(new Subscriber<AccessToken>() {
                     @Override
                     public void onCompleted() {
-                        mView.onSuccess("Login Completed");
+                        getMvpView().onSuccess("Login Completed");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        mView.onError("Error recieving Access Token! Try again After sometime");
+                        getMvpView().onError("Error recieving Access Token! Try again After sometime");
                     }
 
                     @Override
                     public void onNext(AccessToken accessToken) {
-                        mView.saveAccessTokenAnd(accessToken);
+                        getMvpView().saveAccessTokenAnd(accessToken);
                         Log.d(TAG, "Access token is :" + accessToken.getToken() + accessToken.getScreenName());
                     }
                 });
@@ -123,16 +137,4 @@ public class LoginPresenter implements LoginContract.Presenter {
         });
     }
 
-
-    @Override
-    public void subscribe() {
-    }
-
-    @Override
-    public void unsubscribe() {
-        if (requestSubscription != null && !requestSubscription.isUnsubscribed())
-            requestSubscription.unsubscribe();
-        if (accessSubscription != null && !accessSubscription.isUnsubscribed())
-            accessSubscription.unsubscribe();
-    }
 }

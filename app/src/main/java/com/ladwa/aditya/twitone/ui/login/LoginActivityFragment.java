@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
+import com.ladwa.aditya.twitone.ui.base.BaseFragment;
 import com.ladwa.aditya.twitone.ui.mainscreen.MainScreen;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.squareup.leakcanary.RefWatcher;
@@ -29,7 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-import twitter4j.AsyncTwitter;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
@@ -37,7 +36,7 @@ import twitter4j.auth.RequestToken;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LoginActivityFragment extends Fragment implements LoginContract.View, ConnectionReceiver.ConnectionReceiverListener {
+public class LoginActivityFragment extends BaseFragment implements LoginContract.View, ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = LoginActivityFragment.class.getSimpleName();
 
@@ -46,9 +45,8 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @BindView(R.id.progressBar) MaterialProgressBar mProgressBar;
 
     @Inject SharedPreferences preferences;
-    @Inject AsyncTwitter twitter;
+    @Inject LoginPresenter loginPresenter;
 
-    private LoginContract.Presenter mPresenter;
     private Unbinder unbinder;
     private boolean internet;
 
@@ -60,10 +58,10 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        fragmentComponent().inject(this);
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
-        new LoginPresenter(this, twitter);
         return view;
     }
 
@@ -71,7 +69,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @OnClick(R.id.twitter_login_button)
     void twitterLogin() {
         if (internet) {
-            mPresenter.login();
+            loginPresenter.login();
             loginButton.setVisibility(View.GONE);
             mWebView.setBackgroundColor(getActivity().getResources().getColor(R.color.grey));
             mWebView.setVisibility(View.VISIBLE);
@@ -114,7 +112,6 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
             editor.putString(getString(R.string.pref_screen_name), accessToken.getScreenName());
             editor.apply();
             Log.d(TAG, "Saved Credential to Shared Pref");
-//            Timber.d("Saved credential");
         } else {
             Log.d(TAG, "Access token is null");
         }
@@ -123,7 +120,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.subscribe();
+        loginPresenter.attachView(this);
         internet = ConnectionReceiver.isConnected();
         ConnectionReceiver.setConnectionReceiverListener(this);
     }
@@ -131,7 +128,7 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
     @Override
     public void onPause() {
         super.onPause();
-        mPresenter.unsubscribe();
+        loginPresenter.detachView();
         ConnectionReceiver.destoryInstance();
     }
 
@@ -142,14 +139,9 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         refWatcher.watch(this);
     }
 
-    @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-//        Timber.d("Internet changed");
         internet = isConnected;
     }
 
@@ -166,23 +158,16 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
             if (url != null && url.startsWith("oauth://twitoneforandroid")) {
                 String verifier = Uri.parse(url).getQueryParameter("oauth_verifier");
                 Log.d(TAG, "Verifier is :" + verifier);
-                mPresenter.getAccessToken(verifier);
+                loginPresenter.getAccessToken(verifier);
                 mWebView.setVisibility(View.GONE);
-//                mSmoothProgressBar.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.GONE);
-            } else {
-//                Timber.d("URI error or URI is null");
             }
-
             return true;
-
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-//            mSmoothProgressBar.setVisibility(View.VISIBLE);
-//            mSmoothProgressBar.progressiveStart();
             mProgressBar.setVisibility(View.VISIBLE);
         }
 
@@ -190,7 +175,6 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-//            mSmoothProgressBar.progressiveStop();
             mProgressBar.setVisibility(View.GONE);
         }
     }

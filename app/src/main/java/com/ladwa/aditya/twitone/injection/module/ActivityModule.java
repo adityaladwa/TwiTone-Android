@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.injection.module;
 import android.app.Activity;
 import android.content.Context;
 
+import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.injection.ActivityContext;
 
 import dagger.Module;
