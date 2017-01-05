@@ -10,9 +10,9 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 import twitter4j.AsyncTwitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
@@ -30,7 +30,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     private final AsyncTwitter mTwitter;
     private RequestToken mRequestToken;
-    private Subscription requestSubscription, accessSubscription;
+    private CompositeSubscription compositeSubscription;
 
 
     @Inject
@@ -41,19 +41,18 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     @Override public void attachView(LoginContract.View mvpView) {
         super.attachView(mvpView);
         checkViewAttached();
+        compositeSubscription = new CompositeSubscription();
     }
 
     @Override public void detachView() {
         super.detachView();
-        if (requestSubscription != null && !requestSubscription.isUnsubscribed())
-            requestSubscription.unsubscribe();
-        if (accessSubscription != null && !accessSubscription.isUnsubscribed())
-            accessSubscription.unsubscribe();
+        if (compositeSubscription != null && !compositeSubscription.isUnsubscribed())
+            compositeSubscription.unsubscribe();
     }
 
     @Override
     public void login() {
-        requestSubscription = getRequestTokenObservable()
+        compositeSubscription.add(getRequestTokenObservable()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<RequestToken>() {
@@ -70,15 +69,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     public void onNext(RequestToken requestToken) {
                         getMvpView().startOauthIntent(requestToken);
                     }
-                });
+                }));
 
     }
 
 
     @Override
     public void getAccessToken(final String verifier) {
-
-        accessSubscription = getAccessTokenObservable(verifier).observeOn(AndroidSchedulers.mainThread())
+        compositeSubscription.add(getAccessTokenObservable(verifier).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<AccessToken>() {
                     @Override
@@ -96,9 +94,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                         getMvpView().saveAccessTokenAnd(accessToken);
                         Log.d(TAG, "Access token is :" + accessToken.getToken() + accessToken.getScreenName());
                     }
-                });
-
-
+                }));
     }
 
     @Override
@@ -136,5 +132,4 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             }
         });
     }
-
 }
