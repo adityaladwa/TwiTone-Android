@@ -44,7 +44,6 @@ public class LoginActivityFragment extends BaseFragment implements LoginContract
     @BindView(R.id.login_webview) WebView mWebView;
     @BindView(R.id.progressBar) MaterialProgressBar mProgressBar;
 
-    //TODO Move shared preference logic to Presenter
     @Inject SharedPreferences preferences;
     @Inject LoginPresenter loginPresenter;
 
@@ -87,7 +86,6 @@ public class LoginActivityFragment extends BaseFragment implements LoginContract
     @Override
     public void onError(String errorMessage) {
         Toast.makeText(getActivity(), "There is some error " + errorMessage, Toast.LENGTH_SHORT).show();
-//        mSmoothProgressBar.progressiveStop();
         mProgressBar.setVisibility(View.GONE);
     }
 
@@ -155,7 +153,6 @@ public class LoginActivityFragment extends BaseFragment implements LoginContract
     public class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
             if (url != null && url.startsWith("oauth://twitoneforandroid")) {
                 String verifier = Uri.parse(url).getQueryParameter("oauth_verifier");
                 Log.d(TAG, "Verifier is :" + verifier);
