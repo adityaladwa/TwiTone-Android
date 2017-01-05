@@ -41,18 +41,12 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
 
     private static final String TAG = LoginActivityFragment.class.getSimpleName();
 
-    @BindView(R.id.twitter_login_button)
-    Button loginButton;
+    @BindView(R.id.twitter_login_button) Button loginButton;
+    @BindView(R.id.login_webview) WebView mWebView;
+    @BindView(R.id.progressBar) MaterialProgressBar mProgressBar;
 
-    @BindView(R.id.login_webview)
-    WebView mWebView;
-
-    @BindView(R.id.progressBar)
-    MaterialProgressBar mProgressBar;
-    @Inject
-    SharedPreferences preferences;
-    @Inject
-    AsyncTwitter twitter;
+    @Inject SharedPreferences preferences;
+    @Inject AsyncTwitter twitter;
 
     private LoginContract.Presenter mPresenter;
     private Unbinder unbinder;
@@ -70,7 +64,6 @@ public class LoginActivityFragment extends Fragment implements LoginContract.Vie
         unbinder = ButterKnife.bind(this, view);
         TwitoneApp.getTwitterComponent().inject(this);
         new LoginPresenter(this, twitter);
-
         return view;
     }
 

@@ -11,6 +11,7 @@ import com.ladwa.aditya.twitone.injection.component.ActivityComponent;
 import com.ladwa.aditya.twitone.injection.component.ConfigPersistentComponent;
 import com.ladwa.aditya.twitone.injection.component.DaggerConfigPersistentComponent;
 import com.ladwa.aditya.twitone.injection.module.ActivityModule;
+import com.ladwa.aditya.twitone.ui.settings.SettingsRepository;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -47,6 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         mActivityComponent = configPersistentComponent.activityComponent(new ActivityModule(this));
         mActivityComponent.inject(this);
+        SettingsRepository.getInstance().setTheme(this);
     }
 
     @Override
@@ -57,6 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        SettingsRepository.destroyInstance();
         if (!isChangingConfigurations()) {
             Timber.i("Clearing ConfigPersistentComponent id=%d", mActivityId);
             sComponentsMap.remove(mActivityId);

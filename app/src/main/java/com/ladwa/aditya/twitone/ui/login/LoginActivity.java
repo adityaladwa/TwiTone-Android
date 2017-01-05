@@ -3,8 +3,8 @@ package com.ladwa.aditya.twitone.ui.login;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-import com.ladwa.aditya.twitone.BaseActivity;
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.ui.base.BaseActivity;
 
 
 public class LoginActivity extends BaseActivity {
