@@ -33,11 +33,11 @@ import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
-import com.ladwa.aditya.twitone.ui.adapter.TimelineAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.data.local.models.User;
 import com.ladwa.aditya.twitone.data.sync.SyncAdapter;
+import com.ladwa.aditya.twitone.ui.adapter.TimelineAdapter;
 import com.ladwa.aditya.twitone.ui.imageviewer.ImageViewer;
 import com.ladwa.aditya.twitone.ui.login.LoginActivity;
 import com.ladwa.aditya.twitone.ui.settings.SettingsRepository;
@@ -72,18 +72,13 @@ public class MainScreenFragment extends Fragment
         TimelineAdapter.TimeLineClickListener,
         ConnectionReceiver.ConnectionReceiverListener {
 
-    @Inject
-    SharedPreferences preferences;
-    @Inject
-    Twitter mTwitter;
-    @Inject
-    TwitterRepository repository;
 
-    @BindView(R.id.recyclerview_timeline)
-    RecyclerView recyclerView;
+    @BindView(R.id.recyclerview_timeline) RecyclerView recyclerView;
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
-    @BindView(R.id.swipeContainer)
-    SwipeRefreshLayout swipeContainer;
+    @Inject SharedPreferences preferences;
+    @Inject Twitter mTwitter;
+    @Inject TwitterRepository repository;
 
 
     private boolean internet;
@@ -266,7 +261,6 @@ public class MainScreenFragment extends Fragment
             finalPos = newSize - oldSize;
         }
 
-//        Timber.d("Final pos = " + String.valueOf(finalPos));
         mTweets.clear();
         mTweets.addAll(tweetList);
         mTimelineAdapter.notifyDataSetChanged();
@@ -281,12 +275,15 @@ public class MainScreenFragment extends Fragment
             linearLayoutManager.scrollToPosition(finalPos);
             linearLayoutManager.scrollToPosition(finalPos);
         } else if (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            staggeredGridLayoutManager.scrollToPosition(finalPos);
-            staggeredGridLayoutManager.scrollToPosition(finalPos);
+            setStaggeredGrid();
         } else if (tablet) {
-            staggeredGridLayoutManager.scrollToPosition(finalPos);
-            staggeredGridLayoutManager.scrollToPosition(finalPos);
+            setStaggeredGrid();
         }
+    }
+
+    private void setStaggeredGrid() {
+        staggeredGridLayoutManager.scrollToPosition(finalPos);
+        staggeredGridLayoutManager.scrollToPosition(finalPos);
     }
 
     @Override

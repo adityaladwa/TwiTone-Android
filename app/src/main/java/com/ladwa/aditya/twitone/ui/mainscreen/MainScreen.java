@@ -50,7 +50,11 @@ import butterknife.OnClick;
 /**
  * This is The Launcher Activity of the App
  */
-public class MainScreen extends BaseActivity implements Drawer.OnDrawerItemClickListener, MainScreenFragment.DrawerCallback {
+public class MainScreen extends BaseActivity implements
+        Drawer.OnDrawerItemClickListener, MainScreenFragment.DrawerCallback {
+
+    @BindView(R.id.tweet_fab) FloatingActionButton mTweetButton;
+
 
     private Toolbar toolbar;
     private AccountHeader headerResult;
@@ -58,8 +62,6 @@ public class MainScreen extends BaseActivity implements Drawer.OnDrawerItemClick
     private Drawer result;
     private PrimaryDrawerItem timeline;
     private Tracker mTracker;
-    @BindView(R.id.tweet_fab)
-    FloatingActionButton mTweetButton;
 
 
     @Override
@@ -200,13 +202,11 @@ public class MainScreen extends BaseActivity implements Drawer.OnDrawerItemClick
 
     @Override
     public void setProfile(String screenName) {
-//        Timber.d("Profile set");
         setupDrawer(screenName);
     }
 
     @Override
     public void updateProfile(User user) {
-//        Timber.d(user.getName() + user.getScreenName());
         profileDrawerItem.withName(user.getName()).withEmail(user.getScreenName()).withIcon(user.getProfileUrl());
         ImageView headerBackgroundView = headerResult.getHeaderBackgroundView();
         Glide.with(this).load(user.getBannerUrl()).into(headerBackgroundView);
