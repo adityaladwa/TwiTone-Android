@@ -23,7 +23,6 @@ public class WidgetCollectionProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-//        Timber.d("onRecieve");
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         if (intent.getAction().equals(CLICK_ACTION)) {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,

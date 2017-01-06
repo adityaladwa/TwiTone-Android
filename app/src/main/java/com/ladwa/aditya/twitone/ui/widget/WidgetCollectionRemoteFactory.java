@@ -50,7 +50,6 @@ public class WidgetCollectionRemoteFactory implements RemoteViewsService.RemoteV
     public RemoteViews getViewAt(int position) {
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.item_widget);
         try {
-//            Timber.d(String.valueOf(position));
             if (position < getCount()) {
                 mCursor.moveToNext();
                 views.setTextViewText(R.id.textview_user_name,
@@ -67,14 +66,12 @@ public class WidgetCollectionRemoteFactory implements RemoteViewsService.RemoteV
             }
         } catch (CursorIndexOutOfBoundsException | NullPointerException e) {
             e.printStackTrace();
-//            Timber.d("Exception");
         }
 
         Bundle extras = new Bundle();
         extras.putInt(WidgetCollectionProvider.EXTRA_ITEM, position);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
-//        fillInIntent.setAction(WidgetCollectionProvider.CLICK_ACTION);
         // Make it possible to distinguish the individual on-click
         // action of a given item
         views.setOnClickFillInIntent(R.id.widget_relative_layout, fillInIntent);

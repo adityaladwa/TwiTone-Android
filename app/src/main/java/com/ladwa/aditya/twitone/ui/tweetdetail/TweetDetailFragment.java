@@ -122,14 +122,12 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
         transition.addListener(new Transition.TransitionListener() {
             @Override
             public void onTransitionStart(Transition transition) {
-//                Timber.d("startAnim");
             }
 
             @Override
             public void onTransitionEnd(Transition transition) {
                 transition.removeListener(this);
                 animateRevealShow(imageViewProfile);
-//                Timber.d("endAnim");
             }
 
             @Override
