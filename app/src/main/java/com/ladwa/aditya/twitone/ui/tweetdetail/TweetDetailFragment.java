@@ -70,12 +70,11 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
         initViews();
 
         //Set visibility of  Media if available
-        if (tweet.getMediaUrl() != null) {
-            imageViewMedia.setVisibility(View.VISIBLE);
-        } else {
-            imageViewMedia.setVisibility(View.GONE);
-            materialProgressBar.setVisibility(View.GONE);
-        }
+        imageViewMedia.setVisibility(tweet.getMediaUrl() != null ? View.VISIBLE : View.INVISIBLE);
+        imageViewMedia.setVisibility(tweet.getMediaUrl() != null ? View.GONE : View.VISIBLE);
+        materialProgressBar.setVisibility(tweet.getMediaUrl() != null ? View.GONE : View.VISIBLE);
+        getActivity().getActionBar().setTitle(tweet.getUserName());
+        getActivity().getActionBar().setSubtitle(tweet.getScreenName());
         return view;
     }
 
