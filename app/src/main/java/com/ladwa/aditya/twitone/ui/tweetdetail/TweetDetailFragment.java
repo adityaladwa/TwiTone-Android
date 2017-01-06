@@ -42,36 +42,21 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
  */
 public class TweetDetailFragment extends Fragment implements TweetDetailPresenter.View {
 
-    @BindView(R.id.imageview_profile_pic)
-    ImageView imageViewProfile;
-    @BindView(R.id.imageview_verified)
-    ImageView imageViewVerified;
-    @BindView(R.id.textview_tweet)
-    TextView textViewTweet;
-    @BindView(R.id.imageview_media)
-    ImageView imageViewMedia;
-    @BindView(R.id.progressBar_timeline)
-    MaterialProgressBar materialProgressBar;
-    @BindView(R.id.textview_screen_name)
-    TextView textViewScreenName;
-    @BindView(R.id.textview_time)
-    TextView textViewDate;
-    @BindView(R.id.textview_user_name)
-    TextView textViewUserName;
-    @BindView(R.id.imageview_retweet)
-    IconicsImageView imageViewRetweet;
-    @BindView(R.id.imageview_fav)
-    IconicsImageView imageViewFav;
-    @BindView(R.id.textview_retweet_count)
-    TextView textViewRetweetCount;
-    @BindView(R.id.textview_fav_count)
-    TextView textViewFavCount;
-    @BindView(R.id.imageview_replay)
-    ImageView imageViewReplay;
-    @BindView(R.id.imageview_share)
-    IconicsImageView imageViewShare;
-    @BindView(R.id.relative_layout_tweet_detail)
-    RelativeLayout mRlContainer;
+    @BindView(R.id.imageview_profile_pic) ImageView imageViewProfile;
+    @BindView(R.id.imageview_verified) ImageView imageViewVerified;
+    @BindView(R.id.textview_tweet) TextView textViewTweet;
+    @BindView(R.id.imageview_media) ImageView imageViewMedia;
+    @BindView(R.id.progressBar_timeline) MaterialProgressBar materialProgressBar;
+    @BindView(R.id.textview_screen_name) TextView textViewScreenName;
+    @BindView(R.id.textview_time) TextView textViewDate;
+    @BindView(R.id.textview_user_name) TextView textViewUserName;
+    @BindView(R.id.imageview_retweet) IconicsImageView imageViewRetweet;
+    @BindView(R.id.imageview_fav) IconicsImageView imageViewFav;
+    @BindView(R.id.textview_retweet_count) TextView textViewRetweetCount;
+    @BindView(R.id.textview_fav_count) TextView textViewFavCount;
+    @BindView(R.id.imageview_replay) ImageView imageViewReplay;
+    @BindView(R.id.imageview_share) IconicsImageView imageViewShare;
+    @BindView(R.id.relative_layout_tweet_detail) RelativeLayout mRlContainer;
 
     private Tweet tweet;
     private Animation fadeIn, scaleUp;

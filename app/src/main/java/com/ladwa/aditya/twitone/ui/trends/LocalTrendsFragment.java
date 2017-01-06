@@ -41,14 +41,9 @@ public class LocalTrendsFragment extends Fragment implements TrendsContract.View
         SwipeRefreshLayout.OnRefreshListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    @Inject
-    TwitterRepository repository;
-
-    @BindView(R.id.recyclerview_trends_local)
-    RecyclerView recyclerView;
-
-    @BindView(R.id.swipeContainer)
-    SwipeRefreshLayout swipeContainer;
+    @Inject    TwitterRepository repository;
+    @BindView(R.id.recyclerview_trends_local)    RecyclerView recyclerView;
+    @BindView(R.id.swipeContainer)    SwipeRefreshLayout swipeContainer;
 
     private boolean internet;
     private Unbinder unbinder;

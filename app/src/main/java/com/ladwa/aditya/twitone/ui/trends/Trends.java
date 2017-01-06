@@ -31,8 +31,7 @@ import javax.inject.Inject;
 
 public class Trends extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    @Inject
-    SharedPreferences preferences;
+    @Inject    SharedPreferences preferences;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;

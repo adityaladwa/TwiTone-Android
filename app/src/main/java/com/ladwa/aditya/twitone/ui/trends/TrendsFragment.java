@@ -42,14 +42,9 @@ public class TrendsFragment extends Fragment implements TrendsContract.View,
         LoaderManager.LoaderCallbacks<Cursor> {
 
 
-    @Inject
-    TwitterRepository repository;
-
-    @BindView(R.id.recyclerview_trends)
-    RecyclerView recyclerView;
-
-    @BindView(R.id.swipeContainer_trends)
-    SwipeRefreshLayout swipeContainer;
+    @Inject    TwitterRepository repository;
+    @BindView(R.id.recyclerview_trends)    RecyclerView recyclerView;
+    @BindView(R.id.swipeContainer_trends)    SwipeRefreshLayout swipeContainer;
 
     private boolean internet;
     private Unbinder unbinder;

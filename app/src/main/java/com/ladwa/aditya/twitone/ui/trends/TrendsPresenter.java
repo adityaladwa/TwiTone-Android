@@ -25,11 +25,8 @@ import rx.schedulers.Schedulers;
 public class TrendsPresenter implements TrendsContract.Presenter {
 
 
-    @Inject
-    SharedPreferences preferences;
-
-    @Inject
-    TwitterRemoteDataSource mTwitterRemoteDataSource;
+    @Inject SharedPreferences preferences;
+    @Inject TwitterRemoteDataSource mTwitterRemoteDataSource;
 
     private TrendsContract.View mView;
     private TwitterRepository mTwitterRepository;

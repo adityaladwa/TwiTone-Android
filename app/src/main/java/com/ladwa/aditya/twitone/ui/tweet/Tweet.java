@@ -61,38 +61,17 @@ public class Tweet extends BaseActivity implements GoogleApiClient.ConnectionCal
         GoogleApiClient.OnConnectionFailedListener, TweetPresenter.View {
 
     private static final int LOCATION_REQUEST_CODE = 10;
-    @BindView(R.id.fab_tweet_activity)
-    FloatingActionButton mFab;
-
-    @BindView(R.id.tweet_activity_container)
-    CoordinatorLayout mRlContainer;
-
-    @BindView(R.id.tweet_appbar)
-    AppBarLayout mAppBarLayout;
-
-    @BindView(R.id.edittext_tweet)
-    EditText mEditTextTweet;
-
-    @BindView(R.id.relativelayout_tweet_footer)
-    RelativeLayout mRelativeLayoutTweetFooter;
-
-    @BindView(R.id.imageview_location)
-    IconicsImageView mImageViewLocation;
-
-    @BindView(R.id.imageview_place_icon)
-    IconicsImageView mImageViewPlace;
-
-    @BindView(R.id.linear_layout_place)
-    LinearLayout mLinearLayoutPlace;
-
-    @BindView(R.id.textview_location)
-    TextView mTextViewLocation;
-
-    @BindView(R.id.button_tweet)
-    Button mButtonTweet;
-
-    @BindView(R.id.textview_tweet_char)
-    TextView mTextViewChar;
+    @BindView(R.id.fab_tweet_activity) FloatingActionButton mFab;
+    @BindView(R.id.tweet_activity_container) CoordinatorLayout mRlContainer;
+    @BindView(R.id.tweet_appbar) AppBarLayout mAppBarLayout;
+    @BindView(R.id.edittext_tweet) EditText mEditTextTweet;
+    @BindView(R.id.relativelayout_tweet_footer) RelativeLayout mRelativeLayoutTweetFooter;
+    @BindView(R.id.imageview_location) IconicsImageView mImageViewLocation;
+    @BindView(R.id.imageview_place_icon) IconicsImageView mImageViewPlace;
+    @BindView(R.id.linear_layout_place) LinearLayout mLinearLayoutPlace;
+    @BindView(R.id.textview_location) TextView mTextViewLocation;
+    @BindView(R.id.button_tweet) Button mButtonTweet;
+    @BindView(R.id.textview_tweet_char) TextView mTextViewChar;
 
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;

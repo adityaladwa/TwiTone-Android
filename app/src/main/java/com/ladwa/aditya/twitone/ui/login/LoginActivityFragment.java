@@ -36,7 +36,8 @@ import twitter4j.auth.RequestToken;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LoginActivityFragment extends BaseFragment implements LoginContract.View, ConnectionReceiver.ConnectionReceiverListener {
+public class LoginActivityFragment extends BaseFragment implements LoginContract.View,
+        ConnectionReceiver.ConnectionReceiverListener {
 
     private static final String TAG = LoginActivityFragment.class.getSimpleName();
 
