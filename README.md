@@ -1,4 +1,4 @@
-# Twitone [![GitHub stars](https://img.shields.io/github/stars/LadwaAditya/TwiTone-Android.svg)](https://github.com/LadwaAditya/TwiTone-Android/stargazers) [![GitHub stars](https://img.shields.io/github/stars/LadwaAditya/TwiTone-Android.svg)](https://github.com/LadwaAditya/TwiTone-Android/stargazers)
+# Twitone [![GitHub stars](https://img.shields.io/github/stars/LadwaAditya/TwiTone-Android.svg)](https://github.com/LadwaAditya/TwiTone-Android/stargazers) [![GitHub forks](https://img.shields.io/github/forks/LadwaAditya/TwiTone-Android.svg)](https://github.com/LadwaAditya/TwiTone-Android/network) [![GitHub issues](https://img.shields.io/github/issues/LadwaAditya/TwiTone-Android.svg)](https://github.com/LadwaAditya/TwiTone-Android/issues)
 
 
 ## A light Twitter Client for Android
