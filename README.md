@@ -12,22 +12,23 @@
 ### Libraries used
 
 1.  StorIO
-2.  Dagger 2
-3.  RxJava & RxAndroid
+2.  [Dagger 2](http://google.github.io/dagger/)
+3.  [RxJava](https://github.com/ReactiveX/RxJava) and [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 4.  Twitter4j
-5.  ButterKnife
+5.  [Butterknife](https://github.com/JakeWharton/butterknife)
 6.  LeakCanary
 7.  Material Progress Bar
 8.  Material Drawer
 9.  FontAwesome
-10. Glide
+10. [Glide 3](https://github.com/bumptech/glide)
 11. Circular Image view
 12. Sub-sampling ImageView
-13. Stetho
+13. [Stetho](http://facebook.github.io/stetho/)
 14. AutoValue
 15. AutoParcle
-16. Espresso
-17. Google Play Services - Location and Analytics
+16. [Espresso](https://google.github.io/android-testing-support-library/)
+17. [Google Play Services](https://developers.google.com/android/guides/overview)
+
 
 ----------------------------------------------------------------------------------------------------
 
@@ -41,6 +42,7 @@
 ![Tablet Screenshot](screenshot/7.png)
 
 ## License
+
 ```
 MIT License
 
