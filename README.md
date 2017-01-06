@@ -9,6 +9,11 @@
 
 ----------------------------------------------------------------------------------------------------
 
+
+### Show some :heart: and star the repo to support the project
+[![GitHub stars](https://img.shields.io/github/stars/nisrulz/screenshott.svg?style=social&label=Star)](https://github.com/LadwaAditya/TwiTone-Android) [![GitHub forks](https://img.shields.io/github/forks/nisrulz/screenshott.svg?style=social&label=Fork)](https://github.com/LadwaAditya/TwiTone-Android/fork) [![GitHub watchers](https://img.shields.io/github/watchers/nisrulz/screenshott.svg?style=social&label=Watch)](https://github.com/LadwaAditya/TwiTone-Android) [![GitHub followers](https://img.shields.io/github/followers/nisrulz.svg?style=social&label=Follow)](https://github.com/LadwaAditya)
+[![Twitter Follow](https://img.shields.io/twitter/follow/nisrulz.svg?style=social)](https://twitter.com/adi_ladwa)
+
 ### Libraries used
 
 1.  StorIO
