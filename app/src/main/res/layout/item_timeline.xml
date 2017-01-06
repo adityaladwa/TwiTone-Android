@@ -176,7 +176,6 @@
         android:layout_marginStart="@dimen/timeline_profile_pic_margin_start"
         android:layout_marginTop="@dimen/timeline_profile_pic_margin_top"
         android:contentDescription="@string/profile_image"
-        android:transitionName="@string/transation_profile_pic"
         card:civ_border="false"
         card:civ_shadow="false" />
 </RelativeLayout>

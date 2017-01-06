@@ -67,13 +67,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
         View view = inflater.inflate(R.layout.fragment_tweet_detail, container, false);
         ButterKnife.bind(this, view);
         tweet = getActivity().getIntent().getParcelableExtra(getActivity().getString(R.string.extra_tweet_parcle));
-        Glide.with(getActivity())
-                .load(tweet.getProfileUrl())
-                .fitCenter()
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .crossFade()
-                .into(imageViewProfile);
         initViews();
 
         //Set visibility of  Media if available
@@ -109,7 +102,13 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
     }
 
     private void initViews() {
-
+        Glide.with(getActivity())
+                .load(tweet.getProfileUrl())
+                .fitCenter()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .crossFade()
+                .into(imageViewProfile);
         if (tweet.getMediaUrl() != null) {
             Glide.with(getActivity())
                     .load(tweet.getMediaUrl())

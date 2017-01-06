@@ -11,10 +11,9 @@
         android:id="@+id/imageview_profile_pic"
         android:layout_width="@dimen/profile_pic_size"
         android:layout_height="@dimen/profile_pic_size"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="@dimen/timeline_top_margin"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/textview_user_name"
         android:contentDescription="@string/profile_image"
-        android:transitionName="@string/transation_profile_pic"
         card:civ_border="false"
         card:civ_shadow="false"/>
 
