@@ -18,10 +18,10 @@ import android.view.ViewGroup;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
-import com.ladwa.aditya.twitone.ui.adapter.TrendAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.TwitterContract;
 import com.ladwa.aditya.twitone.data.local.models.Trend;
+import com.ladwa.aditya.twitone.ui.adapter.TrendAdapter;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 
 import java.util.ArrayList;
@@ -41,9 +41,9 @@ public class LocalTrendsFragment extends Fragment implements TrendsContract.View
         SwipeRefreshLayout.OnRefreshListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    @Inject    TwitterRepository repository;
-    @BindView(R.id.recyclerview_trends_local)    RecyclerView recyclerView;
-    @BindView(R.id.swipeContainer)    SwipeRefreshLayout swipeContainer;
+    @Inject TwitterRepository repository;
+    @BindView(R.id.recyclerview_trends_local) RecyclerView recyclerView;
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
     private boolean internet;
     private Unbinder unbinder;
@@ -117,7 +117,6 @@ public class LocalTrendsFragment extends Fragment implements TrendsContract.View
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] selection = {"1"};
-//        Timber.d("Loader Created");
         return new CursorLoader(getActivity(), TwitterContract.Trends.CONTENT_URI, null,
                 TwitterContract.Trends.COLUMN_LOCAL + " = ? ", selection, null);
     }
@@ -144,7 +143,6 @@ public class LocalTrendsFragment extends Fragment implements TrendsContract.View
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-//        Timber.d("Loader restart");
     }
 
     @Override
@@ -161,9 +159,7 @@ public class LocalTrendsFragment extends Fragment implements TrendsContract.View
 
     @Override
     public void loadedTrends(List<Trend> trendList) {
-        //     mTrends.clear();
-//        mTrends.addAll(trendList);
-//        mTrendAdapter.notifyDataSetChanged();
+
     }
 
     @Override

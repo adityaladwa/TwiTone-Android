@@ -77,7 +77,6 @@ public class TrendsFragment extends Fragment implements TrendsContract.View,
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
-//        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -109,9 +108,6 @@ public class TrendsFragment extends Fragment implements TrendsContract.View,
 
     @Override
     public void loadedTrends(List<Trend> trendList) {
-//        mTrends.clear();
-//        mTrends.addAll(trendList);
-//        mTrendAdapter.notifyDataSetChanged();
     }
 
     @Override

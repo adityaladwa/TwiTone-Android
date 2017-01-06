@@ -31,7 +31,7 @@ import javax.inject.Inject;
 
 public class Trends extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    @Inject    SharedPreferences preferences;
+    @Inject SharedPreferences preferences;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -100,7 +100,6 @@ public class Trends extends BaseActivity implements GoogleApiClient.ConnectionCa
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_REQUEST_CODE);
 
-//            Timber.d("No permission");
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
