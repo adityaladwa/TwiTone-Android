@@ -27,11 +27,8 @@ public class MessageComposePresenter implements MessageComposeContract.Presenter
     private long mSenderId;
     private Context mContext;
 
-    @Inject
-    TwitterLocalDataStore mTwitterLocalDataStore;
-
-    @Inject
-    TwitterRemoteDataSource mTwitterRemoteDataSource;
+    @Inject TwitterLocalDataStore mTwitterLocalDataStore;
+    @Inject TwitterRemoteDataSource mTwitterRemoteDataSource;
 
 
     public MessageComposePresenter(MessageComposeContract.View mView, Context mContext, long senderid) {

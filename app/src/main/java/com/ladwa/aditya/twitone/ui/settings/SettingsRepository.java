@@ -17,8 +17,7 @@ public class SettingsRepository implements SettingsStore {
 
     private static SettingsRepository INSTANCE = null;
 
-    @Inject
-    SharedPreferences mSharedPreferences;
+    @Inject SharedPreferences mSharedPreferences;
 
     private SettingsRepository() {
         TwitoneApp.getTwitterComponent().inject(this);

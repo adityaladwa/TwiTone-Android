@@ -19,9 +19,9 @@ import android.widget.EditText;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
-import com.ladwa.aditya.twitone.ui.adapter.MessageComposeAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
+import com.ladwa.aditya.twitone.ui.adapter.MessageComposeAdapter;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 import com.mikepenz.iconics.view.IconicsImageView;
 
@@ -43,21 +43,13 @@ import twitter4j.auth.AccessToken;
 public class MessageComposeFragment extends Fragment implements MessageComposeContract.View,
         ConnectionReceiver.ConnectionReceiverListener, TextWatcher {
 
-    @Inject
-    SharedPreferences preferences;
-    @Inject
-    Twitter mTwitter;
-    @Inject
-    TwitterRepository repository;
+    @BindView(R.id.recyclerview_message) RecyclerView recyclerView;
+    @BindView(R.id.edittext_message) EditText mEditText;
+    @BindView(R.id.button_message_send) IconicsImageView mSendImageView;
 
-    @BindView(R.id.recyclerview_message)
-    RecyclerView recyclerView;
-
-    @BindView(R.id.edittext_message)
-    EditText mEditText;
-
-    @BindView(R.id.button_message_send)
-    IconicsImageView mSendImageView;
+    @Inject SharedPreferences preferences;
+    @Inject Twitter mTwitter;
+    @Inject TwitterRepository repository;
 
 
     private MessageComposeContract.Presenter mPresenter;
