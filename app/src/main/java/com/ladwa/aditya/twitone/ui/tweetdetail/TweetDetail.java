@@ -2,10 +2,9 @@ package com.ladwa.aditya.twitone.ui.tweetdetail;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
-import com.ladwa.aditya.twitone.BaseActivity;
 import com.ladwa.aditya.twitone.R;
+import com.ladwa.aditya.twitone.ui.base.BaseActivity;
 
 public class TweetDetail extends BaseActivity {
 
@@ -18,14 +17,4 @@ public class TweetDetail extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                supportFinishAfterTransition();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

@@ -5,14 +5,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.util.Linkify;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,7 +22,6 @@ import com.bumptech.glide.request.target.Target;
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.data.local.models.Tweet;
 import com.ladwa.aditya.twitone.ui.imageviewer.ImageViewer;
-import com.ladwa.aditya.twitone.util.AnimationUtil;
 import com.ladwa.aditya.twitone.util.Utility;
 import com.mikepenz.iconics.view.IconicsImageView;
 
@@ -78,6 +74,7 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(imageViewProfile);
+        initViews();
 
         //Set visibility of  Media if available
         if (tweet.getMediaUrl() != null) {
@@ -106,7 +103,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
     }
 
 
-
     @Override
     public void setPresenter(TweetDetailPresenter.Presenter presenter) {
 
@@ -115,14 +111,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
     private void initViews() {
 
         if (tweet.getMediaUrl() != null) {
-
-            imageViewMedia.startAnimation(scaleUp);
-            materialProgressBar.startAnimation(fadeIn);
-
-            imageViewMedia.setVisibility(View.VISIBLE);
-            materialProgressBar.setVisibility(View.VISIBLE);
-
-
             Glide.with(getActivity())
                     .load(tweet.getMediaUrl())
                     .fitCenter()
@@ -147,20 +135,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
             imageViewMedia.setVisibility(View.GONE);
             materialProgressBar.setVisibility(View.GONE);
         }
-
-        textViewTweet.setAnimation(fadeIn);
-        textViewUserName.setAnimation(fadeIn);
-        textViewScreenName.setAnimation(fadeIn);
-        textViewFavCount.setAnimation(fadeIn);
-        textViewRetweetCount.setAnimation(fadeIn);
-        textViewDate.setAnimation(fadeIn);
-
-        textViewTweet.setVisibility(View.VISIBLE);
-        textViewUserName.setVisibility(View.VISIBLE);
-        textViewScreenName.setVisibility(View.VISIBLE);
-        textViewFavCount.setVisibility(View.VISIBLE);
-        textViewRetweetCount.setVisibility(View.VISIBLE);
-        textViewDate.setVisibility(View.VISIBLE);
 
         textViewTweet.setText(tweet.getTweet());
         textViewUserName.setText(tweet.getUserName());
@@ -188,9 +162,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
         Pattern urlPattern = Patterns.WEB_URL;
         Linkify.addLinks(textViewTweet, urlPattern, null, null, filter);
 
-        imageViewReplay.setAnimation(fadeIn);
-        imageViewReplay.setVisibility(View.VISIBLE);
-
         if (tweet.getVerified() == 1) {
             Glide.with(getActivity())
                     .load(R.drawable.ic_user_type_verified)
@@ -202,26 +173,19 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
 
         if (tweet.getFav() == 1) {
             imageViewFav.setColor(Color.RED);
-            imageViewFav.setAnimation(fadeIn);
             imageViewFav.setVisibility(View.VISIBLE);
         } else {
             imageViewFav.setColor(Color.GRAY);
-            imageViewFav.setAnimation(fadeIn);
             imageViewFav.setVisibility(View.VISIBLE);
         }
 
         if (tweet.getRetweet() == 1) {
             imageViewRetweet.setColor(Color.GREEN);
-            imageViewRetweet.setAnimation(fadeIn);
             imageViewRetweet.setVisibility(View.VISIBLE);
         } else {
             imageViewRetweet.setColor(Color.GRAY);
-            imageViewRetweet.setAnimation(fadeIn);
             imageViewRetweet.setVisibility(View.VISIBLE);
         }
-
-        imageViewShare.setAnimation(fadeIn);
-        imageViewShare.setVisibility(View.VISIBLE);
 
     }
 
