@@ -1,4 +1,5 @@
-# Twitone 
+# Twitone [![GitHub stars](https://img.shields.io/github/stars/LadwaAditya/TwiTone-Android.svg)](https://github.com/LadwaAditya/TwiTone-Android/stargazers) [![GitHub stars](https://img.shields.io/github/stars/LadwaAditya/TwiTone-Android.svg)](https://github.com/LadwaAditya/TwiTone-Android/stargazers)
+
 
 ## A light Twitter Client for Android
 
@@ -10,8 +11,6 @@
 ----------------------------------------------------------------------------------------------------
 
 
-[![GitHub stars](https://img.shields.io/github/stars/LadwaAditya/TwiTone-Android.svg)](https://github.com/LadwaAditya/TwiTone-Android/stargazers) [![GitHub stars](https://img.shields.io/github/stars/LadwaAditya/TwiTone-Android.svg)](https://github.com/LadwaAditya/TwiTone-Android/stargazers)
-[![Twitter Follow](https://img.shields.io/twitter/follow/nisrulz.svg?style=social)](https://twitter.com/adi_ladwa)
 
 
 ### Show some :heart: and star the repo to support the project
