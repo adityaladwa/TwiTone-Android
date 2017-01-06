@@ -18,7 +18,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.util.Pair;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -342,6 +342,7 @@ public class MainScreenFragment extends Fragment
                         .setSmallIcon(R.drawable.ic_notify)
                         .setContentTitle(tweets + getActivity().getString(R.string.new_tweets))
                         .setAutoCancel(true)
+                        .setColor(ContextCompat.getColor(getActivity(), R.color.primary))
                         .setVibrate(new long[]{1000, 1000})
                         .setDefaults(NotificationCompat.DEFAULT_SOUND)
                         .setContentText(mTweets.get(0).getTweet());
@@ -415,17 +416,9 @@ public class MainScreenFragment extends Fragment
     @Override
     public void onItemClick(View view, int position) {
         //Start detail tweet view activity
-
-        ImageView imageViewProfile = (ImageView) view.findViewById(R.id.imageview_profile_pic);
-        ImageView imageViewVerified = (ImageView) view.findViewById(R.id.imageview_verified);
-
         Intent intent = new Intent(getActivity(), TweetDetail.class);
         intent.putExtra(getActivity().getString(R.string.extra_tweet_parcle), mTweets.get(position));
-        Pair<View, String> p1 = Pair.create((View) imageViewProfile, imageViewProfile.getTransitionName());
-
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1);
-
-        startActivity(intent, options.toBundle());
+        startActivity(intent);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -437,12 +430,10 @@ public class MainScreenFragment extends Fragment
         String concat = "";
         while (split.find()) {
             for (int i = 0; i < split.groupCount(); i++) {
-//                Timber.d(split.group(i));
                 concat += split.group(i) + " ";
             }
 
         }
-//        Timber.d(concat);
         String inReplay = "@" + mTweets.get(position).getScreenName() + " " + concat;
 
         Intent intent = new Intent(getActivity(), com.ladwa.aditya.twitone.ui.tweet.Tweet.class);

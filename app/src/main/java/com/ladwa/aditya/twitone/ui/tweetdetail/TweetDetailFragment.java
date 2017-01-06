@@ -70,7 +70,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tweet_detail, container, false);
         ButterKnife.bind(this, view);
-        setUpEnterAnimation();
         tweet = getActivity().getIntent().getParcelableExtra(getActivity().getString(R.string.extra_tweet_parcle));
         Glide.with(getActivity())
                 .load(tweet.getProfileUrl())
@@ -80,12 +79,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
                 .crossFade()
                 .into(imageViewProfile);
 
-        fadeIn = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in);
-        fadeIn.setDuration(300);
-
-        scaleUp = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
-        scaleUp.setDuration(300);
-
         //Set visibility of  Media if available
         if (tweet.getMediaUrl() != null) {
             imageViewMedia.setVisibility(View.VISIBLE);
@@ -93,8 +86,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
             imageViewMedia.setVisibility(View.GONE);
             materialProgressBar.setVisibility(View.GONE);
         }
-
-
         return view;
     }
 
@@ -114,56 +105,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
         startActivity(sendIntent);
     }
 
-    private void setUpEnterAnimation() {
-
-        Transition transition = TransitionInflater.from(getActivity()).inflateTransition(R.transition.changebounds_with_arcmotion);
-        transition.setDuration(300);
-        getActivity().getWindow().setSharedElementEnterTransition(transition);
-        transition.addListener(new Transition.TransitionListener() {
-            @Override
-            public void onTransitionStart(Transition transition) {
-            }
-
-            @Override
-            public void onTransitionEnd(Transition transition) {
-                transition.removeListener(this);
-                animateRevealShow(imageViewProfile);
-            }
-
-            @Override
-            public void onTransitionCancel(Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionPause(Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionResume(Transition transition) {
-
-            }
-        });
-
-    }
-
-    private void animateRevealShow(final View viewRoot) {
-        int cx = (viewRoot.getLeft() + viewRoot.getRight()) / 2;
-        int cy = (viewRoot.getTop() + viewRoot.getBottom()) / 2;
-        AnimationUtil.animateRevealShow(getActivity(), mRlContainer, imageViewProfile.getWidth() / 2, R.color.grey,
-                cx, cy, new AnimationUtil.OnRevealAnimationListener() {
-                    @Override
-                    public void onRevealHide() {
-
-                    }
-
-                    @Override
-                    public void onRevealShow() {
-                        initViews();
-                    }
-                });
-    }
 
 
     @Override
