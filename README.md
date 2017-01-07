@@ -19,21 +19,21 @@
 
 ### Libraries used
 
-1.  StorIO
+1.  [StorIO](https://github.com/pushtorefresh/storio)
 2.  [Dagger 2](http://google.github.io/dagger/)
 3.  [RxJava](https://github.com/ReactiveX/RxJava) and [RxAndroid](https://github.com/ReactiveX/RxAndroid)
-4.  Twitter4j
+4.  [Twitter4j](http://twitter4j.org/en/)
 5.  [Butterknife](https://github.com/JakeWharton/butterknife)
-6.  LeakCanary
-7.  Material Progress Bar
-8.  Material Drawer
-9.  FontAwesome
+6.  [LeakCanary](https://github.com/square/leakcanary)
+7.  [Material Progress Bar](https://github.com/DreaminginCodeZH/MaterialProgressBar)
+8.  [Material Drawer](https://github.com/mikepenz/MaterialDrawer)
+9.  [FontAwesome](https://github.com/FortAwesome/Font-Awesome)
 10. [Glide 3](https://github.com/bumptech/glide)
-11. Circular Image view
-12. Sub-sampling ImageView
+11. [Circular Image view](https://github.com/hdodenhof/CircleImageView)
+12. [Sub-sampling ImageView](https://github.com/davemorrissey/subsampling-scale-image-view)
 13. [Stetho](http://facebook.github.io/stetho/)
-14. AutoValue
-15. AutoParcle
+14. [AutoValue](https://github.com/google/auto/tree/master/value)
+15. [AutoParcle](https://github.com/frankiesardo/auto-parcel)
 16. [Espresso](https://google.github.io/android-testing-support-library/)
 17. [Google Play Services](https://developers.google.com/android/guides/overview)
 
