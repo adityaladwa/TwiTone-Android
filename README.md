@@ -17,7 +17,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/LadwaAditya/TwiTone-Android.svg?style=social&label=Star)](https://github.com/LadwaAditya/TwiTone-Android) [![GitHub forks](https://img.shields.io/github/forks/LadwaAditya/TwiTone-Android.svg?style=social&label=Fork)](https://github.com/LadwaAditya/TwiTone-Android/fork) [![GitHub watchers](https://img.shields.io/github/watchers/LadwaAditya/TwiTone-Android.svg?style=social&label=Watch)](https://github.com/LadwaAditya/TwiTone-Android) [![GitHub followers](https://img.shields.io/github/followers/LadwaAditya.svg?style=social&label=Follow)](https://github.com/LadwaAditya)
 [![Twitter Follow](https://img.shields.io/twitter/follow/LadwaAditya.svg?style=social)](https://twitter.com/adi_ladwa)
 
-### Libraries used
+## Libraries used
 
 1.  [StorIO](https://github.com/pushtorefresh/storio)
 2.  [Dagger 2](http://google.github.io/dagger/)
@@ -39,6 +39,14 @@
 
 
 ----------------------------------------------------------------------------------------------------
+
+## Buiding
+
+To build, install and run a debug version, run this from the root of the project:
+
+```
+./gradlew app:assembleDebug
+```
 
 
 ![Phone Screenshot](screenshot/1.png)
