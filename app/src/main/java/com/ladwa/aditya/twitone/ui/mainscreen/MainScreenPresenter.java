@@ -227,4 +227,28 @@ public class MainScreenPresenter implements MainScreenContract.Presenter {
         mTwitterLocalDataStore.deleteAllTrends();
 
     }
+
+    @Override public void refreshBelowTimeline() {
+        long lastTweetIdDown = mTwitterLocalDataStore.getLastTweetIdDown();
+        mTwitterRemoteDataSource.getTimeLineBelow(lastTweetIdDown)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<List<Tweet>>() {
+                    @Override public void onCompleted() {
+                        Timber.d("Loaded TimeLine");
+                        mView.stopRefreshing();
+
+                    }
+
+                    @Override public void onError(Throwable e) {
+                        Timber.e(e, "Error :" + e.toString());
+                        mView.stopRefreshing();
+
+                    }
+
+                    @Override public void onNext(List<Tweet> tweets) {
+                        mView.showNotification(tweets.size());
+                    }
+                });
+    }
 }

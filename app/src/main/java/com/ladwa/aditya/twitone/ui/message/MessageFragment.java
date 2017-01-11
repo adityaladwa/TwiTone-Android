@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 
 import com.ladwa.aditya.twitone.R;
 import com.ladwa.aditya.twitone.TwitoneApp;
-import com.ladwa.aditya.twitone.ui.adapter.DirectMessageAdapter;
 import com.ladwa.aditya.twitone.data.TwitterRepository;
 import com.ladwa.aditya.twitone.data.local.models.DirectMessage;
+import com.ladwa.aditya.twitone.ui.adapter.DirectMessageAdapter;
 import com.ladwa.aditya.twitone.ui.messagecompose.MessageCompose;
 import com.ladwa.aditya.twitone.util.ConnectionReceiver;
 
@@ -41,17 +41,12 @@ public class MessageFragment extends Fragment implements MessageContract.View,
         SwipeRefreshLayout.OnRefreshListener,
         DirectMessageAdapter.DirectMessageClickListener {
 
-    @Inject
-    SharedPreferences preferences;
-    @Inject
-    Twitter mTwitter;
-    @Inject
-    TwitterRepository repository;
+    @Inject SharedPreferences preferences;
+    @Inject Twitter mTwitter;
+    @Inject TwitterRepository repository;
 
-    @BindView(R.id.recyclerview_directmessage)
-    RecyclerView recyclerView;
-    @BindView(R.id.swipeContainer)
-    SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.recyclerview_directmessage) RecyclerView recyclerView;
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
     private Unbinder unbinder;
     private MessageContract.Presenter mPresenter;

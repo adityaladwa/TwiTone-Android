@@ -39,13 +39,10 @@ import twitter4j.auth.AccessToken;
  */
 public class TwitterRemoteDataSource implements TwitterDataStore {
 
-    @Inject
-    public Twitter mTwitter;
-    @Inject
-    SharedPreferences preferences;
+    @Inject public Twitter mTwitter;
+    @Inject SharedPreferences preferences;
+    @Inject TwitterLocalDataStore mTwitterLocalDataStore;
     long id;
-    @Inject
-    TwitterLocalDataStore mTwitterLocalDataStore;
 
     public TwitterRemoteDataSource() {
         TwitoneApp.getTwitterComponent().inject(this);
@@ -57,8 +54,7 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
     }
 
 
-
-        @Override
+    @Override
     public Observable<com.ladwa.aditya.twitone.data.local.models.User> getUserInfo(final long userID) {
         final com.ladwa.aditya.twitone.data.local.models.User localUser = new com.ladwa.aditya.twitone.data.local.models.User();
         return Observable.create(new Observable.OnSubscribe<com.ladwa.aditya.twitone.data.local.models.User>() {
@@ -104,6 +100,64 @@ public class TwitterRemoteDataSource implements TwitterDataStore {
                     p.setCount(100);
                     if (sinceId > 1)
                         p.setSinceId(sinceId);
+                    ResponseList<Status> homeTimeline = mTwitter.getHomeTimeline(p);
+                    for (Status status : homeTimeline) {
+                        Tweet tweet = new Tweet();
+                        MediaEntity[] mediaEntities = status.getMediaEntities();
+                        for (MediaEntity m : mediaEntities) {
+                            String mediaURLHttps = m.getMediaURLHttps();
+                            String type = m.getType();
+                            if (type.equals("photo")) {
+                                tweet.setMediaUrl(mediaURLHttps);
+                            }
+                        }
+                        tweet.setTweet(status.getText());
+                        tweet.setId(status.getId());
+                        tweet.setDateCreated(String.valueOf(status.getCreatedAt()));
+                        tweet.setLastModified(Utility.getDateTime());
+                        tweet.setProfileUrl(status.getUser().getOriginalProfileImageURL());
+                        tweet.setScreenName(status.getUser().getScreenName());
+                        tweet.setUserName(status.getUser().getName());
+                        tweet.setFavCount(status.getFavoriteCount());
+                        tweet.setRetweetCount(status.getRetweetCount());
+                        tweet.setVerified(status.getUser().isVerified() ? 1 : 0);
+                        tweet.setFav(status.isFavorited() ? 1 : 0);
+                        tweet.setRetweet(status.isRetweetedByMe() ? 1 : 0);
+
+                        localTweet.add(tweet);
+
+                    }
+                    subscriber.onNext(localTweet);
+
+
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } finally {
+                    subscriber.onCompleted();
+                }
+            }
+        }).doOnNext(new Action1<List<Tweet>>() {
+            @Override
+            public void call(List<Tweet> tweets) {
+                mTwitterLocalDataStore.saveTimeLine(tweets);
+            }
+        });
+    }
+
+
+
+    public Observable<List<Tweet>> getTimeLineBelow(final long maxId) {
+        final List<Tweet> localTweet = new ArrayList<>();
+        return Observable.create(new Observable.OnSubscribe<List<Tweet>>() {
+            @Override
+            public void call(Subscriber<? super List<Tweet>> subscriber) {
+                try {
+
+                    Paging p = new Paging();
+                    p.setCount(20);
+                    if (maxId > 1)
+                        p.setMaxId(maxId);
                     ResponseList<Status> homeTimeline = mTwitter.getHomeTimeline(p);
                     for (Status status : homeTimeline) {
                         Tweet tweet = new Tweet();

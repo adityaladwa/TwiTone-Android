@@ -54,5 +54,7 @@ public interface MainScreenContract {
 
         void deleteLocalData();
 
+        void refreshBelowTimeline();
+
     }
 }
