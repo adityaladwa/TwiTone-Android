@@ -121,6 +121,9 @@ dependencies {
     compile deps.rxJava
     compile deps.rxAndroid
 
+    compile 'com.hannesdorfmann.smoothprogressbar:library:1.0.0'
+
+
     //Dagger
     apt deps.daggerCompiler
     compile deps.dagger

@@ -27,14 +27,9 @@ public class MessagePresenter implements MessageContract.Presenter {
     private Boolean mLogin;
     private long mUserId;
     private Twitter mTwitter;
-    @Inject
-    TwitterRepository mTwitterRepository;
-
-    @Inject
-    TwitterRemoteDataSource mTwitterRemoteDataSource;
-
-    @Inject
-    TwitterLocalDataStore mTwitterLocalDataStore;
+    @Inject TwitterRepository mTwitterRepository;
+    @Inject TwitterRemoteDataSource mTwitterRemoteDataSource;
+    @Inject TwitterLocalDataStore mTwitterLocalDataStore;
     private Context mContext;
 
     public MessagePresenter(MessageContract.View mView, Boolean mLogin, long mUserId, Twitter mTwitter, Context context) {

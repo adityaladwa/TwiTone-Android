@@ -3,6 +3,7 @@ package com.ladwa.aditya.twitone.ui.tweetdetail;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.util.Linkify;
 import android.util.Patterns;
@@ -73,8 +74,6 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
         imageViewMedia.setVisibility(tweet.getMediaUrl() != null ? View.VISIBLE : View.INVISIBLE);
         imageViewMedia.setVisibility(tweet.getMediaUrl() != null ? View.GONE : View.VISIBLE);
         materialProgressBar.setVisibility(tweet.getMediaUrl() != null ? View.GONE : View.VISIBLE);
-        getActivity().getActionBar().setTitle(tweet.getUserName());
-        getActivity().getActionBar().setSubtitle(tweet.getScreenName());
         return view;
     }
 
@@ -94,6 +93,9 @@ public class TweetDetailFragment extends Fragment implements TweetDetailPresente
         startActivity(sendIntent);
     }
 
+    @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     @Override
     public void setPresenter(TweetDetailPresenter.Presenter presenter) {

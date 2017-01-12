@@ -28,7 +28,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ladwa.aditya.twitone.R;
@@ -57,6 +56,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import timber.log.Timber;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
@@ -75,6 +75,7 @@ public class MainScreenFragment extends Fragment
 
     @BindView(R.id.recyclerview_timeline) RecyclerView recyclerView;
     @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.progress_bar) SmoothProgressBar smoothProgressBar;
 
     @Inject SharedPreferences preferences;
     @Inject Twitter mTwitter;
@@ -149,16 +150,25 @@ public class MainScreenFragment extends Fragment
         else if (tablet)
             recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    saveScrollPosition();
+//                }
+//            }
+//        });
 
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    saveScrollPosition();
-                }
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override public void onLoadMore(int current_page) {
+                Timber.d(String.valueOf(current_page));
+                mPresenter.refreshBelowTimeline();
+                smoothProgressBar.setVisibility(View.VISIBLE);
             }
         });
+
 
         mTweets = new ArrayList<>();
         mTimelineAdapter = new TimelineAdapter(mTweets, getActivity());
@@ -313,6 +323,7 @@ public class MainScreenFragment extends Fragment
 
     @Override
     public void stopRefreshing() {
+        smoothProgressBar.setVisibility(View.INVISIBLE);
         if (swipeContainer != null)
             swipeContainer.post(new Runnable() {
                 @Override
