@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/TwiTone-Android.iml" filepath="$PROJECT_DIR$/.idea/TwiTone-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/Twitone-Android.iml" filepath="$PROJECT_DIR$/Twitone-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
